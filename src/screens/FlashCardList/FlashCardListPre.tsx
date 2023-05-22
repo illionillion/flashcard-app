@@ -48,11 +48,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   listContainer: {
+    flex: 1, // 立幅を画面いっぱいに広げる
     paddingVertical: 16,
+    // gap: 5,
   },
   itemContainer: {
     flex: 0.5, // 2列なので幅を半分にする
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 16,
+    height: 50,
+    backgroundColor: "tomato",
   },
 });
