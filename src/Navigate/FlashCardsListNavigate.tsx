@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { FlashCardsViewCon } from "../FlashCardsView/FlashCardsViewCon";
-import { FlashCardsListCon } from "./FlashCardsListCon";
-import StackParamList from "../../StackParamList";
+import { FlashCardsViewCon } from "../screens/FlashCardsView/UI/FlashCardsViewCon";
+import { FlashCardsListCon } from "../screens/FlashCardsList/UI/FlashCardsListCon";
+import StackParamList from "../StackParamList";
 
-export const FlashCardsListNavigation = () => {
+export const FlashCardsListNavigate = () => {
   const Stack = createNativeStackNavigator();
 
   return (
@@ -23,13 +23,12 @@ export const FlashCardsListNavigation = () => {
         options={{ title: "単語帳一覧" }}
       />
       <Stack.Screen
-  name="FlashCardsView"
-  component={FlashCardsViewCon}
-  options={({ route }) => ({
-    title: (route.params as StackParamList['FlashCardsView']).title || '',
-  })}
-/>
-
+        name="FlashCardsView"
+        component={FlashCardsViewCon}
+        options={({ route }) => ({
+          title: (route.params as StackParamList["FlashCardsView"]).title || "",
+        })}
+      />
     </Stack.Navigator>
   );
 };

@@ -4,6 +4,6 @@ import { SearchPre } from "./SearchPre";
 /**
  * 単語検索画面のロジック
  */
-export const SearchCon:FC = () => {
+export const SearchCon: FC = () => {
   return <SearchPre />;
 };
