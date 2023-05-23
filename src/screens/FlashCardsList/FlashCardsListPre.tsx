@@ -1,5 +1,11 @@
 import { FC } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 interface FlashCardsDef {
   id: number;
   name: string;
@@ -47,10 +53,12 @@ export const FlashCardsListPre: FC = () => {
   );
 
   const RenderItem: FC<FlashCardsDef> = ({ id, name }) => {
-    return (
-      <View style={{ ...styles.itemContainer, opacity: id > -1 ? 1 : 0 }}>
+    return id > -1 ? (
+      <TouchableOpacity style={styles.itemContainer}>
         <Text>{name}</Text>
-      </View>
+      </TouchableOpacity>
+    ) : (
+      <View style={{ ...styles.itemContainer, opacity: 0 }}></View>
     );
   };
 
