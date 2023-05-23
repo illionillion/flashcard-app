@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import { FlashCardsListCon } from "./FlashCardsList/FlashCardsListCon";
-import { FlashCardsCreateCon } from "./FlashCardsCreate/FlashCardsCreateCon";
-import { SearchCon } from "./Search/SearchCon";
-import { SettingCon } from "./Setting/SettingCon";
+import { FlashCardsCreateCon } from "../screens/FlashCardsCreate/UI/FlashCardsCreateCon";
+import { SearchCon } from "../screens/Search/UI/SearchCon";
+import { SettingCon } from "../screens/Setting/UI/SettingCon";
+import { FlashCardsListNavigate } from "./FlashCardsListNavigate";
 
 export const BottomTabNavigate = () => {
   const Tab = createBottomTabNavigator();
@@ -23,13 +23,13 @@ export const BottomTabNavigate = () => {
       >
         <Tab.Screen
           name="Home"
-          component={FlashCardsListCon}
+          component={FlashCardsListNavigate}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" size={size} color={color} />
             ),
             title: "単語帳一覧",
-            // headerShown: false,
+            headerShown: false,
           }}
         />
         <Tab.Screen
