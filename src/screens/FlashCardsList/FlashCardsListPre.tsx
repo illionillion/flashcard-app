@@ -10,10 +10,15 @@ interface FlashCardsDef {
   id: number;
   name: string;
 }
+
+interface FlashCardsListPreProps {
+  onPressCard: (title: string) => void
+}
+
 /**
  * 単語帳一覧のUI
  */
-export const FlashCardsListPre: FC = () => {
+export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({onPressCard}) => {
   const data: FlashCardsDef[] = [
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },
@@ -54,7 +59,7 @@ export const FlashCardsListPre: FC = () => {
 
   const RenderItem: FC<FlashCardsDef> = ({ id, name }) => {
     return id > -1 ? (
-      <TouchableOpacity style={styles.itemContainer}>
+      <TouchableOpacity style={styles.itemContainer} onPress={()=>onPressCard(name)}>
         <Text>{name}</Text>
       </TouchableOpacity>
     ) : (

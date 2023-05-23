@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { FlashCardsListPre } from "./FlashCardsListPre";
-
-interface FlashCardListProps {
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+export interface FlashCardListProps {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
@@ -13,5 +12,8 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({
   navigation,
   route,
 }) => {
-  return <FlashCardsListPre />;
+  const onPressCard = (title: string) => {
+    navigation.navigate("FlashCardsView", {title: title})
+  }
+  return <FlashCardsListPre onPressCard={onPressCard} />;
 };
