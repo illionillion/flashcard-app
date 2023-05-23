@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import { FlashCardListCon } from "./FlashCardList/FlashCardListCon";
-import { FlashCardCreateCon } from "./FlashCardCreate/FlashCardCreateCon";
+import { FlashCardsListCon } from "./FlashCardsList/FlashCardsListCon";
+import { FlashCardsCreateCon } from "./FlashCardsCreate/FlashCardsCreateCon";
 import { SearchCon } from "./Search/SearchCon";
 import { SettingCon } from "./Setting/SettingCon";
 
@@ -23,7 +23,7 @@ export const BottomTabNavigate = () => {
       >
         <Tab.Screen
           name="Home"
-          component={FlashCardListCon}
+          component={FlashCardsListCon}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" size={size} color={color} />
@@ -34,7 +34,7 @@ export const BottomTabNavigate = () => {
         />
         <Tab.Screen
           name="Create"
-          component={FlashCardCreateCon}
+          component={FlashCardsCreateCon}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="add-outline" size={size} color={color} />

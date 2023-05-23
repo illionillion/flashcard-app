@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { FlashCardListPre } from "./FlashCardListPre";
+import { FlashCardsListPre } from "./FlashCardsListPre";
 
 interface FlashCardListProps {
   navigation: NavigationProp<any, any>;
@@ -9,9 +9,9 @@ interface FlashCardListProps {
 /**
  * 単語帳一覧のロジック
  */
-export const FlashCardListCon: FC<FlashCardListProps> = ({
+export const FlashCardsListCon: FC<FlashCardListProps> = ({
   navigation,
   route,
 }) => {
-  return <FlashCardListPre />;
+  return <FlashCardsListPre />;
 };

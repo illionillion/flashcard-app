@@ -1,15 +1,5 @@
-import { StyleSheet } from "react-native";
 import { BottomTabNavigate } from "./src/screens/BottomTabNavigate"; 
 
 export default function App() {
   return <BottomTabNavigate />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
