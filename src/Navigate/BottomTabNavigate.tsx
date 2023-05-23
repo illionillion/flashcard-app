@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import { FlashCardsCreateCon } from "../screens/FlashCardsCreate/UI/FlashCardsCreateCon";
-import { SearchCon } from "../screens/Search/UI/SearchCon";
-import { SettingCon } from "../screens/Setting/UI/SettingCon";
+import { FlashCardsCreateCon } from "../Screens/FlashCardsCreate/UI/FlashCardsCreateCon";
+import { SearchCon } from "../Screens/Search/UI/SearchCon";
+import { SettingCon } from "../Screens/Setting/UI/SettingCon";
 import { FlashCardsListNavigate } from "./FlashCardsListNavigate";
 
 export const BottomTabNavigate = () => {

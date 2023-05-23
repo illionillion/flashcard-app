@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { FlashCardsViewCon } from "../screens/FlashCardsView/UI/FlashCardsViewCon";
-import { FlashCardsListCon } from "../screens/FlashCardsList/UI/FlashCardsListCon";
+import { FlashCardsViewCon } from "../Screens/FlashCardsView/UI/FlashCardsViewCon";
+import { FlashCardsListCon } from "../Screens/FlashCardsList/UI/FlashCardsListCon";
 import StackParamList from "../StackParamList";
 
 export const FlashCardsListNavigate = () => {
