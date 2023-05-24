@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { FlashCardsCreatePre } from "./FlashCardsCreatePre";
+import { FlashCardsCreatePre } from "./FlashCardsCreatePre"; 
 
 /**
  * 単語帳作成画面のロジック
