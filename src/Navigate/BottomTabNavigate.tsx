@@ -23,6 +23,7 @@ export const BottomTabNavigate = () => {
       >
         <Tab.Screen
           name="Home"
+
           component={FlashCardsListNavigate}
           options={{
             tabBarIcon: ({ color, size }) => (
