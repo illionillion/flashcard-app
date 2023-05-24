@@ -20,6 +20,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           style={styles.FlashCardsTitleInput}
         />
       </View>
+      {/* ここにスクロールビュー */}
       <View style={styles.FlashCardsBottom}>
         <TouchableOpacity style={{...styles.SaveButton, ...styles.ButtonCommon}}>
           <Text style={styles.SaveButtonText}>保存する</Text>
@@ -58,15 +59,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     flexDirection: "row",
-    gap: 5,
+    gap: 10,
     paddingVertical: 15,
     paddingHorizontal: 30,
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    flex:1,
-    // paddingLeft: 40,
-    // paddingRight: 20
+    width: "100%",
   },
   ButtonCommon: {
     width: 130,
