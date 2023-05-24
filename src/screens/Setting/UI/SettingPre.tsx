@@ -59,5 +59,4 @@ export const SettingPre:FC = () => {
       </View>
     </View>
   );
-
 };
