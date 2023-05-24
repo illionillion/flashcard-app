@@ -8,7 +8,7 @@ import { RenderItem } from "../Components/RenderItem";
 import { FlashCardsDef } from "../../../atom/FlashCardsDataState";
 
 interface FlashCardsListPreProps {
-  onPressCard: (title: string) => void;
+  onPressCard: (id: number) => void;
   rows: FlashCardsDef[][];
 }
 

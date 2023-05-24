@@ -26,7 +26,7 @@ export const FlashCardsListNavigate = () => {
         name="FlashCardsView"
         component={FlashCardsViewCon}
         options={({ route }) => ({
-          title: (route.params as StackParamList["FlashCardsView"]).title || "",
+          title: (route.params as StackParamList["FlashCardsView"]).data.name || "",
         })}
       />
     </Stack.Navigator>

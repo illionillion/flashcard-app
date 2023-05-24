@@ -4,13 +4,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 interface RenderItemProps {
   id: number;
   name: string;
-  onPressCard?: (title: string) => void;
+  onPressCard?: (id: number) => void;
 }
 export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
   return id > -1 && onPressCard ? (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => onPressCard(name)}
+      onPress={() => onPressCard(id)}
     >
       <Text>{name}</Text>
     </TouchableOpacity>

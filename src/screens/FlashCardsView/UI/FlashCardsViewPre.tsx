@@ -1,35 +1,56 @@
 import { RouteProp } from "@react-navigation/native";
-import { FC } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import StackParamList from "../../../StackParamList";
+import { FC, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export interface FlashCardsListPreProps {
-  route: RouteProp<any, any>;
+  flashcardName: string;
+  buttonDisable: boolean;
+  handleNameChanged: (text: string) => void;
+  handleAdd: () => void;
+  handleSave: () => void;
 }
+
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-  const { route } = props;
+  const {
+    flashcardName,
+    buttonDisable,
+    handleNameChanged,
+    handleAdd,
+    handleSave,
+  } = props;
   return (
     <View style={styles.FlashCardsContainer}>
       <View style={styles.FlashCardsTitleContainer}>
         <TextInput
-          defaultValue={
-            (route?.params as StackParamList["FlashCardsView"]).title
-          }
+          value={flashcardName}
+          onChangeText={handleNameChanged}
           placeholder="単語帳名を入力"
           style={styles.FlashCardsTitleInput}
         />
       </View>
       {/* ここにスクロールビュー */}
       <View style={styles.FlashCardsBottom}>
-        <TouchableOpacity style={{...styles.SaveButton, ...styles.ButtonCommon}}>
+        <TouchableOpacity
+          style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
+          disabled={buttonDisable}
+          onPress={handleSave}
+        >
           <Text style={styles.SaveButtonText}>保存する</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{...styles.SlideButton, ...styles.ButtonCommon}}>
+        <TouchableOpacity
+          style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+        >
           <Text style={styles.SlideButtonText}>スライドショー</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.PlusButton}>
-          <Ionicons name="add" size={20} color="#fff"/>
+        <TouchableOpacity style={styles.PlusButton} onPress={handleAdd}>
+          <Ionicons name="add" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -94,6 +115,5 @@ const styles = StyleSheet.create({
     width: 53,
     height: 53,
     borderRadius: 50,
-  }
-
+  },
 });

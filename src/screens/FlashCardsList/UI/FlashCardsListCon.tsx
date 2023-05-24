@@ -12,9 +12,7 @@ export interface FlashCardListProps {
  */
 export const FlashCardsListCon: FC<FlashCardListProps> = ({
   navigation,
-  route,
 }) => {
-  // const [data, setData] =  useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const data =  useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
 
   const rows: FlashCardsDef[][] = Array.from(
@@ -22,8 +20,8 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({
     (_, index) => data.slice(index * 2, index * 2 + 2)
   );
 
-  const onPressCard = (title: string) => {
-    navigation.navigate("FlashCardsView", { title: title });
+  const onPressCard = (id: number) => {
+    navigation.navigate("FlashCardsView", { data: data.find(item => item.id === id)});
   };
   return <FlashCardsListPre onPressCard={onPressCard} rows={rows} />;
 };
