@@ -1,10 +1,8 @@
 import { FC } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { RenderItem } from "../Components/RenderItem";
 export interface FlashCardsDef {
