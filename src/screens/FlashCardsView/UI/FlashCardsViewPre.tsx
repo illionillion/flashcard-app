@@ -1,6 +1,6 @@
-import { RouteProp } from "@react-navigation/native";
-import { FC, useState } from "react";
+import { FC } from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -8,10 +8,13 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { WordDef } from "../../../atom/FlashCardsDataState";
+import { WordCard } from "./Components/WordCard";
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
   buttonDisable: boolean;
+  wordsData: WordDef[];
   handleNameChanged: (text: string) => void;
   handleAdd: () => void;
   handleSave: () => void;
@@ -21,6 +24,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
   const {
     flashcardName,
     buttonDisable,
+    wordsData,
     handleNameChanged,
     handleAdd,
     handleSave,
@@ -36,6 +40,11 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         />
       </View>
       {/* ここにスクロールビュー */}
+      <ScrollView style={styles.FlashScrollContainer}>
+        {wordsData.map((item) => (
+          <WordCard key={item.id} {...item}/>
+        ))}
+      </ScrollView>
       <View style={styles.FlashCardsBottom}>
         <TouchableOpacity
           style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
@@ -64,7 +73,7 @@ const styles = StyleSheet.create({
   },
   FlashCardsTitleContainer: {
     paddingTop: 37,
-    paddingBottom: 6,
+    paddingBottom: 28,
     paddingHorizontal: 28,
   },
   FlashCardsTitleInput: {
@@ -76,6 +85,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 20,
   },
+  FlashScrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 40,
+  },
+
   FlashCardsBottom: {
     position: "absolute",
     bottom: 0,
@@ -103,7 +117,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   SlideButton: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#fff",
+    borderWidth: 1,
   },
   SlideButtonText: {
     fontSize: 15,

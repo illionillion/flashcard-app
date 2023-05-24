@@ -16,12 +16,30 @@ export const FlashCardsCreateCon: FC = () => {
     setButtonDisable(text.trim() === "");
   };
   const handleCreateFlashcard = () => {
-    setData(oldstate => [
-      ...oldstate,
+    setData(prev => [
+      ...prev,
       {
         id: nextId,
         name: flashcardName,
-        words: []
+        words: [
+          {
+            id: (() => {
+              if (prev.length === 0) {
+                return 0;
+              }
+    
+              const maxId = prev.reduce((max, card) => {
+                return Math.max(max, card.id);
+              }, -1);
+    
+              return maxId + 1;
+            })(),
+            name: "",
+            lang: "",
+            mean: "",
+            example: "",
+          }
+        ]
       }
     ])
     handleNameChanged("");

@@ -17,7 +17,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const { route } = props;
   const { id, name, words } = route.params.data;
   const [flashcardName, setFlashcardName] = useState<string>(name);
-  const [buttonDisable, setButtonDisable] = useState<boolean>(true);
+  const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
   const setData = useSetRecoilState(FlashCardsDataState);
   const handleNameChanged = (text: string) => {
@@ -65,6 +65,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleNameChanged={handleNameChanged}
       handleAdd={handleAdd}
       handleSave={handleSave}
+      wordsData={wordsData}
     />
   );
 };
