@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+
 /**
  * 単語帳作成画面のUI
  */
