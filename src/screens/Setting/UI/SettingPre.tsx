@@ -15,35 +15,9 @@ export const SettingPre:FC = () => {
   const [searchText, setSearchText] = useState("");
 
   const handleButtonPress = () => {
-    const url = '';
+    const url = "https://platform.openai.com/account/api-keys";
     Linking.openURL(url);
   }
-  const styles = StyleSheet.create({
-    allView: {
-      flex: 1,
-      flexDirection:'column',
-      justifyContent: 'flex-start', 
-      alignItems: 'center', 
-      marginTop: 15
-    },
-    input:{
-      height: 40, 
-      width: 250, 
-      borderWidth: 1, 
-      borderColor:"grey", 
-      marginBottom: 10, 
-      borderRadius:5
-    },
-    textView: {
-      alignSelf: "flex-end", 
-      marginRight: 20
-    },
-    text: {
-      color: "#a9ceec", 
-      textDecorationLine: "underline", 
-      textAlign: "right"
-    }
-  })
   
   return (
     <View style={styles.allView}>
@@ -60,3 +34,30 @@ export const SettingPre:FC = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  allView: {
+    flex: 1,
+    flexDirection:'column',
+    justifyContent: 'flex-start', 
+    alignItems: 'center', 
+    marginTop: 15
+  },
+  input:{
+    height: 40, 
+    width: 250, 
+    borderWidth: 1, 
+    borderColor:"grey", 
+    marginBottom: 10, 
+    borderRadius:5
+  },
+  textView: {
+    alignSelf: "flex-end", 
+    marginRight: 20
+  },
+  text: {
+    color: "#a9ceec", 
+    textDecorationLine: "underline", 
+    textAlign: "right"
+  }
+})
