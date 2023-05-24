@@ -5,10 +5,7 @@ import {
   ScrollView,
 } from "react-native";
 import { RenderItem } from "../Components/RenderItem";
-export interface FlashCardsDef {
-  id: number;
-  name: string;
-}
+import { FlashCardsDef } from "../../../atom/FlashCardsDataState";
 
 interface FlashCardsListPreProps {
   onPressCard: (title: string) => void;

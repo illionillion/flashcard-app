@@ -1,23 +1,41 @@
-import { FC, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import type { FC } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
+interface FlashCardsCreatePreProps {
+  flashcardName: string;
+  buttonDisable: boolean
+  handleNameChanged: (text: string) => void;
+  handleCreateFlashcard: () => void;
+}
 
 /**
  * 単語帳作成画面のUI
  */
-export const FlashCardsCreatePre: FC = () => {
-  const [flashcardName, setFlashcardName] = useState("");
-  const handleCreateFlashcard = () => {};
+export const FlashCardsCreatePre: FC<FlashCardsCreatePreProps> = (props) => {
+  const { flashcardName, buttonDisable, handleCreateFlashcard, handleNameChanged } = props;
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginBottom: 80 }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 80,
+      }}
+    >
       <TextInput
         placeholder="単語帳名を入力"
         value={flashcardName}
-        onChangeText={(text) => setFlashcardName(text)}
+        onChangeText={handleNameChanged}
         style={styles.input}
       />
-      <TouchableOpacity style={styles.button} onPress={handleCreateFlashcard}>
+      <TouchableOpacity style={styles.button} onPress={handleCreateFlashcard} disabled={buttonDisable}>
         <Text style={styles.buttonText}>単語帳作成</Text>
       </TouchableOpacity>
     </View>
