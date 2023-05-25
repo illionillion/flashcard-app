@@ -50,13 +50,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
   },
-  input: {
-    height: 40,
-    width: 250,
-    borderWidth: 1,
-    borderColor: "grey",
-    marginBottom: 10,
-    borderRadius: 5,
+  input:{
+    height: 40, 
+    width: 336, 
+    padding: 22,
+    borderWidth: 1, 
+    borderColor:"grey", 
+    marginBottom: 10, 
+    borderRadius:5
   },
   textView: {
     alignSelf: "flex-end",
