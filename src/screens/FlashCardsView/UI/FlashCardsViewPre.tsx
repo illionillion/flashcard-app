@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -15,6 +15,7 @@ export interface FlashCardsListPreProps {
   flashcardName: string;
   buttonDisable: boolean;
   wordsData: WordDef[];
+  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
   handleNameChanged: (text: string) => void;
   handleAdd: () => void;
   handleSave: () => void;
@@ -28,6 +29,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     handleNameChanged,
     handleAdd,
     handleSave,
+    setWordsData,
   } = props;
   return (
     <View style={styles.FlashCardsContainer}>
@@ -39,10 +41,9 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           style={styles.FlashCardsTitleInput}
         />
       </View>
-      {/* ここにスクロールビュー */}
       <ScrollView style={styles.FlashScrollContainer}>
         {wordsData.map((item) => (
-          <WordCard key={item.id} {...item}/>
+          <WordCard key={item.id} item={item} setWordsData={setWordsData} />
         ))}
       </ScrollView>
       <View style={styles.FlashCardsBottom}>

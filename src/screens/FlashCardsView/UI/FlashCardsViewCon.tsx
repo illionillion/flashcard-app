@@ -62,10 +62,11 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     <FlashCardsViewPre
       flashcardName={flashcardName}
       buttonDisable={buttonDisable}
+      wordsData={wordsData}
       handleNameChanged={handleNameChanged}
       handleAdd={handleAdd}
       handleSave={handleSave}
-      wordsData={wordsData}
+      setWordsData={setWordsData}
     />
   );
 };

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,25 +9,88 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 
-export const WordCard: FC<WordDef> = ({name, mean, lang, example}) => {
-    const [wordName, setWordName] = useState<string>(name);
-    const [wordMean, setWordMean] = useState<string>(mean);
-    const [wordLang, setWordLang] = useState<string>(lang);
-    const [wordExample, setWordExample] = useState<string>(example);
+interface WordCardProps {
+  item: WordDef;
+  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+}
+export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
+  const { id, name, mean, lang, example } = item;
+  const [wordName, setWordName] = useState<string>(name);
+  const [wordMean, setWordMean] = useState<string>(mean);
+  const [wordLang, setWordLang] = useState<string>(lang);
+  const [wordExample, setWordExample] = useState<string>(example);
+  const handleNameChanged = (text: string) => {
+    setWordName(text);
+  };
+  const handleMeanChanged = (text: string) => {
+    setWordMean(text);
+  };
+  const handleLangChanged = (text: string) => {
+    setWordLang(text);
+  };
+  const handleExampleChanged = (text: string) => {
+    setWordExample(text);
+  };
+
+  const upDateWord = () => {
+    setWordsData((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? {
+              id: id,
+              name: wordName,
+              mean: wordMean,
+              lang: wordLang,
+              example: wordExample,
+            }
+          : item
+      )
+    );
+  };
+
+  const handleRemove = () => {
+    setWordsData((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  useEffect(() => {
+    upDateWord();
+  }, [wordName, wordMean, wordLang, wordExample]);
+
   return (
     <View style={styles.WordCard}>
       <View style={styles.row}>
-        <TextInput style={styles.text} value={wordName} placeholder="単語名" />
-        <TextInput style={styles.text} value={wordMean} placeholder="単語の意味" />
+        <TextInput
+          style={styles.text}
+          value={wordName}
+          placeholder="単語名"
+          onChangeText={handleNameChanged}
+        />
+        <TextInput
+          style={styles.text}
+          value={wordMean}
+          placeholder="単語の意味"
+          onChangeText={handleMeanChanged}
+        />
       </View>
       <View style={styles.row}>
-        <TextInput style={styles.text} value={wordLang} placeholder="単語の言語" />
+        <TextInput
+          style={styles.text}
+          value={wordLang}
+          placeholder="単語の言語"
+          onChangeText={handleLangChanged}
+        />
         <TouchableOpacity style={{ ...styles.text, ...styles.createExample }}>
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
-      <TextInput style={styles.textMulti} multiline value={wordExample} placeholder="例文" />
-      <TouchableOpacity style={styles.remove}>
+      <TextInput
+        style={styles.textMulti}
+        multiline
+        value={wordExample}
+        placeholder="例文"
+        onChangeText={handleExampleChanged}
+      />
+      <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
       </TouchableOpacity>
     </View>
