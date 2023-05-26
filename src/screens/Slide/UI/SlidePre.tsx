@@ -9,6 +9,9 @@ export const SlidePre: FC<Props> = (props) => {
   const [page, setPage] = useState(1);
   const pageTotal = 8;
 
+  // 表裏
+  const [isFront, setIsFront] = useState(true);
+
   const handlePageChange = (page: number) => {
     if (page < 1) {
       setPage(1);
@@ -25,7 +28,11 @@ export const SlidePre: FC<Props> = (props) => {
     <View style={styles.container}>
 
       <View style={styles.headline}>
-        <Text style={styles.headline_text}>見出し</Text>
+        {
+          isFront ?
+            <Text style={styles.headline_text}>単語</Text> :
+            <Text style={styles.headline_text}>意味・例文</Text>
+        }
       </View>
 
       <View style={styles.slide}>
@@ -33,9 +40,15 @@ export const SlidePre: FC<Props> = (props) => {
           <Image source={require("./images/triangle_button_left.png")} />
         </TouchableOpacity>
         <View style={styles.content}>
-          <Text style={styles.content_text}>
-            コンテンツ
-          </Text>
+          {/* 表なら単語、裏なら意味・例文 */}
+          {
+            isFront ?
+              <Text style={styles.content_text}>你好</Text> :
+              <Text style={styles.content_text}>
+                意味: こんにちは {"\n"}
+                例文: 你好，我叫小明。{"\n"}
+              </Text>
+          }
         </View>
         <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
           <Image source={require("./images/triangle_button_right.png")} />
@@ -46,7 +59,9 @@ export const SlidePre: FC<Props> = (props) => {
         <Text>{page}/8</Text>
       </View>
 
-      <SlideButton text="切り替え" />
+      <TouchableOpacity onPress={() => setIsFront(!isFront)}>
+        <SlideButton text="切り替え" />
+      </TouchableOpacity>
       <SlideButton text="終了" />
     </View>
   );
@@ -77,10 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   content: {
+    width: 300,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
-    height: "80%",
     backgroundColor: "#fff",
     borderWidth: 3,
     borderColor: headerColor,
