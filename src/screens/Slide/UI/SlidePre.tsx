@@ -1,11 +1,17 @@
 import { FC, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { SlideButton } from "./Components/SlideButton";
 
 interface Props {
 }
 
 export const SlidePre: FC<Props> = (props) => {
+  const navigation = useNavigation();
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   const word_list = [
     {
       id: 1,
@@ -104,7 +110,9 @@ export const SlidePre: FC<Props> = (props) => {
       <TouchableOpacity onPress={() => setIsFront(!isFront)}>
         <SlideButton text="切り替え" />
       </TouchableOpacity>
-      <SlideButton text="終了" />
+      <TouchableOpacity onPress={() => handleGoBack()}>
+        <SlideButton text="終了" />
+      </TouchableOpacity>
     </View>
   );
 };
