@@ -43,7 +43,10 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           style={styles.FlashCardsTitleInput}
         />
       </View>
-      <ScrollView style={styles.FlashScrollContainer}>
+      <ScrollView
+        style={styles.FlashScrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {wordsData.map((item) => (
           <WordCard key={item.id} item={item} setWordsData={setWordsData} />
         ))}

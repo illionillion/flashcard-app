@@ -12,7 +12,7 @@ import { FlashCardsDef } from "../../../atom/FlashCardsDataState";
 interface FlashCardsListPreProps {
   rows: FlashCardsDef[][];
   onPressCard: (id: number) => void;
-  onPressButton: () => void
+  onPressButton: () => void;
 }
 
 /**
@@ -21,10 +21,13 @@ interface FlashCardsListPreProps {
 export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({
   rows,
   onPressCard,
-  onPressButton
+  onPressButton,
 }) => {
   return rows.length > 0 ? (
-    <ScrollView contentContainerStyle={styles.ScrollContainer}>
+    <ScrollView
+      contentContainerStyle={styles.ScrollContainer}
+      showsVerticalScrollIndicator={false}
+    >
       {rows.map((row, index) => (
         <View key={index} style={styles.row}>
           {row.map((item) => (
