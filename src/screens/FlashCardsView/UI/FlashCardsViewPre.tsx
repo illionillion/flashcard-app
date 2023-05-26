@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
   },
   FlashScrollContainer: {
     flexGrow: 1,
-    paddingHorizontal: 40,
+    // justifyContent: "center",
+    // paddingHorizontal: 40,
   },
 
   FlashCardsBottom: {
