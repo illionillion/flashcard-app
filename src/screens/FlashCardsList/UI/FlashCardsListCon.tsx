@@ -1,8 +1,11 @@
 import { FC } from "react";
 import { FlashCardsListPre } from "./FlashCardsListPre";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { FlashCardsDataState, FlashCardsDef } from "../../../atom/FlashCardsDataState";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  FlashCardsDataState,
+  FlashCardsDef,
+} from "../../../atom/FlashCardsDataState";
+import { useRecoilValue } from "recoil";
 export interface FlashCardListProps {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -10,20 +13,18 @@ export interface FlashCardListProps {
 /**
  * 単語帳一覧のロジック
  */
-export const FlashCardsListCon: FC<FlashCardListProps> = ({
-  navigation,
-  route,
-}) => {
-  // const [data, setData] =  useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
-  const data =  useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
+export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
+  const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
 
   const rows: FlashCardsDef[][] = Array.from(
     { length: Math.ceil(data.length / 2) },
     (_, index) => data.slice(index * 2, index * 2 + 2)
   );
 
-  const onPressCard = (title: string) => {
-    navigation.navigate("FlashCardsView", { title: title });
+  const onPressCard = (id: number) => {
+    navigation.navigate("FlashCardsView", {
+      data: data.find((item) => item.id === id),
+    });
   };
   return <FlashCardsListPre onPressCard={onPressCard} rows={rows} />;
 };

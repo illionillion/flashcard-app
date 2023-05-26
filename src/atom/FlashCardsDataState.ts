@@ -19,19 +19,19 @@ export const FlashCardsDataState = atom<FlashCardsDef[]>({
       name: "単語帳1",
       words: [
         {
-          id:0,
+          id: 0,
           name: "hello",
           lang: "英語",
           mean: "こんにちは",
-          example: ""
-        }
+          example: "",
+        },
       ],
     },
   ],
 });
 
 export const NextAvailableIdSelector = selector<number>({
-  key: 'NextAvailableIdSelector',
+  key: "NextAvailableIdSelector",
   get: ({ get }) => {
     const flashCardsData = get(FlashCardsDataState);
 
@@ -46,3 +46,23 @@ export const NextAvailableIdSelector = selector<number>({
     return maxId + 1;
   },
 });
+
+export const getWordObj = (prev: WordDef[]): WordDef => {
+  return {
+    id: (() => {
+      if (prev.length === 0) {
+        return 0;
+      }
+
+      const maxId = prev.reduce((max, card) => {
+        return Math.max(max, card.id);
+      }, -1);
+
+      return maxId + 1;
+    })(),
+    name: "",
+    lang: "",
+    mean: "",
+    example: "",
+  };
+};

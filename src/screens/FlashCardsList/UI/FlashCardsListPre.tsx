@@ -1,14 +1,10 @@
 import { FC } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { RenderItem } from "../Components/RenderItem";
 import { FlashCardsDef } from "../../../atom/FlashCardsDataState";
 
 interface FlashCardsListPreProps {
-  onPressCard: (title: string) => void;
+  onPressCard: (id: number) => void;
   rows: FlashCardsDef[][];
 }
 
@@ -19,13 +15,17 @@ export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({
   onPressCard,
   rows,
 }) => {
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {rows.map((row, index) => (
         <View key={index} style={styles.row}>
           {row.map((item) => (
-            <RenderItem key={item.id} id={item.id} name={item.name} onPressCard={onPressCard} />
+            <RenderItem
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              onPressCard={onPressCard}
+            />
           ))}
           {
             // 1の場合は空のやつを表示

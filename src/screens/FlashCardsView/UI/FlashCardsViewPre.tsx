@@ -1,35 +1,69 @@
-import { RouteProp } from "@react-navigation/native";
-import { FC } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import StackParamList from "../../../StackParamList";
+import { Dispatch, FC, SetStateAction } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { WordDef } from "../../../atom/FlashCardsDataState";
+import { WordCard } from "./Components/WordCard";
 
 export interface FlashCardsListPreProps {
-  route: RouteProp<any, any>;
+  flashcardName: string;
+  buttonDisable: boolean;
+  wordsData: WordDef[];
+  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+  handleNameChanged: (text: string) => void;
+  handleAdd: () => void;
+  handleSave: () => void;
+  onPressToSlide: () => void;
 }
+
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-  const { route } = props;
+  const {
+    flashcardName,
+    buttonDisable,
+    wordsData,
+    handleNameChanged,
+    handleAdd,
+    handleSave,
+    setWordsData,
+    onPressToSlide,
+  } = props;
   return (
     <View style={styles.FlashCardsContainer}>
       <View style={styles.FlashCardsTitleContainer}>
         <TextInput
-          defaultValue={
-            (route?.params as StackParamList["FlashCardsView"]).title
-          }
+          value={flashcardName}
+          onChangeText={handleNameChanged}
           placeholder="単語帳名を入力"
           style={styles.FlashCardsTitleInput}
         />
       </View>
-      {/* ここにスクロールビュー */}
+      <ScrollView style={styles.FlashScrollContainer}>
+        {wordsData.map((item) => (
+          <WordCard key={item.id} item={item} setWordsData={setWordsData} />
+        ))}
+      </ScrollView>
       <View style={styles.FlashCardsBottom}>
-        <TouchableOpacity style={{...styles.SaveButton, ...styles.ButtonCommon}}>
+        <TouchableOpacity
+          style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
+          disabled={buttonDisable}
+          onPress={handleSave}
+        >
           <Text style={styles.SaveButtonText}>保存する</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{...styles.SlideButton, ...styles.ButtonCommon}}>
+        <TouchableOpacity
+          style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+          onPress={onPressToSlide}
+        >
           <Text style={styles.SlideButtonText}>スライドショー</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.PlusButton}>
-          <Ionicons name="add" size={20} color="#fff"/>
+        <TouchableOpacity style={styles.PlusButton} onPress={handleAdd}>
+          <Ionicons name="add" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -43,7 +77,7 @@ const styles = StyleSheet.create({
   },
   FlashCardsTitleContainer: {
     paddingTop: 37,
-    paddingBottom: 6,
+    paddingBottom: 28,
     paddingHorizontal: 28,
   },
   FlashCardsTitleInput: {
@@ -55,6 +89,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 20,
   },
+  FlashScrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 40,
+  },
+
   FlashCardsBottom: {
     position: "absolute",
     bottom: 0,
@@ -82,7 +121,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   SlideButton: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#fff",
+    borderWidth: 1,
   },
   SlideButtonText: {
     fontSize: 15,
@@ -94,6 +134,5 @@ const styles = StyleSheet.create({
     width: 53,
     height: 53,
     borderRadius: 50,
-  }
-
+  },
 });

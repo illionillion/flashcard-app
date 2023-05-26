@@ -9,7 +9,7 @@ import {
 
 interface FlashCardsCreatePreProps {
   flashcardName: string;
-  buttonDisable: boolean
+  buttonDisable: boolean;
   handleNameChanged: (text: string) => void;
   handleCreateFlashcard: () => void;
 }
@@ -18,7 +18,12 @@ interface FlashCardsCreatePreProps {
  * 単語帳作成画面のUI
  */
 export const FlashCardsCreatePre: FC<FlashCardsCreatePreProps> = (props) => {
-  const { flashcardName, buttonDisable, handleCreateFlashcard, handleNameChanged } = props;
+  const {
+    flashcardName,
+    buttonDisable,
+    handleCreateFlashcard,
+    handleNameChanged,
+  } = props;
 
   return (
     <View
@@ -35,7 +40,11 @@ export const FlashCardsCreatePre: FC<FlashCardsCreatePreProps> = (props) => {
         onChangeText={handleNameChanged}
         style={styles.input}
       />
-      <TouchableOpacity style={styles.button} onPress={handleCreateFlashcard} disabled={buttonDisable}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleCreateFlashcard}
+        disabled={buttonDisable}
+      >
         <Text style={styles.buttonText}>単語帳作成</Text>
       </TouchableOpacity>
     </View>
