@@ -2,7 +2,11 @@ import { FC } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
 
-export const SlidePre: FC = () => {
+interface Props {
+  content: string;
+}
+
+export const SlidePre: FC<Props> = (props) => {
   return (
     <View style={styles.container}>
 
@@ -12,8 +16,10 @@ export const SlidePre: FC = () => {
 
       <View style={styles.slide}>
         <Image source={require("./images/triangle_button_left.png")} />
-        <View>
-          <Text>Slide</Text>
+        <View style={styles.content}>
+          <Text style={styles.content_text}>
+            {props.content}
+          </Text>
         </View>
         <Image source={require("./images/triangle_button_right.png")} />
       </View>
@@ -28,6 +34,7 @@ export const SlidePre: FC = () => {
   );
 };
 
+const headerColor = "#79BC6E";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,5 +54,17 @@ const styles = StyleSheet.create({
   },
   pagenation: {
     justifyContent: "center",
+  },
+  content: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+    height: "80%",
+    backgroundColor: "#fff",
+    borderWidth: 3,
+    borderColor: headerColor,
+  },
+  content_text: {
+    fontSize: 20,
   },
 });    
