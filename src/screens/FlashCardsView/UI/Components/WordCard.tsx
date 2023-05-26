@@ -58,9 +58,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   const handleCreateExample = async () => {
     // ここでChatGPTに送信したい
     try {
-
       // ChatGPTをラップしたサーバーが必要
-      
       // const configuration = new Configuration({
       //   apiKey: apiKey,
       // });
@@ -78,7 +76,6 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       // } else {
       //   console.log(generatedExample.content);
       // }
-
     } catch (error) {
       console.error("Failed to generate example:", error);
     }

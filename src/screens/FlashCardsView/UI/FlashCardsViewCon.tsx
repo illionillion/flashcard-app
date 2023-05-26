@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { FlashCardsViewPre } from "./FlashCardsViewPre";
-import { RouteProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import StackParamList from "../../../StackParamList";
 import {
   FlashCardsDataState,
@@ -10,11 +10,12 @@ import { useSetRecoilState } from "recoil";
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, "FlashCardsView">;
 export interface FlashCardsListConProps {
+  navigation: NavigationProp<any, any>;
   route: FlashCardsViewRouteProp;
 }
 
 export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
-  const { route } = props;
+  const { route, navigation } = props;
   const { id, name, words } = route.params.data;
   const [flashcardName, setFlashcardName] = useState<string>(name);
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
@@ -58,6 +59,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
           : item
       )
     );
+  const onPressTolide = () => {
+    navigation.navigate("Slide", { data: route.params.data });
+  };
+
   return (
     <FlashCardsViewPre
       flashcardName={flashcardName}
@@ -67,6 +72,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleAdd={handleAdd}
       handleSave={handleSave}
       setWordsData={setWordsData}
+      onPressToSlide={onPressTolide}
     />
   );
 };

@@ -19,6 +19,7 @@ export interface FlashCardsListPreProps {
   handleNameChanged: (text: string) => void;
   handleAdd: () => void;
   handleSave: () => void;
+  onPressToSlide: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -30,6 +31,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     handleAdd,
     handleSave,
     setWordsData,
+    onPressToSlide,
   } = props;
   return (
     <View style={styles.FlashCardsContainer}>
@@ -56,6 +58,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+          onPress={onPressToSlide}
         >
           <Text style={styles.SlideButtonText}>スライドショー</Text>
         </TouchableOpacity>

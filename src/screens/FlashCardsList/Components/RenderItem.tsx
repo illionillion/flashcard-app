@@ -7,16 +7,13 @@ interface RenderItemProps {
   onPressCard?: (id: number) => void;
 }
 export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
-
   return id > -1 && onPressCard ? (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => onPressCard(id)}
     >
       <Text>{name}</Text>
-      <TouchableOpacity
-        style={styles.itemSettingButton}
-      >
+      <TouchableOpacity style={styles.itemSettingButton}>
         <SimpleLineIcons name="options" size={16} color="black" />
       </TouchableOpacity>
     </TouchableOpacity>
