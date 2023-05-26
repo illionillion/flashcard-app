@@ -20,6 +20,7 @@ export const BottomTabNavigate: FC = () => {
             backgroundColor: "#79BC6E", // ヘッダーの背景色を指定
           },
           headerTintColor: "white", // ヘッダーのテキスト色を指定
+          headerTitleAlign: "center",
         })}
       >
         <Tab.Screen

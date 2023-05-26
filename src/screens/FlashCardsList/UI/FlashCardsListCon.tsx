@@ -26,5 +26,14 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
       data: data.find((item) => item.id === id),
     });
   };
-  return <FlashCardsListPre onPressCard={onPressCard} rows={rows} />;
+  const onPressButton = () => {
+    navigation.navigate("Create");
+  };
+  return (
+    <FlashCardsListPre
+      rows={rows}
+      onPressCard={onPressCard}
+      onPressButton={onPressButton}
+    />
+  );
 };

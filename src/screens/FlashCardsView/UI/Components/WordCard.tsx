@@ -132,9 +132,11 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
 const styles = StyleSheet.create({
   WordCard: {
     flex: 1,
+    width: "80%",
     height: 225,
     backgroundColor: "#D9D9D9",
     marginVertical: 22,
+    marginHorizontal: "10%",
     paddingHorizontal: 20,
     paddingTop: 11,
     paddingBottom: 16,
