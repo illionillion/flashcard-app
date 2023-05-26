@@ -6,8 +6,48 @@ interface Props {
 }
 
 export const SlidePre: FC<Props> = (props) => {
+  const word_list = [
+    {
+      id: 1,
+      word: "你好",
+      meaning: "こんにちは",
+      example: "你好，我叫小明。",
+    },
+    {
+      id: 2,
+      word: "是",
+      meaning: "肯定",
+      example: "我是日本人。",
+    },
+    {
+      id: 3,
+      word: "不",
+      meaning: "否定",
+      example: "我不是日本人。",
+    },
+    {
+      id: 4,
+      word: "我",
+      meaning: "私",
+      example: "我是日本人。",
+    },
+    {
+      id: 5,
+      word: "你",
+      meaning: "あなた",
+      example: "你是日本人。",
+    },
+    {
+      id: 6,
+      word: "他",
+      meaning: "彼",
+      example: "他是日本人。",
+    },
+  ];
+
   const [page, setPage] = useState(1);
-  const pageTotal = 8;
+  const pageTotal = word_list.length;
+
 
   // 表裏
   const [isFront, setIsFront] = useState(true);
@@ -43,10 +83,12 @@ export const SlidePre: FC<Props> = (props) => {
           {/* 表なら単語、裏なら意味・例文 */}
           {
             isFront ?
-              <Text style={styles.content_text}>你好</Text> :
               <Text style={styles.content_text}>
-                意味: こんにちは {"\n"}
-                例文: 你好，我叫小明。{"\n"}
+                {word_list[page - 1].word + "\n"}
+              </Text> :
+              <Text style={styles.content_text}>
+                意味: {word_list[page - 1].meaning + "\n"}
+                例文: {word_list[page - 1].example + "\n"}
               </Text>
           }
         </View>
@@ -56,7 +98,7 @@ export const SlidePre: FC<Props> = (props) => {
       </View>
 
       <View style={styles.pagenation}>
-        <Text>{page}/8</Text>
+        <Text>{page}/{pageTotal}</Text>
       </View>
 
       <TouchableOpacity onPress={() => setIsFront(!isFront)}>
