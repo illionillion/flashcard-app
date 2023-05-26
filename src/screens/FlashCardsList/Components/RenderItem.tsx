@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Popover } from "./Popover";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { PopoverState } from "../../../atom/PopoverState";
 import { FlashCardsDataState } from "../../../atom/FlashCardsDataState";
 interface RenderItemProps {
