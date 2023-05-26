@@ -1,6 +1,10 @@
-export interface StackParamList {
-  FlashCardsView: { title: string }; // FlashCardsViewスクリーンのパラメータ型定義
-  // 他のスクリーンやパラメータを追加できます
+import { ParamListBase } from "@react-navigation/native";
+import { FlashCardsDef } from "./atom/FlashCardsDataState";
+
+export interface StackParamList extends ParamListBase {
+  FlashCardsView: {
+    data: FlashCardsDef;
+  };
 }
 
 export default StackParamList;

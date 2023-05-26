@@ -1,12 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import { FlashCardsCreateCon } from "../screens/FlashCardsCreate/UI/FlashCardsCreateCon"; 
-import { SearchCon } from "../screens/Search/UI/SearchCon"; 
-import { SettingCon } from "../screens/Setting/UI/SettingCon"; 
+import { FlashCardsCreateCon } from "../screens/FlashCardsCreate/UI/FlashCardsCreateCon";
+import { SearchCon } from "../screens/Search/UI/SearchCon";
+import { SettingCon } from "../screens/Setting/UI/SettingCon";
 import { FlashCardsListNavigate } from "./FlashCardsListNavigate";
+import { FC } from "react";
 
-export const BottomTabNavigate = () => {
+export const BottomTabNavigate: FC = () => {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -23,7 +24,6 @@ export const BottomTabNavigate = () => {
       >
         <Tab.Screen
           name="Home"
-
           component={FlashCardsListNavigate}
           options={{
             tabBarIcon: ({ color, size }) => (
