@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ray-boon",
-    "slug": "RAY-BOON",
+    "name": "RAY-BOON",
+    "slug": "ray-boon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
