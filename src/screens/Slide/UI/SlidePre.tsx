@@ -11,7 +11,7 @@ export const SlidePre: FC<Props> = (props) => {
     <View style={styles.container}>
 
       <View style={styles.headline}>
-        <Text>見出し</Text>
+        <Text style={styles.headline_text}>見出し</Text>
       </View>
 
       <View style={styles.slide}>
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+  },
+  headline_text: {
+    fontSize: 30,
   },
   slide: {
     justifyContent: "space-between",
