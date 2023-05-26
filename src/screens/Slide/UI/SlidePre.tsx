@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
 
 interface Props {
-  content: string;
 }
 
 export const SlidePre: FC<Props> = (props) => {
@@ -18,7 +17,7 @@ export const SlidePre: FC<Props> = (props) => {
         <Image source={require("./images/triangle_button_left.png")} />
         <View style={styles.content}>
           <Text style={styles.content_text}>
-            {props.content}
+            コンテンツ
           </Text>
         </View>
         <Image source={require("./images/triangle_button_right.png")} />
