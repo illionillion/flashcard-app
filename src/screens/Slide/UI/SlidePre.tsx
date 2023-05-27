@@ -73,7 +73,6 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
   );
 };
 
-const headerColor = "#79BC6E";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderWidth: 3,
-    borderColor: headerColor,
+    borderColor: "#79BC6E",
   },
   content_text: {
     fontSize: 20,
