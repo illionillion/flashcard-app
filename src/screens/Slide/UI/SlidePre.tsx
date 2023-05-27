@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
-
+import { AntDesign } from '@expo/vector-icons';
 interface SlidePreProps {
   handleGoBack: () => void;
   word_list: {
@@ -16,6 +16,7 @@ interface SlidePreProps {
   handleFlip: () => void;
 }
 
+const headerColor = "#79BC6E";
 export const SlidePre: FC<SlidePreProps> = (props) => {
   const {
     handleGoBack,
@@ -39,7 +40,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
 
       <View style={styles.slide}>
         <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
-          <Image source={require("./images/triangle_button_left.png")} />
+          <AntDesign name="caretleft" size={40} color={headerColor} />
         </TouchableOpacity>
         <View style={styles.content}>
           {/* 表なら単語、裏なら意味・例文 */}
@@ -55,7 +56,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
           }
         </View>
         <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
-          <Image source={require("./images/triangle_button_right.png")} />
+          <AntDesign name="caretright" size={40} color={headerColor} />
         </TouchableOpacity>
       </View>
 
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderWidth: 3,
-    borderColor: "#79BC6E",
+    borderColor: headerColor,
   },
   content_text: {
     fontSize: 20,
