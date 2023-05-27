@@ -1,74 +1,30 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { SlideButton } from "./Components/SlideButton";
 
-interface Props {
+interface SlidePreProps {
+  handleGoBack: () => void;
+  word_list: {
+    id: number;
+    word: string;
+    meaning: string;
+    example: string;
+  }[];
+  page: number;
+  handlePageChange: (page: number) => void;
+  isFront: boolean;
+  handleFlip: () => void;
 }
 
-export const SlidePre: FC<Props> = (props) => {
-  const navigation = useNavigation();
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
-  const word_list = [
-    {
-      id: 1,
-      word: "你好",
-      meaning: "こんにちは",
-      example: "你好，我叫小明。",
-    },
-    {
-      id: 2,
-      word: "是",
-      meaning: "肯定",
-      example: "我是日本人。",
-    },
-    {
-      id: 3,
-      word: "不",
-      meaning: "否定",
-      example: "我不是日本人。",
-    },
-    {
-      id: 4,
-      word: "我",
-      meaning: "私",
-      example: "我是日本人。",
-    },
-    {
-      id: 5,
-      word: "你",
-      meaning: "あなた",
-      example: "你是日本人。",
-    },
-    {
-      id: 6,
-      word: "他",
-      meaning: "彼",
-      example: "他是日本人。",
-    },
-  ];
-
-  const [page, setPage] = useState(1);
-  const pageTotal = word_list.length;
-
-
-  // 表裏
-  const [isFront, setIsFront] = useState(true);
-
-  const handlePageChange = (page: number) => {
-    if (page < 1) {
-      setPage(1);
-    } else if (page > pageTotal) {
-      setPage(pageTotal);
-    } else {
-      setPage(page);
-    }
-  };
-
-
+export const SlidePre: FC<SlidePreProps> = (props) => {
+  const {
+    handleGoBack,
+    word_list,
+    page,
+    handlePageChange,
+    isFront,
+    handleFlip,
+  } = props;
 
   return (
     <View style={styles.container}>
@@ -90,7 +46,7 @@ export const SlidePre: FC<Props> = (props) => {
           {
             isFront ?
               <Text style={styles.content_text}>
-                {word_list[page - 1].word + "\n"}
+                {word_list[page - 1].word}
               </Text> :
               <Text style={styles.content_text}>
                 意味: {word_list[page - 1].meaning + "\n"}
@@ -104,10 +60,10 @@ export const SlidePre: FC<Props> = (props) => {
       </View>
 
       <View style={styles.pagenation}>
-        <Text>{page}/{pageTotal}</Text>
+        <Text>{page}/{word_list.length}</Text>
       </View>
 
-      <TouchableOpacity onPress={() => setIsFront(!isFront)}>
+      <TouchableOpacity onPress={() => handleFlip()}>
         <SlideButton text="切り替え" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => handleGoBack()}>
