@@ -2,11 +2,11 @@ import { FC } from "react";
 import { Text, View, StyleSheet } from "react-native";
 
 
-interface Props {
+interface SlideButtonProps {
   text: string;
 }
 
-export const SlideButton: FC<Props> = (props) => {
+export const SlideButton: FC<SlideButtonProps> = (props) => {
   return (
     <View style={styles.button}>
       <Text style={styles.buttonText}>
@@ -17,12 +17,11 @@ export const SlideButton: FC<Props> = (props) => {
 };
 
 
-const headerColor = "#79BC6E";
 const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: headerColor,
+    backgroundColor: "#79BC6E",
     width: 300,
     height: 50,
     margin: 10,
