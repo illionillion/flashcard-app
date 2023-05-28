@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
+import { generateExample } from "./lib/createExample";
 
 interface WordCardProps {
   item: WordDef;
@@ -21,6 +22,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
   const [wordExample, setWordExample] = useState<string>(example);
+  const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
   const handleNameChanged = (text: string) => {
     setWordName(text);
@@ -56,29 +58,39 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   };
 
   const handleCreateExample = async () => {
+
+    setLoading(true);
+
     // ここでChatGPTに送信したい
-    try {
-      // ChatGPTをラップしたサーバーが必要
-      // const configuration = new Configuration({
-      //   apiKey: apiKey,
-      // });
-      // const openai = new OpenAIApi(configuration);
-      // console.log("作成中");
-      // const generatedExample = await generateExample(
-      //   `${wordLang}言語の${wordName}という${wordMean}という意味の単語を用いて簡単な例文を作成して`,
-      //   "gpt-3.5-turbo",
-      //   "user",
-      //   openai
-      // ); // ChatGPTから例文を生成
-      // if (generatedExample.success) {
-      //   handleExampleChanged(generatedExample.content ?? "");
-      //   console.log("作成完了");
-      // } else {
-      //   console.log(generatedExample.content);
-      // }
-    } catch (error) {
-      console.error("Failed to generate example:", error);
+    const result = await generateExample({
+      apiKey: apiKey,
+      wordLang: wordLang,
+      wordName: wordName,
+      wordMean: wordMean,
+    });
+
+    const updateCar = async (i: number) => {
+      return new Promise<void>(resolve => {
+        setTimeout(()=>{
+          const char = result.content[i];
+          if (i === 0) {
+            setWordExample(() => char);
+          } else {
+            setWordExample((prev) => prev + char);
+          }
+          resolve()
+        }, 100)
+      })
     }
+
+    if (result.success) {
+      setWordExample(result.content);
+      for (let i = 0; i < result.content.length; i++) {
+        await updateCar(i);
+      }
+    }
+
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -111,6 +123,9 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
           onPress={handleCreateExample}
+          disabled={
+            [wordName, wordMean, wordLang].includes("") || apiKey === "" || loading
+          }
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
@@ -121,6 +136,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         value={wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         onChangeText={handleExampleChanged}
+        editable = {!loading}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />

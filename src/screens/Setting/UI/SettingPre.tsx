@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
   input:{
     height: 40, 
     width: 336, 
-    padding: 22,
+    paddingHorizontal: 22,
     borderWidth: 1, 
     borderColor:"grey", 
     marginBottom: 10, 
-    borderRadius:5
+    borderRadius:5,
   },
   textView: {
     alignSelf: "flex-end",
