@@ -18,6 +18,7 @@ export const FlashCardsListNavigate: FC = () => {
         },
         headerTintColor: "white", // ヘッダーのテキスト色を指定
         headerTitleAlign: "center",
+        headerStatusBarHeight: 0, // ヘッダーの上部の余白を除去
       })}
     >
       <Stack.Screen
