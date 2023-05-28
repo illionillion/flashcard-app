@@ -6,65 +6,72 @@ import { SearchCon } from "../screens/Search/UI/SearchCon";
 import { SettingCon } from "../screens/Setting/UI/SettingCon";
 import { FlashCardsListNavigate } from "./FlashCardsListNavigate";
 import { FC } from "react";
+import { SafeAreaView } from "react-native";
 
 export const BottomTabNavigate: FC = () => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={() => ({
-          tabBarActiveTintColor: "green",
-          tabBarInactiveTintColor: "gray",
-          headerStyle: {
-            backgroundColor: "#79BC6E", // ヘッダーの背景色を指定
-          },
-          headerTintColor: "white", // ヘッダーのテキスト色を指定
-          headerTitleAlign: "center",
-        })}
-      >
-        <Tab.Screen
-          name="Home"
-          component={FlashCardsListNavigate}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-home" size={size} color={color} />
-            ),
-            title: "単語帳一覧",
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="Create"
-          component={FlashCardsCreateCon}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="add-outline" size={size} color={color} />
-            ),
-            title: "単語帳作成",
-          }}
-        />
-        <Tab.Screen
-          name="Search"
-          component={SearchCon}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="search-outline" size={size} color={color} />
-            ),
-            title: "単語検索",
-          }}
-        />
-        <Tab.Screen
-          name="Setting"
-          component={SettingCon}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-settings-outline" size={size} color={color} />
-            ),
-            title: "設定",
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={() => ({
+            tabBarActiveTintColor: "green",
+            tabBarInactiveTintColor: "gray",
+            headerStyle: {
+              backgroundColor: "#79BC6E", // ヘッダーの背景色を指定
+            },
+            headerTintColor: "white", // ヘッダーのテキスト色を指定
+            headerTitleAlign: "center",
+          })}
+        >
+          <Tab.Screen
+            name="Home"
+            component={FlashCardsListNavigate}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="ios-home" size={size} color={color} />
+              ),
+              title: "単語帳一覧",
+              headerShown: false,
+            }}
+          />
+          <Tab.Screen
+            name="Create"
+            component={FlashCardsCreateCon}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="add-outline" size={size} color={color} />
+              ),
+              title: "単語帳作成",
+            }}
+          />
+          <Tab.Screen
+            name="Search"
+            component={SearchCon}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="search-outline" size={size} color={color} />
+              ),
+              title: "単語検索",
+            }}
+          />
+          <Tab.Screen
+            name="Setting"
+            component={SettingCon}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons
+                  name="md-settings-outline"
+                  size={size}
+                  color={color}
+                />
+              ),
+              title: "設定",
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 };
