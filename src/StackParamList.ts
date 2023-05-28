@@ -1,9 +1,13 @@
 import { ParamListBase } from "@react-navigation/native";
-import { FlashCardsDef } from "./atom/FlashCardsDataState";
+import { FlashCardsDef, WordDef } from "./atom/FlashCardsDataState";
 
 export interface StackParamList extends ParamListBase {
   FlashCardsView: {
     data: FlashCardsDef;
+  };
+  Slide: {
+    title: string;
+    data: WordDef[]
   };
 }
 

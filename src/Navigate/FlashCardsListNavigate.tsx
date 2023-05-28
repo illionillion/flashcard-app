@@ -38,10 +38,8 @@ export const FlashCardsListNavigate: FC = () => {
         name="Slide"
         component={SlideCon}
         options={({ route }) => ({
-          title: (route.params as StackParamList["FlashCardsView"]).data.name
-            ? `${
-                (route.params as StackParamList["FlashCardsView"]).data.name
-              } - スライド`
+          title: (route.params as StackParamList["Slide"]).title
+            ? `${(route.params as StackParamList["Slide"]).title} - スライド`
             : "スライド",
         })}
       />
