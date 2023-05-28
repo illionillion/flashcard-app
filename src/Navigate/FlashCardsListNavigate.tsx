@@ -1,9 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { FC } from "react";
 import StackParamList from "../StackParamList";
 import { FlashCardsListCon } from "../screens/FlashCardsList/UI/FlashCardsListCon";
 import { FlashCardsViewCon } from "../screens/FlashCardsView/UI/FlashCardsViewCon";
+import { SearchCon } from "../screens/Search/UI/SearchCon";
 import { SlideCon } from "../screens/Slide/UI/SlideCon";
-import { FC } from "react";
 
 export const FlashCardsListNavigate: FC = () => {
   const Stack = createNativeStackNavigator();
@@ -32,12 +33,12 @@ export const FlashCardsListNavigate: FC = () => {
         // @ts-ignore
         component={FlashCardsViewCon}
         options={({ route }) => ({
-          title:
-            (route.params as StackParamList["FlashCardsView"]).data.name || "",
+          title: (route.params as StackParamList["FlashCardsView"]).data.name || "",
         })}
       />
       <Stack.Screen
         name="Slide"
+        // @ts-ignore
         component={SlideCon}
         options={({ route }) => ({
           title: (route.params as StackParamList["Slide"]).title
@@ -45,6 +46,7 @@ export const FlashCardsListNavigate: FC = () => {
             : "スライド",
         })}
       />
+      <Stack.Screen name="Search" component={SearchCon} options={{ title: "単語検索" }} />
     </Stack.Navigator>
   );
 };
