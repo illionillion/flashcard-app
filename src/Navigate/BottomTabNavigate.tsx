@@ -5,11 +5,42 @@ import { FlashCardsCreateCon } from "../screens/FlashCardsCreate/UI/FlashCardsCr
 import { SearchCon } from "../screens/Search/UI/SearchCon";
 import { SettingCon } from "../screens/Setting/UI/SettingCon";
 import { FlashCardsListNavigate } from "./FlashCardsListNavigate";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
+import { useRecoilState } from "recoil";
+import { APIKeyState } from "../atom/APIKeyState";
+import { getData, setData } from "../lib/DataSave";
+import {
+  FlashCardsDataState,
+  FlashCardsDef,
+} from "../atom/FlashCardsDataState";
 
 export const BottomTabNavigate: FC = () => {
   const Tab = createBottomTabNavigator();
+
+  const [apiKey, setApiKey] = useRecoilState(APIKeyState);
+  const [data, setCardsData] =
+    useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
+  const [isDone, setIsDone] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (!isDone) {
+        setIsDone(true);
+        const key = await getData("APIKey");
+        const saveData = await getData("FlashCardsData");
+        if (saveData !== "") {
+          setCardsData(() => JSON.parse(saveData));
+        }
+        if (key !== "") {
+          setApiKey(() => key);
+        }
+      } else {
+        await setData("APIKey", apiKey);
+        await setData("FlashCardsData", JSON.stringify(data));
+      }
+    })();
+  }, [apiKey, data]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

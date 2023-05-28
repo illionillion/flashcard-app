@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
 import { AntDesign } from "@expo/vector-icons";
 import { WordDef } from "../../../atom/FlashCardsDataState";

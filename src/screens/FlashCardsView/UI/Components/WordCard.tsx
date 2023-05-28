@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
-import { generateExample } from "./lib/createExample";
+import { generateExample } from "../../../../lib/createExample";
 
 interface WordCardProps {
   item: WordDef;
@@ -58,7 +58,6 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   };
 
   const handleCreateExample = async () => {
-
     setLoading(true);
 
     // ここでChatGPTに送信したい
@@ -70,18 +69,18 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
     });
 
     const updateCar = async (i: number) => {
-      return new Promise<void>(resolve => {
-        setTimeout(()=>{
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
             setWordExample(() => char);
           } else {
             setWordExample((prev) => prev + char);
           }
-          resolve()
-        }, 100)
-      })
-    }
+          resolve();
+        }, 100);
+      });
+    };
 
     if (result.success) {
       setWordExample(result.content);
@@ -90,7 +89,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       }
     }
 
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -124,7 +123,9 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
           style={{ ...styles.text, ...styles.createExample }}
           onPress={handleCreateExample}
           disabled={
-            [wordName, wordMean, wordLang].includes("") || apiKey === "" || loading
+            [wordName, wordMean, wordLang].includes("") ||
+            apiKey === "" ||
+            loading
           }
         >
           <Text style={styles.createExampleText}>例文作成</Text>
@@ -136,7 +137,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         value={wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         onChangeText={handleExampleChanged}
-        editable = {!loading}
+        editable={!loading}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
