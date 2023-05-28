@@ -60,7 +60,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       )
     );
   const onPressTolide = () => {
-    navigation.navigate("Slide", { data: route.params.data });
+    navigation.navigate("Slide", {
+      title: flashcardName,
+      data: wordsData,
+    });
   };
 
   return (

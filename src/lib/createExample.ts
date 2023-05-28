@@ -1,5 +1,16 @@
-import { AxiosError } from "axios";
-import { ChatCompletionRequestMessageRoleEnum, OpenAIApi } from "openai";
+import axios, { AxiosError } from "axios";
+
+interface apiReturn {
+  content: string;
+}
+
+interface apiProps {
+  apiKey: string;
+  wordName: string;
+  wordLang: string;
+  wordMean: string;
+}
+
 /**
  * Axiosエラーか判定
  * @param error
@@ -15,21 +26,22 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @param role
  * @returns
  */
-export const generateExample = async (
-  content: string,
-  model = "gpt-3.5-turbo",
-  role: ChatCompletionRequestMessageRoleEnum = "user",
-  openai: OpenAIApi | undefined
-) => {
+export const generateExample = async (props: apiProps) => {
+  const { apiKey, wordName, wordMean, wordLang } = props;
   try {
-    const response = await openai?.createChatCompletion({
-      model: model,
-      messages: [{ role: role, content: content }],
-    });
+    const res = await axios.post<apiReturn>(
+      "https://ray-boon-api.vercel.app/api",
+      {
+        apiKey: apiKey,
+        wordName: wordName,
+        wordLang: wordLang,
+        wordMean: wordMean,
+      }
+    );
 
-    const answer = response?.data.choices[0].message?.content;
-    return { success: true, content: answer };
+    return { success: true, content: res.data.content };
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error) && error?.response?.status === 403) {
       // 通信失敗時
       return {
@@ -38,6 +50,7 @@ export const generateExample = async (
       };
     } else if (
       isAxiosError(error) &&
+      // @ts-ignore
       error.response?.data.error.code === "context_length_exceeded"
     ) {
       // トークン不足時
@@ -47,8 +60,6 @@ export const generateExample = async (
           "An error occurred during the request. The file size is too large. Please choose another file or format the code in the file.",
       };
     } else {
-      console.log(error);
-
       // APIキーが違うなど
       return {
         success: false,

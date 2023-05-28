@@ -43,7 +43,10 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           style={styles.FlashCardsTitleInput}
         />
       </View>
-      <ScrollView style={styles.FlashScrollContainer}>
+      <ScrollView
+        style={styles.FlashScrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {wordsData.map((item) => (
           <WordCard key={item.id} item={item} setWordsData={setWordsData} />
         ))}
@@ -59,6 +62,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         <TouchableOpacity
           style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
           onPress={onPressToSlide}
+          disabled={wordsData.length === 0 ? true : false}
         >
           <Text style={styles.SlideButtonText}>スライドショー</Text>
         </TouchableOpacity>
@@ -91,7 +95,6 @@ const styles = StyleSheet.create({
   },
   FlashScrollContainer: {
     flexGrow: 1,
-    paddingHorizontal: 40,
   },
 
   FlashCardsBottom: {

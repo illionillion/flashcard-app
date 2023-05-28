@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "flashcard-app",
-    "slug": "flashcard-app",
-    "version": "1.0.0",
+    "name": "RAY-BOON",
+    "slug": "ray-boon",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,13 +18,21 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rayboon",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "80fd6548-5936-4bae-a54c-9446e27502ce"
+      }
     }
   }
 }

@@ -15,8 +15,11 @@ export const FlashCardsListNavigate: FC = () => {
         tabBarInactiveTintColor: "gray",
         headerStyle: {
           backgroundColor: "#79BC6E", // ヘッダーの背景色を指定
+          elevation: 0, // ヘッダーの上部の余白を除去
         },
         headerTintColor: "white", // ヘッダーのテキスト色を指定
+        headerTitleAlign: "center",
+        headerStatusBarHeight: 0, // ヘッダーの上部の余白を除去
       })}
     >
       <Stack.Screen
@@ -37,10 +40,8 @@ export const FlashCardsListNavigate: FC = () => {
         name="Slide"
         component={SlideCon}
         options={({ route }) => ({
-          title: (route.params as StackParamList["FlashCardsView"]).data.name
-            ? `${
-                (route.params as StackParamList["FlashCardsView"]).data.name
-              } - スライド`
+          title: (route.params as StackParamList["Slide"]).title
+            ? `${(route.params as StackParamList["Slide"]).title} - スライド`
             : "スライド",
         })}
       />
