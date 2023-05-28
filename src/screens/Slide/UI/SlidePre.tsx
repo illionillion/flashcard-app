@@ -1,15 +1,11 @@
 import { FC } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+import { WordDef } from "../../../atom/FlashCardsDataState";
 interface SlidePreProps {
   handleGoBack: () => void;
-  word_list: {
-    id: number;
-    word: string;
-    meaning: string;
-    example: string;
-  }[];
+  word_list: WordDef[];
   page: number;
   handlePageChange: (page: number) => void;
   isFront: boolean;
@@ -29,13 +25,12 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.headline}>
-        {
-          isFront ?
-            <Text style={styles.headline_text}>単語</Text> :
-            <Text style={styles.headline_text}>意味・例文</Text>
-        }
+        {isFront ? (
+          <Text style={styles.headline_text}>単語</Text>
+        ) : (
+          <Text style={styles.headline_text}>意味・例文</Text>
+        )}
       </View>
 
       <View style={styles.slide}>
@@ -44,16 +39,18 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
         </TouchableOpacity>
         <View style={styles.content}>
           {/* 表なら単語、裏なら意味・例文 */}
-          {
-            isFront ?
+          {isFront ? (
+            <Text style={styles.content_text}>{word_list[page].name}</Text>
+          ) : (
+            <View>
               <Text style={styles.content_text}>
-                {word_list[page - 1].word}
-              </Text> :
-              <Text style={styles.content_text}>
-                意味: {word_list[page - 1].meaning + "\n"}
-                例文: {word_list[page - 1].example + "\n"}
+                意味: {word_list[page].mean}
               </Text>
-          }
+              <Text style={styles.content_text}>
+                例文: {word_list[page].example}
+              </Text>
+            </View>
+          )}
         </View>
         <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
           <AntDesign name="caretright" size={40} color={headerColor} />
@@ -61,7 +58,9 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       </View>
 
       <View style={styles.pagenation}>
-        <Text>{page}/{word_list.length}</Text>
+        <Text>
+          {page + 1}/{word_list.length}
+        </Text>
       </View>
 
       <TouchableOpacity onPress={() => handleFlip()}>
@@ -78,12 +77,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   headline: {
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    paddingVertical: 20,
   },
   headline_text: {
     fontSize: 30,
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
   content_text: {
     fontSize: 20,
   },
-});    
+});

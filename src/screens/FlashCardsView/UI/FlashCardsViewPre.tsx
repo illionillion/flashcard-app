@@ -62,6 +62,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         <TouchableOpacity
           style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
           onPress={onPressToSlide}
+          disabled={wordsData.length === 0 ? true : false}
         >
           <Text style={styles.SlideButtonText}>スライドショー</Text>
         </TouchableOpacity>
@@ -94,8 +95,6 @@ const styles = StyleSheet.create({
   },
   FlashScrollContainer: {
     flexGrow: 1,
-    // justifyContent: "center",
-    // paddingHorizontal: 40,
   },
 
   FlashCardsBottom: {
