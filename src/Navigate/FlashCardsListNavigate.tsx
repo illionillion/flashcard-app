@@ -15,6 +15,7 @@ export const FlashCardsListNavigate: FC = () => {
         tabBarInactiveTintColor: "gray",
         headerStyle: {
           backgroundColor: "#79BC6E", // ヘッダーの背景色を指定
+          elevation: 0, // ヘッダーの上部の余白を除去
         },
         headerTintColor: "white", // ヘッダーのテキスト色を指定
         headerTitleAlign: "center",
