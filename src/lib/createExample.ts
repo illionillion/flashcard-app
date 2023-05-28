@@ -2,7 +2,6 @@ import axios, { AxiosError } from "axios";
 
 interface apiReturn {
   content: string;
-  contetnt: string;
 }
 
 interface apiProps {
@@ -40,7 +39,7 @@ export const generateExample = async (props: apiProps) => {
       }
     );
 
-    return { success: true, content: res.data.content ?? res.data.contetnt };
+    return { success: true, content: res.data.content };
   } catch (error) {
     console.log(error);
     if (isAxiosError(error) && error?.response?.status === 403) {
