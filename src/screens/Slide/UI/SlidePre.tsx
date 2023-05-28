@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { SlideButton } from "./Components/SlideButton";
 import { AntDesign } from "@expo/vector-icons";
 import { WordDef } from "../../../atom/FlashCardsDataState";
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   content: {
-    width: 300,
+    width: "80%",
     height: 200,
     justifyContent: "center",
     alignItems: "center",
