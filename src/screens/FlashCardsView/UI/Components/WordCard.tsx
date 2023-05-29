@@ -68,7 +68,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       wordMean: wordMean,
     });
 
-    const updateCar = async (i: number) => {
+    const updateChar = async (i: number) => {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
           const char = result.content[i];
@@ -85,7 +85,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
     if (result.success) {
       setWordExample(result.content);
       for (let i = 0; i < result.content.length; i++) {
-        await updateCar(i);
+        await updateChar(i);
       }
     }
 
