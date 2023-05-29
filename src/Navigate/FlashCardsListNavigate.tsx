@@ -3,7 +3,6 @@ import { FC } from "react";
 import StackParamList from "../StackParamList";
 import { FlashCardsListCon } from "../screens/FlashCardsList/UI/FlashCardsListCon";
 import { FlashCardsViewCon } from "../screens/FlashCardsView/UI/FlashCardsViewCon";
-import { SearchCon } from "../screens/Search/UI/SearchCon";
 import { SlideCon } from "../screens/Slide/UI/SlideCon";
 
 export const FlashCardsListNavigate: FC = () => {
@@ -46,7 +45,6 @@ export const FlashCardsListNavigate: FC = () => {
             : "スライド",
         })}
       />
-      <Stack.Screen name="Search" component={SearchCon} options={{ title: "単語検索" }} />
     </Stack.Navigator>
   );
 };

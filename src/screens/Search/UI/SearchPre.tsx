@@ -6,7 +6,7 @@ import { FilteredData } from "./SearchCon";
 interface SearchPreProps {
   searchValue: string;
   filteredData: FilteredData[];
-  handleToggle: (id: number) => void;
+  handleToggle: (fileId: number, id: number) => void;
   handleSearch: (text: string) => void;
   onPressFileName: (id: number) => void;
 }
@@ -34,7 +34,7 @@ export const SearchPre: FC<SearchPreProps> = ({
           />
         </View>
         {filteredData.map((card) => (
-          <View key={card.id} style={styles.itemContainer}>
+          <View key={`${card.fileId}-${card.id}`} style={styles.itemContainer}>
             <View style={styles.itemHeader}>
               <Text style={styles.itemText}>
                 {card.name.split(searchValue).map((text, index) => (
@@ -53,7 +53,7 @@ export const SearchPre: FC<SearchPreProps> = ({
                 <Text style={styles.fileNameText}>{card.fileName}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => handleToggle(card.id)}
+                onPress={() => handleToggle(card.fileId, card.id)}
                 style={styles.toggleIconContainer}
               >
                 <Ionicons

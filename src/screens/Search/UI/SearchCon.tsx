@@ -36,9 +36,11 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
   );
   const [filteredData, setFilteredData] = useState<FilteredData[]>(convertedData);
 
-  const handleToggle = (id: number) => {
+  const handleToggle = (id: number, fileId: number) => {
     setFilteredData((prevData) =>
-      prevData.map((card) => (card.id === id ? { ...card, isOpen: !card.isOpen } : card)),
+      prevData.map((card) =>
+        card.fileId === id && card.id === fileId ? { ...card, isOpen: !card.isOpen } : card,
+      ),
     );
   };
 
@@ -51,9 +53,9 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     }
   };
 
-  const onPressFileName = (id: number) => {
+  const onPressFileName = (fileId: number) => {
     navigation.navigate("FlashCardsView", {
-      data: data.find((item) => item.id === id),
+      data: data.find((item) => item.id === fileId),
     });
   };
 
