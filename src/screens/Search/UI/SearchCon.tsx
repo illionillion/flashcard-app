@@ -1,6 +1,6 @@
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FC, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { FlashCardsDataState, FlashCardsDef } from "../../../atom/FlashCardsDataState";
 import { SearchPre } from "./SearchPre";
@@ -26,14 +26,16 @@ interface SearchConProps {
 export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState("");
   const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
-  const convertedData = data.flatMap((cards) =>
-    cards.words.map((word) => ({
-      ...word,
-      fileId: cards.id,
-      fileName: cards.name,
-      isOpen: false,
-    })),
-  );
+  const convertedData = useMemo(() => {
+    return data.flatMap((cards) =>
+      cards.words.map((word) => ({
+        ...word,
+        fileId: cards.id,
+        fileName: cards.name,
+        isOpen: false,
+      })),
+    );
+  }, [data]);
   const [filteredData, setFilteredData] = useState<FilteredData[]>(convertedData);
 
   const handleToggle = (id: number, fileId: number) => {
@@ -59,7 +61,14 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     });
   };
 
-  // TODO: 画面遷移するとsearchValueをリセット
+  // 画面遷移するとsearchValueをリセット
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () => {
+      setSearchValue("");
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SearchPre
