@@ -48,11 +48,9 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
 
   const handleSearch = (text: string) => {
     setSearchValue(text);
-    if (searchValue === "") {
-      setFilteredData(convertedData);
-    } else {
-      setFilteredData(convertedData.filter((card) => card.name.includes(searchValue)));
-    }
+    const updatedFilteredData =
+      text === "" ? convertedData : convertedData.filter((card) => card.name.includes(text));
+    setFilteredData(updatedFilteredData);
   };
 
   const onPressFileName = (fileId: number) => {
