@@ -37,10 +37,10 @@ export const SearchPre: FC<SearchPreProps> = ({
           <View key={`${card.fileId}-${card.id}`} style={styles.itemContainer}>
             <View style={styles.itemHeader}>
               <Text style={styles.itemText}>
-                {card.name.split(searchValue).map((text, index) => (
+                {card.name.split(new RegExp(searchValue, "gi")).map((text, index) => (
                   <Text key={index}>
                     {text}
-                    {index !== card.name.split(searchValue).length - 1 && (
+                    {index !== card.name.split(new RegExp(searchValue, "gi")).length - 1 && (
                       <Text style={styles.highlight}>{searchValue}</Text>
                     )}
                   </Text>

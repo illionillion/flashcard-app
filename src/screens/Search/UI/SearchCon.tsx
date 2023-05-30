@@ -48,8 +48,11 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
 
   const handleSearch = (text: string) => {
     setSearchValue(text);
+    const lowerCaseText = text.toLowerCase();
     const updatedFilteredData =
-      text === "" ? convertedData : convertedData.filter((card) => card.name.includes(text));
+      text === ""
+        ? convertedData
+        : convertedData.filter((card) => card.name.toLowerCase().includes(lowerCaseText));
     setFilteredData(updatedFilteredData);
   };
 
