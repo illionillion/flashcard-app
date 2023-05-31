@@ -22,6 +22,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
   const [wordExample, setWordExample] = useState<string>(example);
+  const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
   const handleNameChanged = (text: string) => {
@@ -73,9 +74,9 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            setWordExample(() => char);
+            setWordExamplePreview(() => char);
           } else {
-            setWordExample((prev) => prev + char);
+            setWordExamplePreview((prev) => prev + char);
           }
           resolve();
         }, 100);
@@ -83,7 +84,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
     };
 
     if (result.success) {
-      setWordExample(result.content);
+      setWordExample(() => result.content);
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
@@ -134,7 +135,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       <TextInput
         style={styles.textMulti}
         multiline
-        value={wordExample} // ここの値をChatGPTでリアルタイムに更新
+        value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         onChangeText={handleExampleChanged}
         editable={!loading}
