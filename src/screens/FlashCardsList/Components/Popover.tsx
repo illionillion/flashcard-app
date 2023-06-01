@@ -22,7 +22,7 @@ export const Popover: FC<PopoverProps> = ({
   };
   const handleHidePopover = () => setShowPopover(false);
   const checkPopoverHide = () => {
-    if (id !== popover.currentId && popover.currentId > -1) {
+    if ((id !== popover.currentId && popover.currentId > -1) || !popover.visible) {
       handleHidePopover();
     }
   };
