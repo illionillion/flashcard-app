@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Popover } from "./Popover";
 import { useSetRecoilState } from "recoil";
@@ -22,8 +22,18 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
     }
   };
   useEffect(checkPopoverShow, [showPopover]);
-  const deleteFlashCards = () =>
-    setData((prev) => prev.filter((item) => item.id !== id));
+  const deleteFlashCards =  () => {
+    Alert.alert("確認", `本当に単語帳「${name}」を削除しますか？`, [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => setData((prev) => prev.filter((item) => item.id !== id)),
+      },
+    ]);
+  };
   return id > -1 && onPressCard ? (
     <TouchableOpacity
       style={styles.itemContainer}
@@ -61,7 +71,9 @@ const styles = StyleSheet.create({
   },
   itemSettingButton: {
     position: "absolute",
-    top: 5,
-    right: 10,
+    top: 0,
+    right: 0,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
 });
