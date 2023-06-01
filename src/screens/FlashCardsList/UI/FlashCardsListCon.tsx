@@ -5,7 +5,8 @@ import {
   FlashCardsDataState,
   FlashCardsDef,
 } from "../../../atom/FlashCardsDataState";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { PopoverState } from "../../../atom/PopoverState";
 export interface FlashCardListProps {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -15,6 +16,7 @@ export interface FlashCardListProps {
  */
 export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
   const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
+  const setPopover = useSetRecoilState(PopoverState);
 
   const rows: FlashCardsDef[][] = Array.from(
     { length: Math.ceil(data.length / 2) },
@@ -29,6 +31,13 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
   const onPressButton = () => {
     navigation.navigate("Create");
   };
+
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener("blur", () => {
+      setPopover(prev => ({currentId: prev.currentId, visible: false}));
+    });      
+    return unsubscribe;
+  }, [navigation])
   return (
     <FlashCardsListPre
       rows={rows}
