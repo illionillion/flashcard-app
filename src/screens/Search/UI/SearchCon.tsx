@@ -71,10 +71,10 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // dataの更新に伴いfilteredDataを更新する
+  // convertedDataの更新に伴いfilteredDataを更新する
   useEffect(() => {
     setFilteredData(convertedData);
-  }, [data]);
+  }, [convertedData]);
 
   return (
     <SearchPre
