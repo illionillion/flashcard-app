@@ -43,7 +43,7 @@ export const SearchPre: FC<SearchPreProps> = ({
                       {text}
                       {index !== card.name.split(new RegExp(searchValue, "gi")).length - 1 && (
                         <Text style={styles.highlight}>
-                          {card.name.match(searchValue) ?? searchValue.toLocaleUpperCase()}
+                          {card.name.match(searchValue.toLowerCase()) ?? searchValue.toUpperCase()}
                         </Text>
                       )}
                     </Text>
