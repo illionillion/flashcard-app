@@ -62,7 +62,7 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     });
   };
 
-  // 画面遷移するとsearchValueをリセット
+  // 画面遷移に伴いsearchValueをリセットする
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
       setSearchValue("");
@@ -70,6 +70,19 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
 
     return unsubscribe;
   }, [navigation]);
+
+  // dataの更新に伴いfilteredDataを更新する
+  useEffect(() => {
+    const newConvertedData = data.flatMap((cards) =>
+      cards.words.map((word) => ({
+        ...word,
+        fileId: cards.id,
+        fileName: cards.name,
+        isOpen: false,
+      })),
+    );
+    setFilteredData(newConvertedData);
+  }, [data]);
 
   return (
     <SearchPre
