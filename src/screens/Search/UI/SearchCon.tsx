@@ -73,15 +73,7 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
 
   // dataの更新に伴いfilteredDataを更新する
   useEffect(() => {
-    const newConvertedData = data.flatMap((cards) =>
-      cards.words.map((word) => ({
-        ...word,
-        fileId: cards.id,
-        fileName: cards.name,
-        isOpen: false,
-      })),
-    );
-    setFilteredData(newConvertedData);
+    setFilteredData(convertedData);
   }, [data]);
 
   return (
