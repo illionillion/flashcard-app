@@ -51,9 +51,54 @@ export const SearchPre: FC<SearchPreProps> = ({
               key={`${card.fileId}-${card.id}`}
               style={styles.itemContainer}
             >
+              {(() => {
+                console.log(card.name);
+
+                return "";
+              })()}
               <View style={styles.itemHeader}>
                 <Text style={styles.itemText}>
-                  {card.name
+                  {/* {(() => {
+                    const str = card.name;
+                    const regex = new RegExp(searchValue, "gi");
+                    const matches = [];
+                    let match;
+
+                    while ((match = regex.exec(str)) !== null) {
+                      matches.push(match);
+                    }
+
+                    if (matches.length === 0) {
+                      return str;
+                    }
+
+                    const parts = [];
+                    let lastIndex = 0;
+
+                    for (const match of matches) {
+                      const startIndex = match.index;
+                      const endIndex = startIndex + match[0].length;
+
+                      if (startIndex > lastIndex) {
+                        parts.push(str.substring(lastIndex, startIndex));
+                      }
+
+                      parts.push(
+                        <Text key={startIndex} style={styles.highlight}>
+                          {str.substring(startIndex, endIndex)}
+                        </Text>
+                      );
+
+                      lastIndex = endIndex;
+                    }
+
+                    if (lastIndex < str.length) {
+                      parts.push(str.substring(lastIndex));
+                    }
+
+                    return parts;
+                  })()} */}
+                  {/* {card.name
                     .split(new RegExp(searchValue, "g"))
                     .map((text, index) => (
                       <Text key={index}>
@@ -66,7 +111,7 @@ export const SearchPre: FC<SearchPreProps> = ({
                           </Text>
                         )}
                       </Text>
-                    ))}
+                    ))} */}
                 </Text>
                 <TouchableOpacity
                   style={styles.fileNameContainer}
