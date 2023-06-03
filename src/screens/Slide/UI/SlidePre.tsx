@@ -52,15 +52,19 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       </View>
 
       <View style={styles.pagenation}>
-        <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
-          <AntDesign name="caretleft" size={40} color={headerColor} />
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
+            <AntDesign name="caretleft" size={40} color={headerColor} />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.page_text}>
           {page + 1}/{word_list.length}
         </Text>
-        <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
-          <AntDesign name="caretright" size={40} color={headerColor} />
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
+            <AntDesign name="caretright" size={40} color={headerColor} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <TouchableOpacity onPress={() => handleFlip()}>
@@ -94,11 +98,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   pagenation: {
-    paddingVertical: 5,
+    paddingVertical: 15,
     flexDirection: "row",
+    width: "50%",
+    justifyContent: "space-between",
   },
   page_text: {
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 40, // 上下を均等にする
     paddingHorizontal: 10,
   },
