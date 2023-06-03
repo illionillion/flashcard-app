@@ -62,7 +62,7 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     });
   };
 
-  // 画面遷移するとsearchValueをリセット
+  // 画面遷移に伴いsearchValueをリセットする
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
       setSearchValue("");
@@ -70,6 +70,11 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
 
     return unsubscribe;
   }, [navigation]);
+
+  // convertedDataの更新に伴いfilteredDataを更新する
+  useEffect(() => {
+    setFilteredData(convertedData);
+  }, [convertedData]);
 
   return (
     <SearchPre
