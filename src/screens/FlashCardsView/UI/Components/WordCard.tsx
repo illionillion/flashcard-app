@@ -1,22 +1,22 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { WordDef } from "../../../../atom/FlashCardsDataState";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-toast-message";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
+import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { generateExample } from "../../../../lib/createExample";
 
 interface WordCardProps {
   item: WordDef;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+  OpenCreateExampleErrorMessage: () => void;
 }
-export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
+export const WordCard: FC<WordCardProps> = ({
+  item,
+  setWordsData,
+  OpenCreateExampleErrorMessage,
+}) => {
   const { id, name, mean, lang, example } = item;
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
@@ -49,8 +49,8 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
               lang: wordLang,
               example: wordExample,
             }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -59,6 +59,21 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
   };
 
   const handleCreateExample = async () => {
+    if ([wordName, wordMean, wordLang].includes("")) {
+      const errorMessage =
+        wordName === ""
+          ? "単語名を入力してください"
+          : wordMean === ""
+          ? "単語の意味を入力してください"
+          : "単語の言語を入力してください";
+      Toast.show({
+        text1: errorMessage,
+        type: "error",
+        visibilityTime: 2000,
+      });
+      return;
+    }
+
     setLoading(true);
 
     // ここでChatGPTに送信したい
@@ -88,6 +103,8 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
+    } else {
+      OpenCreateExampleErrorMessage();
     }
 
     setLoading(false);
@@ -123,11 +140,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
           onPress={handleCreateExample}
-          disabled={
-            [wordName, wordMean, wordLang].includes("") ||
-            apiKey === "" ||
-            loading
-          }
+          disabled={loading}
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>

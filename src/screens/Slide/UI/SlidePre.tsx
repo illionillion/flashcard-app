@@ -34,9 +34,6 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       </View>
 
       <View style={styles.slide}>
-        <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
-          <AntDesign name="caretleft" size={40} color={headerColor} />
-        </TouchableOpacity>
         <View style={styles.content}>
           {/* 表なら単語、裏なら意味・例文 */}
           {isFront ? (
@@ -52,15 +49,22 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             </View>
           )}
         </View>
-        <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
-          <AntDesign name="caretright" size={40} color={headerColor} />
-        </TouchableOpacity>
       </View>
 
       <View style={styles.pagenation}>
-        <Text>
+        <View>
+          <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
+            <AntDesign name="caretleft" size={40} color={headerColor} />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.page_text}>
           {page + 1}/{word_list.length}
         </Text>
+        <View>
+          <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
+            <AntDesign name="caretright" size={40} color={headerColor} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <TouchableOpacity onPress={() => handleFlip()}>
@@ -69,7 +73,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       <TouchableOpacity onPress={() => handleGoBack()}>
         <SlideButton text="終了" />
       </TouchableOpacity>
-    </View>
+    </View >
   );
 };
 
@@ -92,10 +96,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    flexDirection: "row",
   },
   pagenation: {
-    justifyContent: "center",
+    paddingVertical: 15,
+    flexDirection: "row",
+    width: "50%",
+    justifyContent: "space-between",
+  },
+  page_text: {
+    fontSize: 20,
+    lineHeight: 40, // 上下を均等にする
+    paddingHorizontal: 10,
   },
   content: {
     width: "80%",
