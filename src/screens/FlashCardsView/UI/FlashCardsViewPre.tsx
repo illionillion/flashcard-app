@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Dispatch, FC, SetStateAction } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import Toast from "react-native-toast-message";
 import { WordDef } from "../../../atom/FlashCardsDataState";
 import { WordCard } from "./Components/WordCard";
 
@@ -14,7 +13,7 @@ export interface FlashCardsListPreProps {
   handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
-  handleExampleCreateError: () => void;
+  OpenCreateExampleErrorMessage: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -27,7 +26,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     handleSave,
     setWordsData,
     onPressToSlide,
-    handleExampleCreateError,
+    OpenCreateExampleErrorMessage,
   } = props;
   return (
     <View style={styles.FlashCardsContainer}>
@@ -45,7 +44,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
             key={item.id}
             item={item}
             setWordsData={setWordsData}
-            handleExampleCreateError={handleExampleCreateError}
+            OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
           />
         ))}
       </ScrollView>

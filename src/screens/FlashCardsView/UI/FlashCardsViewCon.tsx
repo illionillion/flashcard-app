@@ -70,7 +70,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       data: wordsData,
     });
   };
-  const handleExampleCreateError = () => {
+  const OpenCreateExampleErrorMessage = () => {
     Alert.alert("例文作成に失敗しました。", "正しいAPIキーが設定されているか確認してください。", [
       {
         text: "OK",
@@ -89,7 +89,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleSave={handleSave}
       setWordsData={setWordsData}
       onPressToSlide={onPressTolide}
-      handleExampleCreateError={handleExampleCreateError}
+      OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
     />
   );
 };
