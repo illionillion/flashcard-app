@@ -2,7 +2,10 @@ import { ParamListBase } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { FlashCardsDataState, FlashCardsDef } from "../../../atom/FlashCardsDataState";
+import {
+  FlashCardsDataState,
+  FlashCardsDef,
+} from "../../../atom/FlashCardsDataState";
 import { SearchPre } from "./SearchPre";
 
 export interface FilteredData {
@@ -33,16 +36,19 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
         fileId: cards.id,
         fileName: cards.name,
         isOpen: false,
-      })),
+      }))
     );
   }, [data]);
-  const [filteredData, setFilteredData] = useState<FilteredData[]>(convertedData);
+  const [filteredData, setFilteredData] =
+    useState<FilteredData[]>(convertedData);
 
   const handleToggle = (id: number, fileId: number) => {
     setFilteredData((prevData) =>
       prevData.map((card) =>
-        card.fileId === id && card.id === fileId ? { ...card, isOpen: !card.isOpen } : card,
-      ),
+        card.fileId === id && card.id === fileId
+          ? { ...card, isOpen: !card.isOpen }
+          : card
+      )
     );
   };
 
@@ -52,7 +58,9 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     const updatedFilteredData =
       text === ""
         ? convertedData
-        : convertedData.filter((card) => card.name.toLowerCase().includes(lowerCaseText));
+        : convertedData.filter((card) =>
+            card.name.toLowerCase().includes(lowerCaseText)
+          );
     setFilteredData(updatedFilteredData);
   };
 
@@ -62,14 +70,10 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     });
   };
 
-  // 画面遷移するとsearchValueをリセット
+  // convertedDataの更新に伴いfilteredDataを更新する
   useEffect(() => {
-    const unsubscribe = navigation.addListener("blur", () => {
-      setSearchValue("");
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+    setFilteredData(convertedData);
+  }, [convertedData]);
 
   return (
     <SearchPre

@@ -1,6 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { FC } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { FilteredData } from "./SearchCon";
 
 interface SearchPreProps {
@@ -24,7 +31,12 @@ export const SearchPre: FC<SearchPreProps> = ({
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.searchContainer}>
-          <Ionicons name="search-outline" size={24} color="#555" style={styles.searchIcon} />
+          <Ionicons
+            name="search-outline"
+            size={24}
+            color="#555"
+            style={styles.searchIcon}
+          />
           <TextInput
             placeholder="検索"
             value={searchValue}
@@ -33,45 +45,62 @@ export const SearchPre: FC<SearchPreProps> = ({
             autoCapitalize="none"
           />
         </View>
-        {filteredData.map((card) => (
-          <View key={`${card.fileId}-${card.id}`} style={styles.itemContainer}>
-            <View style={styles.itemHeader}>
-              <Text style={styles.itemText}>
-                {card.name.split(new RegExp(searchValue, "gi")).map((text, index) => (
-                  <Text key={index}>
-                    {text}
-                    {index !== card.name.split(new RegExp(searchValue, "gi")).length - 1 && (
-                      <Text style={styles.highlight}>{searchValue}</Text>
-                    )}
-                  </Text>
-                ))}
-              </Text>
-              <TouchableOpacity
-                style={styles.fileNameContainer}
-                onPress={() => onPressFileName(card.fileId)}
-              >
-                <Text style={styles.fileNameText}>{card.fileName}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleToggle(card.fileId, card.id)}
-                style={styles.toggleIconContainer}
-              >
-                <Ionicons
-                  name={card.isOpen ? "chevron-up-outline" : "chevron-down-outline"}
-                  size={24}
-                  color="#555"
-                  style={styles.toggleIcon}
-                />
-              </TouchableOpacity>
+        {filteredData.length > 0 ? (
+          filteredData.map((card) => (
+            <View
+              key={`${card.fileId}-${card.id}`}
+              style={styles.itemContainer}
+            >
+              <View style={styles.itemHeader}>
+                <Text style={styles.itemText}>
+                  {card.name
+                    .split(new RegExp(searchValue, "g"))
+                    .map((text, index) => (
+                      <Text key={index}>
+                        {text}
+                        {index !==
+                          card.name.split(new RegExp(searchValue, "g")).length -
+                            1 && (
+                          <Text style={styles.highlight}>
+                            {card.name.match(searchValue) ?? card.name}
+                          </Text>
+                        )}
+                      </Text>
+                    ))}
+                </Text>
+                <TouchableOpacity
+                  style={styles.fileNameContainer}
+                  onPress={() => onPressFileName(card.fileId)}
+                >
+                  <Text style={styles.fileNameText}>{card.fileName}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleToggle(card.fileId, card.id)}
+                  style={styles.toggleIconContainer}
+                >
+                  <Ionicons
+                    name={
+                      card.isOpen
+                        ? "chevron-up-outline"
+                        : "chevron-down-outline"
+                    }
+                    size={24}
+                    color="#555"
+                    style={styles.toggleIcon}
+                  />
+                </TouchableOpacity>
+              </View>
+              {card.isOpen && (
+                <>
+                  <Text style={styles.meaningText}>意味：{card.mean}</Text>
+                  <Text style={styles.exampleText}>{card.example}</Text>
+                </>
+              )}
             </View>
-            {card.isOpen && (
-              <>
-                <Text style={styles.meaningText}>意味：{card.mean}</Text>
-                <Text style={styles.exampleText}>{card.example}</Text>
-              </>
-            )}
-          </View>
-        ))}
+          ))
+        ) : (
+          <Text style={styles.noMatchText}>該当する単語が見つかりません</Text>
+        )}
       </View>
     </ScrollView>
   );
@@ -143,5 +172,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     padding: 12,
+  },
+  noMatchText: {
+    marginTop: 100,
+    color: "gray",
+    fontSize: 16,
   },
 });
