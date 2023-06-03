@@ -98,8 +98,6 @@ const styles = StyleSheet.create({
   },
 
   FlashCardsBottom: {
-    position: "absolute",
-    bottom: 0,
     flexDirection: "row",
     gap: 10,
     paddingVertical: 15,
