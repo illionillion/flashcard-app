@@ -32,6 +32,7 @@ export const SettingPre: FC<SettingPreProps> = ({ apiKey, setApiKey }) => {
         placeholder="APIキー設定を入力"
         value={apiKey}
         onChangeText={handleChangeText}
+        keyboardType="visible-password"
       />
       <View style={styles.textView}>
         <TouchableOpacity onPress={handleButtonPress} style={{ padding: 10 }}>
