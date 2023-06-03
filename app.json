@@ -24,7 +24,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.rayboon",
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "INTERNET",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/ray-boon-icon.png"

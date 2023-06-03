@@ -3,27 +3,20 @@ import {
   Text,
   View,
   TextInput,
-  Linking,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { SetterOrUpdater } from "recoil";
 
 interface SettingPreProps {
   apiKey: string;
-  setApiKey: SetterOrUpdater<string>;
+  handleChangeText: (text: string) => void
+  handlePrivacyPolicyButtonPress: () => void
+  handleExplanationSettingButtonPress: () => void
 }
 /**
  * 設定画面のUI
  */
-export const SettingPre: FC<SettingPreProps> = ({ apiKey, setApiKey }) => {
-  const handleChangeText = (text: string) => {
-    setApiKey(text);
-  };
-  const handleButtonPress = () => {
-    const url = "https://platform.openai.com/account/api-keys";
-    Linking.openURL(url);
-  };
+export const SettingPre: FC<SettingPreProps> = ({ apiKey, handleChangeText, handleExplanationSettingButtonPress, handlePrivacyPolicyButtonPress }) => {
 
   return (
     <View style={styles.allView}>
@@ -35,8 +28,11 @@ export const SettingPre: FC<SettingPreProps> = ({ apiKey, setApiKey }) => {
         keyboardType="visible-password"
       />
       <View style={styles.textView}>
-        <TouchableOpacity onPress={handleButtonPress} style={{ padding: 10 }}>
+        <TouchableOpacity onPress={handleExplanationSettingButtonPress} style={{ padding: 10 }}>
           <Text style={styles.text}>APIキーの取得方法</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handlePrivacyPolicyButtonPress} style={{ padding: 10 }}>
+          <Text style={styles.text}>プライバシーポリシー</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -65,7 +61,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   text: {
-    color: "#a9ceec",
+    color: "#06C3FF",
     textDecorationLine: "underline",
     textAlign: "right",
   },
