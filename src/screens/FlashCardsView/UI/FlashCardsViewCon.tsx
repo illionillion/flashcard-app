@@ -1,12 +1,11 @@
-import { FC, useState } from "react";
-import { FlashCardsViewPre } from "./FlashCardsViewPre";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import StackParamList from "../../../StackParamList";
-import {
-  FlashCardsDataState,
-  WordDef,
-} from "../../../atom/FlashCardsDataState";
+import { FC, useState } from "react";
+import { Alert } from "react-native";
+import Toast from "react-native-toast-message";
 import { useSetRecoilState } from "recoil";
+import StackParamList from "../../../StackParamList";
+import { FlashCardsDataState, WordDef } from "../../../atom/FlashCardsDataState";
+import { FlashCardsViewPre } from "./FlashCardsViewPre";
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, "FlashCardsView">;
 export interface FlashCardsListConProps {
@@ -47,7 +46,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       },
     ]);
   };
-  const handleSave = () =>
+  const handleSave = () => {
     setData((prev) =>
       prev.map((item) =>
         item.id === id
@@ -56,14 +55,28 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
               name: flashcardName,
               words: wordsData,
             }
-          : item
-      )
+          : item,
+      ),
     );
+    Toast.show({
+      text1: "変更を保存しました",
+      type: "success",
+      visibilityTime: 2000,
+    });
+  };
   const onPressTolide = () => {
     navigation.navigate("Slide", {
       title: flashcardName,
       data: wordsData,
     });
+  };
+  const handleExampleCreateError = () => {
+    Alert.alert("例文作成に失敗しました。", "正しいAPIキーが設定されているか確認してください。", [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("Setting"),
+      },
+    ]);
   };
 
   return (
@@ -76,6 +89,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleSave={handleSave}
       setWordsData={setWordsData}
       onPressToSlide={onPressTolide}
+      handleExampleCreateError={handleExampleCreateError}
     />
   );
 };

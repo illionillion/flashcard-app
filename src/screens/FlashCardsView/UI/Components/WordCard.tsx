@@ -1,22 +1,17 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { WordDef } from "../../../../atom/FlashCardsDataState";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
+import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { generateExample } from "../../../../lib/createExample";
 
 interface WordCardProps {
   item: WordDef;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+  handleExampleCreateError: () => void;
 }
-export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
+export const WordCard: FC<WordCardProps> = ({ item, setWordsData, handleExampleCreateError }) => {
   const { id, name, mean, lang, example } = item;
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
@@ -49,8 +44,8 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
               lang: wordLang,
               example: wordExample,
             }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -88,6 +83,8 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
+    } else {
+      handleExampleCreateError();
     }
 
     setLoading(false);
@@ -123,11 +120,7 @@ export const WordCard: FC<WordCardProps> = ({ item, setWordsData }) => {
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
           onPress={handleCreateExample}
-          disabled={
-            [wordName, wordMean, wordLang].includes("") ||
-            apiKey === "" ||
-            loading
-          }
+          disabled={[wordName, wordMean, wordLang].includes("") || apiKey === "" || loading}
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>

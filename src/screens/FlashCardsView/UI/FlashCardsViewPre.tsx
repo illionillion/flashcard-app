@@ -1,13 +1,7 @@
-import { Dispatch, FC, SetStateAction } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Dispatch, FC, SetStateAction } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-toast-message";
 import { WordDef } from "../../../atom/FlashCardsDataState";
 import { WordCard } from "./Components/WordCard";
 
@@ -20,6 +14,7 @@ export interface FlashCardsListPreProps {
   handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
+  handleExampleCreateError: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -32,6 +27,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     handleSave,
     setWordsData,
     onPressToSlide,
+    handleExampleCreateError,
   } = props;
   return (
     <View style={styles.FlashCardsContainer}>
@@ -43,12 +39,14 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           style={styles.FlashCardsTitleInput}
         />
       </View>
-      <ScrollView
-        style={styles.FlashScrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false}>
         {wordsData.map((item) => (
-          <WordCard key={item.id} item={item} setWordsData={setWordsData} />
+          <WordCard
+            key={item.id}
+            item={item}
+            setWordsData={setWordsData}
+            handleExampleCreateError={handleExampleCreateError}
+          />
         ))}
       </ScrollView>
       <View style={styles.FlashCardsBottom}>

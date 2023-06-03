@@ -1,9 +1,6 @@
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import Toast, { BaseToast, BaseToastProps } from "react-native-toast-message";
+import { RecoilRoot } from "recoil";
 import { BottomTabNavigate } from "./src/Navigate/BottomTabNavigate";
-import { useEffect } from "react";
-import { getData } from "./src/lib/DataSave";
-import { FlashCardsDataState } from "./src/atom/FlashCardsDataState";
-import { APIKeyState } from "./src/atom/APIKeyState";
 
 export default function App() {
   // const setData = useSetRecoilState(FlashCardsDataState);
@@ -20,9 +17,25 @@ export default function App() {
   //     }
   //   })();
   // }, []);
+
+  const toastConfig = {
+    success: (props: BaseToastProps) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: "#69C779" }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: "400",
+        }}
+      />
+    ),
+  };
+
   return (
     <RecoilRoot>
       <BottomTabNavigate />
+      <Toast config={toastConfig} />
     </RecoilRoot>
   );
 }
