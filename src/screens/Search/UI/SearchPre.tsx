@@ -53,20 +53,31 @@ export const SearchPre: FC<SearchPreProps> = ({
             >
               <View style={styles.itemHeader}>
                 <Text style={styles.itemText}>
-                  {card.name
-                    .split(new RegExp(searchValue, "g"))
-                    .map((text, index) => (
-                      <Text key={index}>
-                        {text}
-                        {index !==
-                          card.name.split(new RegExp(searchValue, "g")).length -
-                            1 && (
-                          <Text style={styles.highlight}>
-                            {card.name.match(searchValue) ?? card.name}
+                  {(() => {
+                    const str = card.name;
+                    if (str.toLocaleLowerCase() === searchValue.toLowerCase()) {
+                      return <Text style={styles.highlight}>{str}</Text>;
+                    }
+
+                    const result = str.split("").map((char, index) => {
+                      const regex = new RegExp(char.toLowerCase()); // he
+                      if (
+                        regex.test(searchValue.toLowerCase()) &&
+                        searchValue !== ""
+                      ) {
+                        return (
+                          <Text key={index} style={styles.highlight}>
+                            {char}
                           </Text>
-                        )}
-                      </Text>
-                    ))}
+                        );
+                      } else {
+                        console.log(false);
+                        return <Text key={index}>{char}</Text>;
+                      }
+                    });
+
+                    return <>{result}</>;
+                  })()}
                 </Text>
                 <TouchableOpacity
                   style={styles.fileNameContainer}
