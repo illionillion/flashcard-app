@@ -59,23 +59,27 @@ export const SearchPre: FC<SearchPreProps> = ({
                       return <Text style={styles.highlight}>{str}</Text>;
                     }
 
-                    const result = str.split("").map((char, index) => {
-                      const regex = new RegExp(char.toLowerCase());
+                    const patternStr = searchValue; // 動的なパターンを表す文字列
+                    const pattern = new RegExp(`(${patternStr})`, "gi");
+                    const resultArr = str.split(pattern).filter(Boolean);
+
+                    const resultEle = resultArr.map((item, index) => {
                       if (
-                        regex.test(searchValue.toLowerCase()) &&
-                        searchValue !== ""
+                        item.toLocaleLowerCase() ===
+                        searchValue.toLocaleLowerCase()
                       ) {
+                        // itemがsearchValueとマッチするか
                         return (
                           <Text key={index} style={styles.highlight}>
-                            {char}
+                            {item}
                           </Text>
                         );
                       } else {
-                        return <Text key={index}>{char}</Text>;
+                        return <Text key={index}>{item}</Text>;
                       }
                     });
 
-                    return <>{result}</>;
+                    return resultEle;
                   })()}
                 </Text>
                 <TouchableOpacity
