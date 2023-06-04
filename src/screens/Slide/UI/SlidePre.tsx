@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
-import { SlideButton } from "./Components/SlideButton";
 import { AntDesign } from "@expo/vector-icons";
+import { FC } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WordDef } from "../../../atom/FlashCardsDataState";
+import { SlideButton } from "./Components/SlideButton";
 interface SlidePreProps {
   handleGoBack: () => void;
   word_list: WordDef[];
@@ -14,14 +14,7 @@ interface SlidePreProps {
 
 const headerColor = "#79BC6E";
 export const SlidePre: FC<SlidePreProps> = (props) => {
-  const {
-    handleGoBack,
-    word_list,
-    page,
-    handlePageChange,
-    isFront,
-    handleFlip,
-  } = props;
+  const { handleGoBack, word_list, page, handlePageChange, isFront, handleFlip } = props;
 
   return (
     <View style={styles.container}>
@@ -32,21 +25,17 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
           <Text style={styles.headline_text}>意味・例文</Text>
         )}
       </View>
-
+      
       <View style={styles.slide}>
         <View style={styles.content}>
           {/* 表なら単語、裏なら意味・例文 */}
           {isFront ? (
             <Text style={styles.content_text}>{word_list[page].name}</Text>
           ) : (
-            <View>
-              <Text style={styles.content_text}>
-                意味: {word_list[page].mean}
-              </Text>
-              <Text style={styles.content_text}>
-                例文: {word_list[page].example}
-              </Text>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Text style={styles.content_text}>意味: {word_list[page].mean}</Text>
+              <Text style={styles.content_text}>例文: {word_list[page].example}</Text>
+            </ScrollView>
           )}
         </View>
       </View>
@@ -73,7 +62,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       <TouchableOpacity onPress={() => handleGoBack()}>
         <SlideButton text="終了" />
       </TouchableOpacity>
-    </View >
+    </View>
   );
 };
 
