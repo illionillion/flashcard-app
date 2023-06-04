@@ -1,5 +1,5 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import Toast from "react-native-toast-message";
 import { useSetRecoilState } from "recoil";
@@ -78,6 +78,13 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       },
     ]);
   };
+
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener("blur", () => {
+      navigation.goBack();
+    });      
+    return unsubscribe;
+  }, [navigation])
 
   return (
     <FlashCardsViewPre
