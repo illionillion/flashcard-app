@@ -5,6 +5,7 @@ import { Popover } from "./Popover";
 import { useSetRecoilState } from "recoil";
 import { PopoverState } from "../../../atom/PopoverState";
 import { FlashCardsDataState } from "../../../atom/FlashCardsDataState";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 interface RenderItemProps {
   id: number;
   name: string;
@@ -30,7 +31,15 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
       },
       {
         text: "OK",
-        onPress: () => setData((prev) => prev.filter((item) => item.id !== id)),
+        onPress: () => {
+          setData((prev) => prev.filter((item) => item.id !== id))
+          Toast.show({
+            text1: `単語帳「${name}」を削除しました`,
+            type: "error",
+            visibilityTime: 2000,
+          });
+      
+        },
       },
     ]);
   };
