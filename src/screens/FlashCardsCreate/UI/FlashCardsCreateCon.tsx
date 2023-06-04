@@ -5,6 +5,7 @@ import {
   FlashCardsDataState,
   NextAvailableIdSelector,
 } from "../../../atom/FlashCardsDataState";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 /**
  * 単語帳作成画面のロジック
@@ -45,6 +46,11 @@ export const FlashCardsCreateCon: FC = () => {
         ],
       },
     ]);
+    Toast.show({
+      text1: `単語帳「${flashcardName}」を作成しました`,
+      type: "success",
+      visibilityTime: 2000,
+    });
     handleNameChanged("");
   };
 
