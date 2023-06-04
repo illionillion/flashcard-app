@@ -81,8 +81,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 
   useEffect(()=>{
     const unsubscribe = navigation.addListener("blur", () => {
-      navigation.goBack();
-    });      
+      if (navigation.getState().routes[navigation.getState().index].name !== 'Slide') {
+        navigation.goBack();
+      }
+    });
     return unsubscribe;
   }, [navigation])
 
