@@ -1,31 +1,37 @@
-import { FC } from "react";
-import { SettingPre } from "./SettingPre";
+import { FC, useState } from "react";
+import { Linking } from "react-native";
 import { useRecoilState } from "recoil";
 import { APIKeyState } from "../../../atom/APIKeyState";
-import { Linking } from "react-native";
+import { SettingPre } from "./SettingPre";
 
 /**
  * 設定画面のロジック
  */
 export const SettingCon: FC = () => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const [apiKey, setApiKey] = useRecoilState(APIKeyState);
+  const [inputValue, setInputValue] = useState(apiKey);
   const handleChangeText = (text: string) => {
-    setApiKey(text);
+    setInputValue(text);
   };
-  const handlePrivacyPolicyButtonPress = () => {
-    const url = "https://ray-boon-api.vercel.app/PrivacyPolicy";
-    Linking.openURL(url);
+  const handleSave = () => {
+    setApiKey(inputValue);
   };
-  const handleExplanationSettingButtonPress = () => {
-    const url = "https://ray-boon-api.vercel.app/how-to-setting";
+  const handleClickToggleEditModeButton = () => {
+    setIsEditMode((prev) => !prev);
+    if (isEditMode) handleSave();
+  };
+  const handleLinkPress = (url: string) => {
     Linking.openURL(url);
   };
   return (
     <SettingPre
       apiKey={apiKey}
       handleChangeText={handleChangeText}
-      handleExplanationSettingButtonPress={handleExplanationSettingButtonPress}
-      handlePrivacyPolicyButtonPress={handlePrivacyPolicyButtonPress}
+      handleLinkPress={handleLinkPress}
+      isEditMode={isEditMode}
+      handleClickToggleEditModeButton={handleClickToggleEditModeButton}
+      inputValue={inputValue}
     />
   );
 };

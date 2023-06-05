@@ -1,38 +1,59 @@
 import { FC } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface SettingPreProps {
   apiKey: string;
-  handleChangeText: (text: string) => void
-  handlePrivacyPolicyButtonPress: () => void
-  handleExplanationSettingButtonPress: () => void
+  inputValue: string;
+  handleChangeText: (text: string) => void;
+  handleLinkPress: (url: string) => void;
+  isEditMode: boolean;
+  handleClickToggleEditModeButton: () => void;
 }
 /**
  * 設定画面のUI
  */
-export const SettingPre: FC<SettingPreProps> = ({ apiKey, handleChangeText, handleExplanationSettingButtonPress, handlePrivacyPolicyButtonPress }) => {
-
+export const SettingPre: FC<SettingPreProps> = ({
+  apiKey,
+  inputValue,
+  handleChangeText,
+  handleLinkPress,
+  isEditMode,
+  handleClickToggleEditModeButton,
+}) => {
   return (
     <View style={styles.allView}>
-      <TextInput
-        style={styles.input}
-        placeholder="APIキー設定を入力"
-        value={apiKey}
-        onChangeText={handleChangeText}
-        keyboardType="visible-password"
-      />
+      <View style={styles.row}>
+        <Text style={styles.label}>APIキー : </Text>
+        {isEditMode ? (
+          <TextInput
+            style={styles.input}
+            placeholder="APIキーを設定する"
+            value={inputValue}
+            onChangeText={handleChangeText}
+            keyboardType="visible-password"
+          />
+        ) : (
+          <Text style={styles.apiKey}>
+            {apiKey.length > 7
+              ? `${apiKey.substring(0, 3)}...${apiKey.substring(apiKey.length - 4)}`
+              : apiKey || "未設定"}
+          </Text>
+        )}
+      </View>
       <View style={styles.textView}>
-        <TouchableOpacity onPress={handleExplanationSettingButtonPress} style={{ padding: 10 }}>
-          <Text style={styles.text}>APIキーの取得方法</Text>
+        <TouchableOpacity onPress={handleClickToggleEditModeButton}>
+          <Text style={styles.editButton}>{isEditMode ? "保存する" : "編集する"}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handlePrivacyPolicyButtonPress} style={{ padding: 10 }}>
-          <Text style={styles.text}>プライバシーポリシー</Text>
+        <TouchableOpacity
+          onPress={() => handleLinkPress("https://ray-boon-api.vercel.app/how-to-setting")}
+        >
+          <Text style={styles.link}>APIキーの取得方法</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleLinkPress("https://ray-boon-api.vercel.app/PrivacyPolicy")}
+        >
+          <Text style={styles.link}>プライバシーポリシー</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -47,20 +68,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
   },
-  input:{
-    height: 40, 
-    width: 336, 
-    paddingHorizontal: 22,
-    borderWidth: 1, 
-    borderColor:"grey", 
-    marginBottom: 10, 
-    borderRadius:5,
+  row: {
+    flexDirection: "row",
+    width: "85%",
+    alignItems: "center",
+    height: 40,
   },
+  label: { fontSize: 16, textAlign: "left" },
+  input: {
+    height: 40,
+    width: "70%",
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: 5,
+    flex: 1,
+  },
+  apiKey: { fontSize: 16, flex: 1, marginLeft: 4, color: "gray" },
   textView: {
     alignSelf: "flex-end",
     marginRight: 20,
   },
-  text: {
+  editButton: { textAlign: "right", padding: 10, color: "gray" },
+  link: {
+    padding: 10,
     color: "#06C3FF",
     textDecorationLine: "underline",
     textAlign: "right",
