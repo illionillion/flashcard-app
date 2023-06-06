@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   pagenation: {
     paddingVertical: 15,
     flexDirection: "row",
-    width: "50%",
+    width: "75%",
     justifyContent: "space-between",
   },
   page_text: {
