@@ -1,4 +1,4 @@
-import { atom } from "recoil"
+import { atom } from 'recoil';
 
 export interface PopoverDef {
     currentId: number,
@@ -6,9 +6,9 @@ export interface PopoverDef {
 }
 
 export const PopoverState = atom<PopoverDef>({
-    key: "PopoverState",
-    default: {
-        currentId: -1,
-        visible: false
-    }
-})
+	key: 'PopoverState',
+	default: {
+		currentId: -1,
+		visible: false
+	}
+});
