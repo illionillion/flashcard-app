@@ -31,6 +31,7 @@ export const SettingPre: FC<SettingPreProps> = ({
             value={inputValue}
             onChangeText={handleChangeText}
             keyboardType="visible-password"
+            autoFocus={true}
           />
         ) : (
           <>
