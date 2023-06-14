@@ -7,35 +7,31 @@ interface TextHighlightProps {
 }
 
 export const TextHighlight: FC<TextHighlightProps> = ({ cardName, searchValue }) => {
-  return (
-    <Text style={styles.itemText}>
-      {(() => {
-        const str = cardName;
-        if (str.toLocaleLowerCase() === searchValue.toLowerCase()) {
-          return <Text style={styles.highlight}>{str}</Text>;
-        }
+  if (cardName.toLocaleLowerCase() === searchValue.toLowerCase()) {
+    // cardNameとsearchValueが完全に一致した場合
+    return (
+      <Text style={styles.itemText}>
+        <Text style={styles.highlight}>{cardName}</Text>
+      </Text>
+    );
+  }
 
-        const patternStr = searchValue; // 動的なパターンを表す文字列
-        const pattern = new RegExp(`(${patternStr})`, "gi");
-        const resultArr = str.split(pattern).filter(Boolean);
+  const pattern = new RegExp(`(${searchValue})`, "gi");
+  const resultArr = cardName.split(pattern).filter(Boolean);
+  const resultEle = resultArr.map((item, index) => {
+    if (item.toLocaleLowerCase() === searchValue.toLocaleLowerCase()) {
+      // cardNameとsearchValueが部分的に一致した場合
+      return (
+        <Text key={index} style={styles.highlight}>
+          {item}
+        </Text>
+      );
+    } else {
+      return <Text key={index}>{item}</Text>;
+    }
+  });
 
-        const resultEle = resultArr.map((item, index) => {
-          if (item.toLocaleLowerCase() === searchValue.toLocaleLowerCase()) {
-            // itemがsearchValueとマッチするか
-            return (
-              <Text key={index} style={styles.highlight}>
-                {item}
-              </Text>
-            );
-          } else {
-            return <Text key={index}>{item}</Text>;
-          }
-        });
-
-        return resultEle;
-      })()}
-    </Text>
-  );
+  return <Text style={styles.itemText}>{resultEle}</Text>;
 };
 
 const styles = StyleSheet.create({
