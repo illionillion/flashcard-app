@@ -77,6 +77,16 @@ const styles = StyleSheet.create({
 		height: 90,
 		backgroundColor: '#B8BFFF',
 		position: 'relative',
+		    // iOS用の影
+			shadowColor: "#000",
+			shadowOffset: {
+			  width: 0,
+			  height: 2,
+			},
+			shadowOpacity: 0.5,
+			shadowRadius: 3.5,
+			// Android用の影
+			elevation: 5,
 	},
 	itemSettingButton: {
 		position: 'absolute',
