@@ -37,18 +37,21 @@ export const SettingPre: FC<SettingPreProps> = ({
               autoFocus={true}
             />
           </View>
-          <View style={{ flexDirection: "row", width: "80%", alignItems: "center" }}>
-            <TouchableOpacity onPress={handleClickToggleEditModeButton} style={styles.cancelButton}>
+          <View style={styles.row}>
+            <TouchableOpacity
+              onPress={handleClickToggleEditModeButton}
+              style={[styles.button, styles.cancelButton]}
+            >
               <Text style={styles.cancelButtonText}>キャンセル</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
+            <TouchableOpacity onPress={handleSave} style={[styles.button, styles.saveButton]}>
               <Text style={styles.buttonText}>保存する</Text>
             </TouchableOpacity>
           </View>
         </>
       ) : (
         <>
-          <View style={styles.row}>
+          <View style={[styles.row, styles.rowHeight]}>
             <Text style={styles.label}>APIキー : </Text>
             <Text style={styles.apiKey}>
               {apiKey.length > 7
@@ -86,13 +89,15 @@ const styles = StyleSheet.create({
   },
   row: {
     width: "80%",
-    height: 40,
     flexDirection: "row",
     alignItems: "center",
   },
+  rowHeight: {
+    height: 40,
+  },
   input: {
     flex: 1,
-    height: "100%",
+    height: 40,
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: "grey",
@@ -121,25 +126,14 @@ const styles = StyleSheet.create({
     marginVertical: 30,
   },
   saveButton: {
-    backgroundColor: "#5FA1DE",
-    height: 40,
     width: "49%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    marginVertical: 30,
     marginLeft: "2%",
   },
   cancelButton: {
     backgroundColor: "white",
-    height: 40,
     width: "49%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 30,
     borderWidth: 1,
     borderColor: "lightgray",
-    borderRadius: 5,
   },
   buttonText: {
     color: "white",
