@@ -6,6 +6,8 @@ import { useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { LinearGradient } from 'expo-linear-gradient';
+
 interface RenderItemProps {
   id: number;
   name: string;
@@ -48,19 +50,26 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-			<Text>{name}</Text>
-			<TouchableOpacity
-				style={styles.itemSettingButton}
-				onPress={handleTogglePopover}
+			<LinearGradient 
+				colors={['#B8BFFF', '#fff']} 
+				style={styles.innerContainer}  
+				start={{x: 0.5, y: 0.0}} // グラデーションの開始位置
+				end={{x: 0.5, y: 1.0}}   // グラデーションの終了位置
 			>
-				<SimpleLineIcons name="options" size={16} color="black" />
-			</TouchableOpacity>
-			<Popover
-				id={id}
-				showPopover={showPopover}
-				setShowPopover={setShowPopover}
-				deleteFlashCards={deleteFlashCards}
-			/>
+				<Text>{name}</Text>
+				<TouchableOpacity
+					style={styles.itemSettingButton}
+					onPress={handleTogglePopover}
+				>
+					<SimpleLineIcons name="options" size={16} color="black" />
+				</TouchableOpacity>
+				<Popover
+					id={id}
+					showPopover={showPopover}
+					setShowPopover={setShowPopover}
+					deleteFlashCards={deleteFlashCards}
+				/>
+			</LinearGradient>
 		</TouchableOpacity>
 	) : (
 		<View style={{ ...styles.itemContainer, opacity: 0 }}></View>
@@ -77,17 +86,24 @@ const styles = StyleSheet.create({
 		height: 90,
 		backgroundColor: '#B8BFFF',
 		position: 'relative',
-		    // iOS用の影
-			shadowColor: "#000",
-			shadowOffset: {
-			  width: 0,
-			  height: 2,
-			},
-			shadowOpacity: 0.5,
-			shadowRadius: 3.5,
-			// Android用の影
-			elevation: 5,
+		    // 単語帳に影を追加
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.5,
+		shadowRadius: 3.5,
+		// Android用の影
+		elevation: 5,
 	},
+	innerContainer: {
+		flex: 1, 
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: '100%', 
+		height: '100%', 
+	  },
 	itemSettingButton: {
 		position: 'absolute',
 		top: 0,
