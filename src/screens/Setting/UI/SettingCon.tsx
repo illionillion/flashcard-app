@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { FC, useEffect, useState } from "react";
 import { Linking } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { useRecoilState } from "recoil";
 import { APIKeyState } from "../../../atom/APIKeyState";
 import { SettingPre } from "./SettingPre";
@@ -24,6 +25,11 @@ export const SettingCon: FC = () => {
   const handleSave = () => {
     setApiKey(inputValue);
     handleClickToggleEditModeButton();
+    Toast.show({
+      text1: "変更を保存しました",
+      type: "success",
+      visibilityTime: 2000,
+    });
   };
   const handleLinkPress = (url: string) => {
     Linking.openURL(url);
