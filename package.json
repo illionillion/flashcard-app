@@ -8,8 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eas-build:a": "eas build --platform android",
-    "lint": "eslint --ext .jsx,.js,.tsx,.ts .",
-    "lint:fix": "eslint --fix --ext .jsx,.js,.tsx,.ts ."
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",
