@@ -71,7 +71,7 @@ export const SettingPre: FC<SettingPreProps> = ({
           <Text style={styles.link}>APIキーの取得方法</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleLinkPress("https://ray-boon-api.vercel.app/PrivacyPolicy")}
+          onPress={() => handleLinkPress("https://ray-boon-api.vercel.app/privacy-policy")}
         >
           <Text style={styles.link}>プライバシーポリシー</Text>
         </TouchableOpacity>
