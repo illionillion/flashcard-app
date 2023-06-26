@@ -8,15 +8,28 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 export interface FlashCardListProps {
-  navigation: NavigationProp<any, any>;
-  route: RouteProp<any, any>;
+	navigation: NavigationProp<any, any>;
+	route: RouteProp<any, any>;
 }
 /**
  * 単語帳一覧のロジック
  */
 export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
-	const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
+	var data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
+	const setData = useSetRecoilState(FlashCardsDataState);
 	const setPopover = useSetRecoilState(PopoverState);
+
+	// 単語帳を名前でソートする
+	const sortByName = () => {
+		data = [...data].sort((a, b) => {
+			if (a.name < b.name) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
+		setData(data);
+	}
 
 	const rows: FlashCardsDef[][] = Array.from(
 		{ length: Math.ceil(data.length / 2) },
@@ -32,10 +45,11 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
 		navigation.navigate('Create');
 	};
 
+
 	useEffect(()=>{
 		const unsubscribe = navigation.addListener('blur', () => {
 			setPopover(prev => ({currentId: prev.currentId, visible: false}));
-		});      
+		});
 		return unsubscribe;
 	}, [navigation]);
 	return (
@@ -46,3 +60,4 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
 		/>
 	);
 };
+
