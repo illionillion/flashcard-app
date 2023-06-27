@@ -50,12 +50,6 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-			<LinearGradient 
-				colors={['#B8BFFF', '#fff']} 
-				style={styles.innerContainer}  
-				start={{x: 0.5, y: 0.0}} // グラデーションの開始位置
-				end={{x: 0.5, y: 1.0}}   // グラデーションの終了位置
-			>
 				<Text>{name}</Text>
 				<TouchableOpacity
 					style={styles.itemSettingButton}
@@ -69,7 +63,6 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 					setShowPopover={setShowPopover}
 					deleteFlashCards={deleteFlashCards}
 				/>
-			</LinearGradient>
 		</TouchableOpacity>
 	) : (
 		<View style={{ ...styles.itemContainer, opacity: 0 }}></View>
@@ -84,7 +77,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8, // アイテム間のマージンを追加
 		flex: 0.5,
 		height: 90,
-		backgroundColor: '#B8BFFF',
+		backgroundColor: '#D9D9D9',
 		position: 'relative',
 		    // 単語帳に影を追加
 		shadowColor: "#000",
@@ -97,13 +90,6 @@ const styles = StyleSheet.create({
 		// Android用の影
 		elevation: 5,
 	},
-	innerContainer: {
-		flex: 1, 
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%', 
-		height: '100%', 
-	  },
 	itemSettingButton: {
 		position: 'absolute',
 		top: 0,
