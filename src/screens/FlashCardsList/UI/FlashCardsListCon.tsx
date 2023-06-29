@@ -57,6 +57,7 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
 			rows={rows}
 			onPressCard={onPressCard}
 			onPressButton={onPressButton}
+			sortByName={sortByName}
 		/>
 	);
 };
