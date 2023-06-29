@@ -42,6 +42,8 @@ export const SettingCon: FC = () => {
     return unsubscribe;
   }, [navigation]);
 
+  const [difficulty, setDifficulty] = useState<'easy' | 'normal' | 'hard'>('normal');
+
   return (
     <SettingPre
       isEditMode={isEditMode}
@@ -51,6 +53,8 @@ export const SettingCon: FC = () => {
       handleChangeText={handleChangeText}
       handleSave={handleSave}
       handleLinkPress={handleLinkPress}
+      difficulty={difficulty}
+      setDifficulty={setDifficulty}
     />
   );
 };
