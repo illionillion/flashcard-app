@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FlashCardsListPre } from './FlashCardsListPre';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import {
