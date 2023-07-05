@@ -10,9 +10,9 @@ import { RenderItem } from '../Components/RenderItem';
 import { FlashCardsDef } from '../../../atom/FlashCardsDataState';
 
 interface FlashCardsListPreProps {
-	rows: FlashCardsDef[][];
-	onPressCard: (id: number) => void;
-	onPressButton: () => void;
+  rows: FlashCardsDef[][];
+  onPressCard: (id: number) => void;
+  onPressButton: () => void;
 }
 
 /**

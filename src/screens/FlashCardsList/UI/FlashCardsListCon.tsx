@@ -8,8 +8,8 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 export interface FlashCardListProps {
-	navigation: NavigationProp<any, any>;
-	route: RouteProp<any, any>;
+  navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 /**
  * 単語帳一覧のロジック
@@ -32,10 +32,10 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
 		navigation.navigate('Create');
 	};
 
-	useEffect(() => {
+	useEffect(()=>{
 		const unsubscribe = navigation.addListener('blur', () => {
-			setPopover(prev => ({ currentId: prev.currentId, visible: false }));
-		});
+			setPopover(prev => ({currentId: prev.currentId, visible: false}));
+		});      
 		return unsubscribe;
 	}, [navigation]);
 	return (
