@@ -70,5 +70,3 @@ export const FlashCardsListNavigate: FC = () => {
 		</Stack.Navigator>
 	);
 };
-
-
