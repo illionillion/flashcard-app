@@ -14,7 +14,6 @@ interface FlashCardsListPreProps {
 	rows: FlashCardsDef[][];
 	onPressCard: (id: number) => void;
 	onPressButton: () => void;
-	sortByName: () => void;
 }
 
 /**
@@ -24,25 +23,12 @@ export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({
 	rows,
 	onPressCard,
 	onPressButton,
-	sortByName,
 }) => {
 	return rows.length > 0 ? (
 		<ScrollView
 			contentContainerStyle={styles.ScrollContainer}
 			showsVerticalScrollIndicator={false}
 		>
-			{/* 並び替え */}
-			<SelectDropdown
-				data={['名前順']}
-				defaultButtonText={'並び替え'}
-				onSelect={(selectedItem, index) => {
-					// 今は名前順しかないので、名前順に並び替える
-					sortByName();
-				}}
-				buttonStyle={styles.sortButton}
-				buttonTextStyle={styles.sortButtonText}
-			/>
-
 			{rows.map((row, index) => (
 				<View key={index} style={styles.row}>
 					{row.map((item) => (
@@ -100,17 +86,5 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingHorizontal: 8,
-	},
-	sortButton: {
-		alignSelf: 'flex-end',
-		width: 100,
-		height: 20,
-		borderRadius: 10,
-		marginTop: 3,
-		borderWidth: 1,
-		borderColor: 'black',
-	},
-	sortButtonText: {
-		fontSize: 12,
 	},
 });
