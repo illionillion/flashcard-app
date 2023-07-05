@@ -14,6 +14,7 @@ export const SettingCon: FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [apiKey, setApiKey] = useRecoilState(APIKeyState);
   const [inputValue, setInputValue] = useState(apiKey);
+  const [difficulty, setDifficulty] = useState<'easy' | 'normal' | 'hard'>('normal');
 
   const handleChangeText = (text: string) => {
     setInputValue(text);
@@ -41,8 +42,6 @@ export const SettingCon: FC = () => {
     });
     return unsubscribe;
   }, [navigation]);
-
-  const [difficulty, setDifficulty] = useState<'easy' | 'normal' | 'hard'>('normal');
 
   return (
     <SettingPre
