@@ -5,15 +5,14 @@ import {
 	ScrollView,
 	Text,
 	TouchableOpacity,
-	Button,
 } from 'react-native';
 import { RenderItem } from '../Components/RenderItem';
 import { FlashCardsDef } from '../../../atom/FlashCardsDataState';
 import SelectDropdown from 'react-native-select-dropdown'
 
 interface FlashCardsListPreProps {
-  rows: FlashCardsDef[][];
-  onPressCard: (id: number) => void;
+	rows: FlashCardsDef[][];
+	onPressCard: (id: number) => void;
 	onPressButton: () => void;
 	sortByName: () => void;
 }
