@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import StackParamList from '../../../StackParamList';
 import { SlidePre } from './SlidePre';
 
@@ -24,7 +24,6 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   };
 
   const handleGoBack = () => {
-    if (isSpeaking) handleSpeechStop();
     navigation.goBack();
   };
 
@@ -53,6 +52,15 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       });
     }
   };
+  
+  useEffect(() => {
+    const blurUnsubscribe = navigation.addListener('blur', handleSpeechStop);
+    const beforeRemoveUnsubscribe = navigation.addListener('beforeRemove', handleSpeechStop);
+    return () => {
+      blurUnsubscribe();
+      beforeRemoveUnsubscribe();
+    };
+  }, [navigation]);
 
   return (
     <SlidePre
