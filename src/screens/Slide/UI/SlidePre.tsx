@@ -12,7 +12,7 @@ interface SlidePreProps {
   isFront: boolean;
   handleFlip: () => void;
   isSpeaking: boolean;
-  handlePressSpeaker: (example: string) => void;
+  handlePressSpeaker: (text: string) => void;
 }
 
 const headerColor = '#79BC6E';
@@ -42,28 +42,42 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
         <View style={styles.content}>
           {/* 表なら単語、裏なら意味・例文 */}
           {isFront ? (
-            <Text style={styles.content_text}>{word_list[page].name}</Text>
+            <>
+              <Text style={styles.content_text}>{word_list[page].name}</Text>
+              <TouchableOpacity
+                onPress={() => handlePressSpeaker(word_list[page].name)}
+                style={styles.speakerContainer}
+              >
+                <Ionicons
+                  name="volume-medium-outline"
+                  size={32}
+                  style={isSpeaking ? styles.green : styles.lightGray}
+                />
+              </TouchableOpacity>
+            </>
           ) : (
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollContainer}
-            >
-              <View style={styles.scrollContent}>
-                <Text style={styles.content_text}>意味: {word_list[page].mean}</Text>
-                <Text style={styles.content_text}>例文: {word_list[page].example}</Text>
-              </View>
-            </ScrollView>
+            <>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContainer}
+              >
+                <View style={styles.scrollContent}>
+                  <Text style={styles.content_text}>意味: {word_list[page].mean}</Text>
+                  <Text style={styles.content_text}>例文: {word_list[page].example}</Text>
+                </View>
+              </ScrollView>
+              <TouchableOpacity
+                onPress={() => handlePressSpeaker(word_list[page].example)}
+                style={styles.speakerContainer}
+              >
+                <Ionicons
+                  name="volume-medium-outline"
+                  size={32}
+                  style={isSpeaking ? styles.green : styles.lightGray}
+                />
+              </TouchableOpacity>
+            </>
           )}
-          <TouchableOpacity
-            onPress={() => handlePressSpeaker(word_list[page].example)}
-            style={styles.speakerContainer}
-          >
-            <Ionicons
-              name="volume-medium-outline"
-              size={32}
-              style={isSpeaking ? styles.green : styles.lightGray}
-            />
-          </TouchableOpacity>
         </View>
       </View>
 

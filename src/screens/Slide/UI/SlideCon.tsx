@@ -18,27 +18,40 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const pageTotal = data.length;
 
+  const handleSpeechStop = () => {
+    Speech.stop();
+    setIsSpeaking(false);
+  };
+
   const handleGoBack = () => {
+    if (isSpeaking) handleSpeechStop();
     navigation.goBack();
   };
 
   const handlePageChange = (page: number) => {
     if (page >= 0 && page <= pageTotal - 1) {
+      if (isSpeaking) handleSpeechStop();
       setPage(page);
     }
   };
 
   const handleFlip = () => {
+    if (isSpeaking) handleSpeechStop();
     setIsFront(!isFront);
   };
 
-  const handlePressSpeaker = (example: string) => {
-    Speech.speak(example, {
-      rate: 1.0,
-      pitch: 1.0,
-      onStart: () => setIsSpeaking(true),
-      onDone: () => setIsSpeaking(false),
-    });
+  const handlePressSpeaker = (text: string) => {
+    if (isSpeaking) {
+      handleSpeechStop();
+    } else {
+      Speech.speak(text, {
+        // language: 'en',
+        rate: 1.0,
+        pitch: 1.0,
+        onStart: () => setIsSpeaking(true),
+        onDone: () => setIsSpeaking(false),
+      });
+    }
   };
 
   return (
