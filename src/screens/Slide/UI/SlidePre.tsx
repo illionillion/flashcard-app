@@ -5,13 +5,13 @@ import { WordDef } from '../../../atom/FlashCardsDataState';
 import { SlideButton } from './Components/SlideButton';
 
 interface SlidePreProps {
-  handleGoBack: () => void;
-  word_list: WordDef[];
   page: number;
-  handlePageChange: (page: number) => void;
+  word_list: WordDef[];
   isFront: boolean;
-  handleFlip: () => void;
   isSpeaking: boolean;
+  handleGoBack: () => void;
+  handleFlip: () => void;
+  handlePageChange: (page: number) => void;
   handlePressSpeaker: (text: string) => void;
 }
 
@@ -20,11 +20,11 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
   const {
     page,
     word_list,
-    handleGoBack,
-    handlePageChange,
     isFront,
-    handleFlip,
     isSpeaking,
+    handleGoBack,
+    handleFlip,
+    handlePageChange,
     handlePressSpeaker,
   } = props;
 
