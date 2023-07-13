@@ -6,11 +6,12 @@ import { useSetRecoilState } from 'recoil';
 import StackParamList from '../../../StackParamList';
 import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
 import { FlashCardsViewPre } from './FlashCardsViewPre';
+import { generateExampleReturn } from '../../../lib/createExample';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
 export interface FlashCardsListConProps {
-  navigation: NavigationProp<any, any>;
-  route: FlashCardsViewRouteProp;
+	navigation: NavigationProp<any, any>;
+	route: FlashCardsViewRouteProp;
 }
 
 export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
@@ -70,8 +71,13 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 			data: wordsData,
 		});
 	};
-	const OpenCreateExampleErrorMessage = () => {
-		Alert.alert('例文作成に失敗しました。', '正しいAPIキーが設定されているか確認してください。', [
+	const OpenCreateExampleErrorMessage = (result: generateExampleReturn) => {
+		const message = result.status === 503 ? "時間をおいてもう一度試してください。" : result.errorMessage
+		Alert.alert('例文作成に失敗しました。', message, [
+			{
+				text: 'Cancel',
+				style: 'cancel',
+			},
 			{
 				text: 'OK',
 				onPress: () => navigation.navigate('Setting'),
@@ -79,7 +85,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 		]);
 	};
 
-	useEffect(()=>{
+	useEffect(() => {
 		const unsubscribe = navigation.addListener('blur', () => {
 			if (navigation.getState().routes[navigation.getState().index].name !== 'Slide') {
 				navigation.goBack();

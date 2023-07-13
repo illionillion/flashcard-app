@@ -18,3 +18,5 @@ web-build/
 .metro-health-check*
 
 .env
+
+request.json
