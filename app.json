@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 23,
+      "versionCode": 25,
       "adaptiveIcon": {
         "foregroundImage": "./assets/ray-boon-icon.png",
         "backgroundColor": "#ffffff"

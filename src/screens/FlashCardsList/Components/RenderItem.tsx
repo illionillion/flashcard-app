@@ -6,6 +6,8 @@ import { useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { LinearGradient } from 'expo-linear-gradient';
+
 interface RenderItemProps {
   id: number;
   name: string;
@@ -48,19 +50,19 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-			<Text>{name}</Text>
-			<TouchableOpacity
-				style={styles.itemSettingButton}
-				onPress={handleTogglePopover}
-			>
-				<SimpleLineIcons name="options" size={16} color="black" />
-			</TouchableOpacity>
-			<Popover
-				id={id}
-				showPopover={showPopover}
-				setShowPopover={setShowPopover}
-				deleteFlashCards={deleteFlashCards}
-			/>
+				<Text>{name}</Text>
+				<TouchableOpacity
+					style={styles.itemSettingButton}
+					onPress={handleTogglePopover}
+				>
+					<SimpleLineIcons name="options" size={16} color="black" />
+				</TouchableOpacity>
+				<Popover
+					id={id}
+					showPopover={showPopover}
+					setShowPopover={setShowPopover}
+					deleteFlashCards={deleteFlashCards}
+				/>
 		</TouchableOpacity>
 	) : (
 		<View style={{ ...styles.itemContainer, opacity: 0 }}></View>
@@ -75,8 +77,18 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8, // アイテム間のマージンを追加
 		flex: 0.5,
 		height: 90,
-		backgroundColor: '#B8BFFF',
+		backgroundColor: '#D9D9D9',
 		position: 'relative',
+		    // 単語帳に影を追加
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.5,
+		shadowRadius: 3.5,
+		// Android用の影
+		elevation: 5,
 	},
 	itemSettingButton: {
 		position: 'absolute',
