@@ -8,7 +8,8 @@ interface apiProps {
   apiKey: string;
   wordName: string;
   wordLang: string;
-  wordMean: string;
+	wordMean: string;
+	sentenceDiff: string;
 }
 
 /**
@@ -27,7 +28,7 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @returns
  */
 export const generateExample = async (props: apiProps) => {
-	const { apiKey, wordName, wordMean, wordLang } = props;
+	const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
 	try {
 		const res = await axios.post<apiReturn>(
 			'https://ray-boon-api.vercel.app/api',
@@ -36,6 +37,7 @@ export const generateExample = async (props: apiProps) => {
 				wordName: wordName,
 				wordLang: wordLang,
 				wordMean: wordMean,
+				sentenceDiff: sentenceDiff,
 			}
 		);
 
