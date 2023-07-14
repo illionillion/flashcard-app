@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 interface apiReturn {
   content: string;
+  message: string;
 }
 
 interface apiProps {
@@ -10,6 +11,13 @@ interface apiProps {
   wordLang: string;
 	wordMean: string;
 	sentenceDiff: string;
+}
+
+export interface generateExampleReturn {
+	success: boolean;
+    content: string;
+    errorMessage: string;
+	status: number;
 }
 
 /**
@@ -27,8 +35,9 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @param role
  * @returns
  */
-export const generateExample = async (props: apiProps) => {
+export const generateExample = async (props: apiProps):Promise<generateExampleReturn> => {
 	const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
+
 	try {
 		const res = await axios.post<apiReturn>(
 			'https://ray-boon-api.vercel.app/api',
@@ -41,33 +50,12 @@ export const generateExample = async (props: apiProps) => {
 			}
 		);
 
-		return { success: true, content: res.data.content };
+		return { success: true, content: res.data.content, errorMessage: '', status: res.status };
 	} catch (error) {
-		console.log(error);
-		if (isAxiosError(error) && error?.response?.status === 403) {
-			// 通信失敗時
-			return {
-				success: false,
-				content: 'An error occurred during the request. Please try again.',
-			};
-		} else if (
-			isAxiosError(error) &&
-      // @ts-ignore
-      error.response?.data.error.code === 'context_length_exceeded'
-		) {
-			// トークン不足時
-			return {
-				success: false,
-				content:
-          'An error occurred during the request. The file size is too large. Please choose another file or format the code in the file.',
-			};
-		} else {
-			// APIキーが違うなど
-			return {
-				success: false,
-				content:
-          'An error occurred during the request. Please check your API key and model',
-			};
+		if (isAxiosError(error)) {
+			const res = error.response as AxiosResponse<apiReturn, any>
+			return {success: false, content: '', errorMessage: res.data.message, status: res.status}
 		}
+		return {success: false, content: '', errorMessage: 'エラー', status: 500 }
 	}
 };

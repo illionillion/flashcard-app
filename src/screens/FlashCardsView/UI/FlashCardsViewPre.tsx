@@ -3,6 +3,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
+import { generateExampleReturn } from '../../../lib/createExample';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
@@ -13,7 +14,7 @@ export interface FlashCardsListPreProps {
   handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
-  OpenCreateExampleErrorMessage: () => void;
+  OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {

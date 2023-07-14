@@ -6,12 +6,12 @@ import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
 import { SentenceDiffState } from '../../../../atom/SentenceDiffState';
 import { WordDef } from '../../../../atom/FlashCardsDataState';
-import { generateExample } from '../../../../lib/createExample';
+import { generateExample, generateExampleReturn } from '../../../../lib/createExample';
 
 interface WordCardProps {
   item: WordDef;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
-  OpenCreateExampleErrorMessage: () => void;
+  OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
 }
 export const WordCard: FC<WordCardProps> = ({
 	item,
@@ -107,7 +107,7 @@ export const WordCard: FC<WordCardProps> = ({
 				await updateChar(i);
 			}
 		} else {
-			OpenCreateExampleErrorMessage();
+			OpenCreateExampleErrorMessage(result);
 		}
 
 		setLoading(false);
