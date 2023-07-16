@@ -50,7 +50,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-				<Text style={styles.textContainer}>{name}</Text>
+				<Text style={styles.textContainer} numberOfLines={2} ellipsizeMode='tail'>{name}</Text>
 				<TouchableOpacity
 					style={styles.itemSettingButton}
 					onPress={handleTogglePopover}
