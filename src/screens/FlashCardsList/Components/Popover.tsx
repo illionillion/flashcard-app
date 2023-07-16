@@ -43,8 +43,8 @@ export const Popover: FC<PopoverProps> = ({
 const styles = StyleSheet.create({
 	popoverContainer: {
 		position: 'absolute',
-		right: 310,
-		top: 45,
+		right: -10,
+		top: 38,
 		backgroundColor: 'red',
 		paddingHorizontal: 10,
 		paddingVertical: 5,

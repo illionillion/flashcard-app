@@ -50,9 +50,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-				<View>
-					<Text style={styles.textContainer}>{name}</Text>
-				</View>
+				<Text style={styles.textContainer}>{name}</Text>
 				<TouchableOpacity
 					style={styles.itemSettingButton}
 					onPress={handleTogglePopover}
@@ -76,11 +74,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginVertical: 8,
-		// marginHorizontal: 8, // アイテム間のマージンを追加
 		flex: 0.5,
-		height: 70,
+		height: 55,
 		backgroundColor: '#D9D9D9',
 		position: 'relative',
+		borderRadius: 10,
 		    // 単語帳に影を追加
 		shadowColor: "#000",
 		shadowOffset: {
@@ -94,13 +92,13 @@ const styles = StyleSheet.create({
 	},
 	itemSettingButton: {
 		position: 'absolute',
-		top: 20,
-		left: 0,
+		top: 15,
+		right: 0,
 		paddingVertical: 5,
 		paddingHorizontal: 10,
 	},
 	textContainer: {
-		marginRight: 10,
-		marginLeft: 30,
+		marginRight: 30,
+		marginLeft: 10,
 	},
 });
