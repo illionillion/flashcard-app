@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 8,
 	},
 	row: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		flexDirection: 'column',
+		justifyContent: 'center',
 		paddingHorizontal: 8,
 	},
 });
