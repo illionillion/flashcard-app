@@ -38,10 +38,6 @@ export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({
 							onPressCard={onPressCard}
 						/>
 					))}
-					{
-						// 1の場合は空のやつを表示
-						row.length === 1 && <RenderItem id={-1} name="" />
-					}
 				</View>
 			))}
 		</ScrollView>
@@ -80,6 +76,7 @@ const styles = StyleSheet.create({
 	ScrollContainer: {
 		flexGrow: 1,
 		paddingHorizontal: 8,
+		marginTop: 35,
 	},
 	row: {
 		flexDirection: 'column',

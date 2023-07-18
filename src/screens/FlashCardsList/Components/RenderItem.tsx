@@ -6,7 +6,6 @@ import { useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface RenderItemProps {
   id: number;
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#D9D9D9',
 		position: 'relative',
 		borderRadius: 10,
-		    // 単語帳に影を追加
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
