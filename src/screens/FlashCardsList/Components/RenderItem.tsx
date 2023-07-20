@@ -6,7 +6,6 @@ import { useSetRecoilState } from 'recoil';
 import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface RenderItemProps {
   id: number;
@@ -50,12 +49,12 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-				<Text>{name}</Text>
+				<Text style={styles.textContainer} numberOfLines={2} ellipsizeMode='tail'>{name}</Text>
 				<TouchableOpacity
 					style={styles.itemSettingButton}
 					onPress={handleTogglePopover}
 				>
-					<SimpleLineIcons name="options" size={16} color="black" />
+					<SimpleLineIcons name="options" size={16} color="black" style={{transform: [{rotate: '90deg'}]}}/>
 				</TouchableOpacity>
 				<Popover
 					id={id}
@@ -74,12 +73,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginVertical: 8,
-		marginHorizontal: 8, // アイテム間のマージンを追加
 		flex: 0.5,
-		height: 90,
+		height: 55,
 		backgroundColor: '#D9D9D9',
 		position: 'relative',
-		    // 単語帳に影を追加
+		borderRadius: 10,
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
@@ -92,9 +90,13 @@ const styles = StyleSheet.create({
 	},
 	itemSettingButton: {
 		position: 'absolute',
-		top: 0,
+		top: 15,
 		right: 0,
 		paddingVertical: 5,
 		paddingHorizontal: 10,
+	},
+	textContainer: {
+		marginRight: 30,
+		marginLeft: 10,
 	},
 });
