@@ -16,8 +16,6 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
   const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
   const setPopover = useSetRecoilState(PopoverState);
 
-  const rows = data.map((item) => [item]);
-
   const onPressCard = (id: number) => {
     navigation.navigate('FlashCardsView', {
       data: data.find((item) => item.id === id),
@@ -33,5 +31,5 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation]);
-  return <FlashCardsListPre rows={rows} onPressCard={onPressCard} onPressButton={onPressButton} />;
+  return <FlashCardsListPre rows={data} onPressCard={onPressCard} onPressButton={onPressButton} />;
 };

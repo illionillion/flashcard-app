@@ -10,7 +10,7 @@ import { RenderItem } from '../Components/RenderItem';
 import { FlashCardsDef } from '../../../atom/FlashCardsDataState';
 
 interface FlashCardsListPreProps {
-  rows: FlashCardsDef[][];
+  rows: FlashCardsDef[];
   onPressCard: (id: number) => void;
   onPressButton: () => void;
 }
@@ -28,18 +28,15 @@ export const FlashCardsListPre: FC<FlashCardsListPreProps> = ({
 			contentContainerStyle={styles.ScrollContainer}
 			showsVerticalScrollIndicator={false}
 		>
-			{rows.map((row, index) => (
-				<View key={index} style={styles.row}>
-					{row.map((item) => (
-						<RenderItem
-							key={item.id}
-							id={item.id}
-							name={item.name}
-							onPressCard={onPressCard}
-						/>
-					))}
-				</View>
+			{rows.map((item) => (
+				<RenderItem
+				key={item.id}
+				id={item.id}
+				name={item.name}
+				onPressCard={onPressCard}
+				/>
 			))}
+
 		</ScrollView>
 	) : (
 		<View style={styles.container}>
