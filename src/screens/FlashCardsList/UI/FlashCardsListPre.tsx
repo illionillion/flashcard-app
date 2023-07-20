@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
 	ScrollContainer: {
 		flexGrow: 1,
 		paddingHorizontal: 8,
-		marginTop: 35,
 	},
 	row: {
 		flexDirection: 'column',
