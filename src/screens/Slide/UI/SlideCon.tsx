@@ -66,7 +66,12 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
     setData((prev) =>
       prev.map((item) =>
         item.id === word_list.id
-          ? { ...item, proficiency: item.proficiency === 'mastered' ? 'learning' : 'mastered' }
+          ? {
+              ...item,
+              proficiency: (item.proficiency === 'mastered'
+                ? 'learning'
+                : 'mastered') as Proficiency,
+            }
           : item,
       ),
     );
