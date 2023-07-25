@@ -67,7 +67,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       visibilityTime: 2000,
     });
   };
-  const onPressTolide = () => {
+  const onPressToSlide = () => {
     navigation.navigate('Slide', {
       id: id,
       title: flashcardName,
@@ -107,7 +107,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleAdd={handleAdd}
       handleSave={handleSave}
       setWordsData={setWordsData}
-      onPressToSlide={onPressTolide}
+      onPressToSlide={onPressToSlide}
       OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
     />
   );

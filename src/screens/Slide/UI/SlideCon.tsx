@@ -3,9 +3,14 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
 import { FC, useEffect, useState } from 'react';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import StackParamList from '../../../StackParamList';
-import { FlashCardsDataState, FlashCardsDef, WordDef } from '../../../atom/FlashCardsDataState';
+import {
+  FlashCardsDataState,
+  FlashCardsDef,
+  Proficiency,
+  WordDef,
+} from '../../../atom/FlashCardsDataState';
 import { SlidePre } from './SlidePre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'Slide'>;
@@ -15,8 +20,10 @@ interface SlideConProps {
 }
 
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
-  const setCardsData = useSetRecoilState<FlashCardsDef[]>(FlashCardsDataState);
-  const [data, setData] = useState(route.params.data);
+  const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
+  const [data, setData] = useState<WordDef[]>(
+    cardsData.find((item) => item.id === route.params.id)?.words as WordDef[],
+  );
   const [page, setPage] = useState(0);
   const [isFront, setIsFront] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -44,7 +51,12 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
     setData((prev) =>
       prev.map((item) =>
         item.id === word_list.id
-          ? { ...item, proficiency: item.proficiency === 'unfamiliar' ? 'learning' : 'unfamiliar' }
+          ? {
+              ...item,
+              proficiency: (item.proficiency === 'unfamiliar'
+                ? 'learning'
+                : 'unfamiliar') as Proficiency,
+            }
           : item,
       ),
     );
@@ -89,22 +101,21 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   };
 
   // 画面遷移時の処理
-  const handleUnsubscribe = () => {
-    handleSpeechStop();
-    setCardsData((prev) =>
-      // 変更が上手く保存されない
-      prev.map((item) => (item.id === route.params.id ? { ...item, words: data } : item)),
-    );
-  };
-
   useEffect(() => {
-    const blurUnsubscribe = navigation.addListener('blur', handleUnsubscribe);
-    const beforeRemoveUnsubscribe = navigation.addListener('beforeRemove', handleUnsubscribe);
+    const blurUnsubscribe = navigation.addListener('blur', handleSpeechStop);
+    const beforeRemoveUnsubscribe = navigation.addListener('beforeRemove', handleSpeechStop);
     return () => {
       blurUnsubscribe();
       beforeRemoveUnsubscribe();
     };
   }, [navigation]);
+
+  useEffect(() => {
+    setCardsData((prev) =>
+      // 変更が上手く保存されない
+      prev.map((item) => (item.id === route.params.id ? { ...item, words: data } : item)),
+    );
+  }, [data]);
 
   return (
     <SlidePre
