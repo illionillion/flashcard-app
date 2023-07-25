@@ -112,7 +112,6 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
 
   useEffect(() => {
     setCardsData((prev) =>
-      // 変更が上手く保存されない
       prev.map((item) => (item.id === route.params.id ? { ...item, words: data } : item)),
     );
   }, [data]);
