@@ -13,6 +13,9 @@ interface SlidePreProps {
   handleGoBack: () => void;
   handleFlip: () => void;
   handlePageChange: (page: number) => void;
+  handlePressSadIcon: (word: WordDef) => void;
+  handlePressHappyIcon: (word: WordDef) => void;
+  openIconDescription: (desc: string) => void;
   handlePressSpeaker: (text: string) => void;
 }
 
@@ -26,6 +29,9 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     handleGoBack,
     handleFlip,
     handlePageChange,
+    handlePressSadIcon,
+    handlePressHappyIcon,
+    openIconDescription,
     handlePressSpeaker,
   } = props;
 
@@ -79,6 +85,33 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 </TouchableOpacity>
               </>
             )}
+            <View style={styles.faceIconContainer}>
+              <TouchableOpacity
+                onPress={() => handlePressSadIcon(word_list[page])}
+                onLongPress={() => openIconDescription('にがて')}
+              >
+                <Ionicons
+                  name="sad-outline"
+                  size={28}
+                  style={
+                    word_list[page].proficiency === 'unfamiliar' ? styles.blue : styles.lightGray
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handlePressHappyIcon(word_list[page])}
+                onLongPress={() => openIconDescription('おぼえた！')}
+                style={styles.marginLeft}
+              >
+                <Ionicons
+                  name="happy-outline"
+                  size={28}
+                  style={
+                    word_list[page].proficiency === 'mastered' ? styles.orange : styles.lightGray
+                  }
+                />
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         </View>
       </PanGesture>
@@ -169,10 +202,27 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingHorizontal: 12,
   },
+  faceIconContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    paddingBottom: 8,
+    paddingHorizontal: 12,
+  },
   lightGray: {
     color: 'lightgray',
   },
   green: {
     color: headerColor,
+  },
+  blue: {
+    color: '#659AD2',
+  },
+  orange: {
+    color: '#ED9E31',
+  },
+  marginLeft: {
+    marginLeft: 4,
   },
 });
