@@ -5,12 +5,7 @@ import { FC, useEffect, useState } from 'react';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilState } from 'recoil';
 import StackParamList from '../../../StackParamList';
-import {
-  FlashCardsDataState,
-  FlashCardsDef,
-  Proficiency,
-  WordDef,
-} from '../../../atom/FlashCardsDataState';
+import { FlashCardsDataState, FlashCardsDef, WordDef } from '../../../atom/FlashCardsDataState';
 import { SlidePre } from './SlidePre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'Slide'>;
@@ -22,7 +17,7 @@ interface SlideConProps {
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [data, setData] = useState<WordDef[]>(
-    cardsData.find((item) => item.id === route.params.id)?.words as WordDef[],
+    cardsData.find((item) => item.id === route.params.id)?.words || [],
   );
   const [page, setPage] = useState(0);
   const [isFront, setIsFront] = useState(true);
@@ -53,9 +48,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
         item.id === word_list.id
           ? {
               ...item,
-              proficiency: (item.proficiency === 'unfamiliar'
-                ? 'learning'
-                : 'unfamiliar') as Proficiency,
+              proficiency: item.proficiency === 'unfamiliar' ? 'learning' : 'unfamiliar',
             }
           : item,
       ),
@@ -68,9 +61,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
         item.id === word_list.id
           ? {
               ...item,
-              proficiency: (item.proficiency === 'mastered'
-                ? 'learning'
-                : 'mastered') as Proficiency,
+              proficiency: item.proficiency === 'mastered' ? 'learning' : 'mastered',
             }
           : item,
       ),
