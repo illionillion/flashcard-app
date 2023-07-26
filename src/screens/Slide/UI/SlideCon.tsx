@@ -24,10 +24,6 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const pageTotal = data.length;
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
   const handlePageChange = (page: number) => {
     if (page >= 0 && page <= pageTotal - 1) {
       if (isSpeaking) handleSpeechStop();
@@ -118,7 +114,6 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       page={page}
       isFront={isFront}
       isSpeaking={isSpeaking}
-      handleGoBack={handleGoBack}
       handleFlip={handleFlip}
       handlePageChange={handlePageChange}
       handlePressSadIcon={handlePressSadIcon}
