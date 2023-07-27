@@ -7,6 +7,7 @@ import { SlideCon } from '../screens/Slide/UI/SlideCon';
 import { Button } from 'react-native';
 import { FlashCardsDataState, FlashCardsDef } from '../atom/FlashCardsDataState';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Platform } from 'react-native';
 
 export const FlashCardsListNavigate: FC = () => {
 	var data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
@@ -45,7 +46,9 @@ export const FlashCardsListNavigate: FC = () => {
 				options={{
 					title: '単語帳一覧',
 					headerRight: () => (
-						<Button title='名前順' onPress={() => handleSort()} color={'white'} />
+						<Button title='名前順' onPress={() => handleSort()}
+							color={Platform.OS === 'ios' ? 'white' : "#79BC6E"
+							} />
 					)
 				}}
 			/>
