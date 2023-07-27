@@ -50,12 +50,12 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
               </View>
             ) : (
               <View style={styles.backContent}>
-                <Text style={[styles.headline, styles.lightGray]}>意味</Text>
                 <View style={styles.mArea}>
+                  <Text style={[styles.headline, styles.lightGray]}>意味</Text>
                   <Text style={styles.mean_text}>{word_list[page].mean}</Text>
                 </View>
-                <Text style={[styles.eHeadline, styles.lightGray]}>例文</Text>
                 <View style={styles.eArea}>
+                  <Text style={[styles.headline, styles.lightGray]}>例文</Text>
                   <Text style={styles.example_text}>{word_list[page].example}</Text>
                 </View>
               </View>
@@ -163,13 +163,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 24,
-  },
-  eHeadline: {
-    fontSize: 20,
-    position: 'absolute',
-    top: 120,
-    left: 0,
-    padding: 8,
   },
   eArea: {
     height: 220,
