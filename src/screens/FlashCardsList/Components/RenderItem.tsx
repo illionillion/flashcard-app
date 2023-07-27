@@ -1,31 +1,27 @@
-import { FC, useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FC, useState } from 'react';
+import { Alert, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { Popover } from './Popover';
 import { useSetRecoilState } from 'recoil';
-import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { LinearGradient } from 'expo-linear-gradient';
-
 interface RenderItemProps {
-  id: number;
-  name: string;
-  onPressCard?: (id: number) => void;
+	id: number;
+	name: string;
+	onPressCard?: (id: number) => void;
 }
+// 単語帳のコンポーネント
 export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
-	const [showPopover, setShowPopover] = useState<boolean>(false);
-	const setPopover = useSetRecoilState(PopoverState);
 	const setData = useSetRecoilState(FlashCardsDataState);
-	const handleTogglePopover = () => setShowPopover((prev) => !prev);
-	const checkPopoverShow = () => {
-		if (showPopover) {
-			// 表示された場合
-			setPopover(() => ({ currentId: id, visible: true }));
-		}
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const showModal = () => {
+		setModalVisible(true);
 	};
-	useEffect(checkPopoverShow, [showPopover]);
-	const deleteFlashCards =  () => {
+	const hideModal = () => {
+		setModalVisible(false);
+	};
+
+	const deleteFlashCards = () => {
 		Alert.alert('確認', `本当に単語帳「${name}」を削除しますか？`, [
 			{
 				text: 'Cancel',
@@ -40,7 +36,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 						type: 'error',
 						visibilityTime: 2000,
 					});
-      
+
 				},
 			},
 		]);
@@ -50,20 +46,37 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-				<Text>{name}</Text>
-				<TouchableOpacity
-					style={styles.itemSettingButton}
-					onPress={handleTogglePopover}
-				>
-					<SimpleLineIcons name="options" size={16} color="black" />
-				</TouchableOpacity>
-				<Popover
-					id={id}
-					showPopover={showPopover}
-					setShowPopover={setShowPopover}
-					deleteFlashCards={deleteFlashCards}
-				/>
-		</TouchableOpacity>
+			{/* 削除ボタンをモーダルで表示 */}
+			<Modal
+				visible={modalVisible}
+				transparent={true}
+				animationType="fade"
+				onRequestClose={hideModal}
+			>
+				<TouchableWithoutFeedback onPress={hideModal}>
+					<View style={styles.modalContainer}>
+						{/* ここにモーダルの内容を追加 */}
+						<TouchableOpacity onPress={deleteFlashCards}>
+							<View style={styles.modalContent}>
+								<Text
+									style={{
+										color: 'red',
+									}}
+								>削除</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				</TouchableWithoutFeedback>
+			</Modal>
+
+			<TouchableOpacity
+				style={styles.itemSettingButton}
+				onPress={showModal}
+			>
+				<SimpleLineIcons name="options" />
+			</TouchableOpacity>
+			< Text > {name}</Text>
+		</TouchableOpacity >
 	) : (
 		<View style={{ ...styles.itemContainer, opacity: 0 }}></View>
 	);
@@ -79,7 +92,7 @@ const styles = StyleSheet.create({
 		height: 90,
 		backgroundColor: '#D9D9D9',
 		position: 'relative',
-		    // 単語帳に影を追加
+		// 単語帳に影を追加
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
@@ -91,10 +104,25 @@ const styles = StyleSheet.create({
 		elevation: 5,
 	},
 	itemSettingButton: {
+		// container の右上に配置
 		position: 'absolute',
 		top: 0,
 		right: 0,
 		paddingVertical: 5,
 		paddingHorizontal: 10,
+	},
+	modalContainer: {
+		flex: 1,
+		// 下の方に配置
+		justifyContent: 'flex-end',
+		paddingBottom: 100,
+		// 背景を暗くする
+		backgroundColor: 'rgba(0,0,0,.5)',
+	},
+	modalContent: {
+		backgroundColor: '#fff',
+		padding: 20,
+		borderRadius: 10,
+		alignItems: 'center',
 	},
 });
