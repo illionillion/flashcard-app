@@ -1,6 +1,6 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { FC } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WordDef } from '../../../atom/FlashCardsDataState';
 import { PanGesture } from './Components/PanGesture';
 import { SlideButton } from './Components/SlideButton';
@@ -41,7 +41,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             <AntDesign name="caretleft" size={32} color={headerColor} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleFlip} style={[styles.slide, styles.shadow]}>
+          <View style={[styles.slide, styles.shadow]}>
             {/* 表なら単語、裏なら意味・例文 */}
             {isFront ? (
               <View style={styles.frontContent}>
@@ -56,7 +56,12 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 </View>
                 <View style={styles.eArea}>
                   <Text style={[styles.headline, styles.lightGray]}>例文</Text>
-                  <Text style={styles.example_text}>{word_list[page].example}</Text>
+                  <ScrollView
+                    contentContainerStyle={styles.scrollContainer}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <Text style={styles.example_text}>{word_list[page].example}</Text>
+                  </ScrollView>
                 </View>
               </View>
             )}
@@ -103,7 +108,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 />
               </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </View>
 
           <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
             <AntDesign name="caretright" size={32} color={headerColor} />
@@ -166,10 +171,13 @@ const styles = StyleSheet.create({
   },
   eArea: {
     height: 220,
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingVertical: 36,
     paddingHorizontal: 8,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   word_text: {
     fontSize: 32,
