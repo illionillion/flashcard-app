@@ -1,6 +1,7 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { FC } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FC, RefObject } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView as GhScrollView, ScrollView } from 'react-native-gesture-handler';
 import { WordDef } from '../../../atom/FlashCardsDataState';
 import { PanGesture } from './Components/PanGesture';
 import { SlideButton } from './Components/SlideButton';
@@ -10,6 +11,8 @@ interface SlidePreProps {
   word_list: WordDef[];
   isFront: boolean;
   isSpeaking: boolean;
+  swipePagenation: RefObject<unknown>;
+  scrollText: RefObject<ScrollView>;
   handleFlip: () => void;
   handlePageChange: (page: number) => void;
   handlePressSadIcon: (word: WordDef) => void;
@@ -25,6 +28,8 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     word_list,
     isFront,
     isSpeaking,
+    swipePagenation,
+    scrollText,
     handleFlip,
     handlePageChange,
     handlePressSadIcon,
@@ -35,13 +40,18 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
 
   return (
     <View style={styles.container}>
-      <PanGesture page={page} handlePageChange={handlePageChange}>
+      <PanGesture
+        page={page}
+        handlePageChange={handlePageChange}
+        swipePagenation={swipePagenation}
+        scrollText={scrollText}
+      >
         <View style={styles.slideContainer}>
           <TouchableOpacity onPress={() => handlePageChange(page - 1)}>
             <AntDesign name="caretleft" size={32} color={headerColor} />
           </TouchableOpacity>
 
-          <View style={[styles.slide, styles.shadow]}>
+          <TouchableOpacity onPress={handleFlip} style={[styles.slide, styles.shadow]}>
             {/* 表なら単語、裏なら意味・例文 */}
             {isFront ? (
               <View style={styles.frontContent}>
@@ -56,12 +66,16 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 </View>
                 <View style={styles.eArea}>
                   <Text style={[styles.headline, styles.lightGray]}>例文</Text>
-                  <ScrollView
+                  <GhScrollView
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
+                    ref={scrollText}
+                    simultaneousHandlers={swipePagenation}
                   >
-                    <Text style={styles.example_text}>{word_list[page].example}</Text>
-                  </ScrollView>
+                    <View onStartShouldSetResponder={() => true}>
+                      <Text style={styles.example_text}>{word_list[page].example}</Text>
+                    </View>
+                  </GhScrollView>
                 </View>
               </View>
             )}
@@ -108,7 +122,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity onPress={() => handlePageChange(page + 1)}>
             <AntDesign name="caretright" size={32} color={headerColor} />

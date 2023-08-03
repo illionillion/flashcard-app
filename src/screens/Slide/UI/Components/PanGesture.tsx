@@ -1,19 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, RefObject } from 'react';
 import { StyleSheet } from 'react-native';
 import {
   GestureHandlerRootView,
   HandlerStateChangeEvent,
   PanGestureHandler,
+  ScrollView,
 } from 'react-native-gesture-handler';
 
 interface PanGestureProps {
   children: ReactNode;
   page: number;
+  swipePagenation: RefObject<unknown>;
+  scrollText: RefObject<ScrollView>;
   handlePageChange: (page: number) => void;
 }
 
-export const PanGesture: FC<PanGestureProps> = ({ children, page, handlePageChange }) => {
+export const PanGesture: FC<PanGestureProps> = ({
+  children,
+  page,
+  swipePagenation,
+  scrollText,
+  handlePageChange,
+}) => {
   const velocityThreshold = 0.3;
   const directionalOffsetThreshold = 80;
 
@@ -42,7 +51,13 @@ export const PanGesture: FC<PanGestureProps> = ({ children, page, handlePageChan
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <PanGestureHandler onActivated={onPanGestureEvent}>{children}</PanGestureHandler>
+      <PanGestureHandler
+        onActivated={onPanGestureEvent}
+        ref={swipePagenation}
+        simultaneousHandlers={scrollText}
+      >
+        {children}
+      </PanGestureHandler>
     </GestureHandlerRootView>
   );
 };
