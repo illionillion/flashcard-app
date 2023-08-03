@@ -40,7 +40,7 @@ export const generateExample = async (props: apiProps):Promise<generateExampleRe
 
 	try {
 		const res = await axios.post<apiReturn>(
-			'https://ray-boon-api.vercel.app/api',
+			'https://ray-boon-api.vercel.app/api/v1',
 			{
 				apiKey: apiKey,
 				wordName: wordName,
