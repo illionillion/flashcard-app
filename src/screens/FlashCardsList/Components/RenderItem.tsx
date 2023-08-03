@@ -56,7 +56,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 				<TouchableWithoutFeedback onPress={hideModal}>
 					<View style={styles.modalContainer}>
 						{/* ここにモーダルの内容を追加 */}
-						<TouchableOpacity onPress={deleteFlashCards}>
+						<TouchableOpacity onPress={() => { hideModal(); deleteFlashCards(); }}>
 							<View style={styles.modalContent}>
 								<Text
 									style={{
