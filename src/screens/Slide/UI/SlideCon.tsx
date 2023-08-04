@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
-import { FC, useEffect, useState } from 'react';
+import { FC, createRef, useEffect, useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilState } from 'recoil';
 import StackParamList from '../../../StackParamList';
@@ -23,10 +24,8 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [isFront, setIsFront] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const pageTotal = data.length;
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
+  const swipePagenation = createRef();
+  const scrollText = createRef<ScrollView>();
 
   const handlePageChange = (page: number) => {
     if (page >= 0 && page <= pageTotal - 1) {
@@ -118,7 +117,8 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       page={page}
       isFront={isFront}
       isSpeaking={isSpeaking}
-      handleGoBack={handleGoBack}
+      swipePagenation={swipePagenation}
+      scrollText={scrollText}
       handleFlip={handleFlip}
       handlePageChange={handlePageChange}
       handlePressSadIcon={handlePressSadIcon}
