@@ -24,7 +24,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [isFront, setIsFront] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const pageTotal = data.length;
-  const swipePagenation = createRef();
+  const swipePagination = createRef();
   const scrollText = createRef<ScrollView>();
 
   const handlePageChange = (page: number) => {
@@ -117,7 +117,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       page={page}
       isFront={isFront}
       isSpeaking={isSpeaking}
-      swipePagenation={swipePagenation}
+      swipePagination={swipePagination}
       scrollText={scrollText}
       handleFlip={handleFlip}
       handlePageChange={handlePageChange}

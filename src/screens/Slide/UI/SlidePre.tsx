@@ -11,7 +11,7 @@ interface SlidePreProps {
   word_list: WordDef[];
   isFront: boolean;
   isSpeaking: boolean;
-  swipePagenation: RefObject<unknown>;
+  swipePagination: RefObject<unknown>;
   scrollText: RefObject<ScrollView>;
   handleFlip: () => void;
   handlePageChange: (page: number) => void;
@@ -28,7 +28,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     word_list,
     isFront,
     isSpeaking,
-    swipePagenation,
+    swipePagination,
     scrollText,
     handleFlip,
     handlePageChange,
@@ -43,7 +43,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
       <PanGesture
         page={page}
         handlePageChange={handlePageChange}
-        swipePagenation={swipePagenation}
+        swipePagination={swipePagination}
         scrollText={scrollText}
       >
         <View style={styles.slideContainer}>
@@ -70,7 +70,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
                     ref={scrollText}
-                    simultaneousHandlers={swipePagenation}
+                    simultaneousHandlers={swipePagination}
                   >
                     <View onStartShouldSetResponder={() => true}>
                       <Text style={styles.example_text}>{word_list[page].example}</Text>
