@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
 import { generateExampleReturn } from '../../../lib/createExample';
+import { AddWordModal } from './Components/AddWordModal';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
@@ -18,6 +19,16 @@ export interface FlashCardsListPreProps {
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	const handleOpen = () => {
+		setIsOpen(true);
+	};
+
+	const handleClose = () => {
+		setIsOpen(false);
+	};
+	
 	const {
 		flashcardName,
 		buttonDisable,
@@ -30,45 +41,51 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 		OpenCreateExampleErrorMessage,
 	} = props;
 	return (
-		<View style={styles.FlashCardsContainer}>
-			<View style={styles.FlashCardsTitleContainer}>
-				<TextInput
-					value={flashcardName}
-					onChangeText={handleNameChanged}
-					placeholder="単語帳名を入力"
-					style={styles.FlashCardsTitleInput}
-				/>
-			</View>
-			<ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false}>
-				{wordsData.map((item) => (
-					<WordCard
-						key={item.id}
-						item={item}
-						setWordsData={setWordsData}
-						OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+		<>
+			<View style={styles.FlashCardsContainer}>
+				<View style={styles.FlashCardsTitleContainer}>
+					<TextInput
+						value={flashcardName}
+						onChangeText={handleNameChanged}
+						placeholder="単語帳名を入力"
+						style={styles.FlashCardsTitleInput}
 					/>
-				))}
-			</ScrollView>
-			<View style={styles.FlashCardsBottom}>
-				<TouchableOpacity
-					style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
-					disabled={buttonDisable}
-					onPress={handleSave}
-				>
-					<Text style={styles.SaveButtonText}>保存する</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
-					onPress={onPressToSlide}
-					disabled={wordsData.length === 0 ? true : false}
-				>
-					<Text style={styles.SlideButtonText}>スライドショー</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.PlusButton} onPress={handleAdd}>
-					<Ionicons name="add" size={20} color="#fff" />
-				</TouchableOpacity>
+				</View>
+				<ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false}>
+					{wordsData.map((item) => (
+						<WordCard
+							key={item.id}
+							item={item}
+							setWordsData={setWordsData}
+							OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+						/>
+					))}
+				</ScrollView>
+				<View style={styles.FlashCardsBottom}>
+					<TouchableOpacity
+						style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
+						disabled={buttonDisable}
+						onPress={handleSave}
+					>
+						<Text style={styles.SaveButtonText}>保存する</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+						onPress={onPressToSlide}
+						disabled={wordsData.length === 0 ? true : false}
+					>
+						<Text style={styles.SlideButtonText}>スライドショー</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
+						<Ionicons name="add" size={20} color="#fff" />
+					</TouchableOpacity>
+				</View>
 			</View>
-		</View>
+			<AddWordModal
+				isOpen={isOpen}
+				handleClose={handleClose}
+			></AddWordModal>
+		</>
 	);
 };
 
