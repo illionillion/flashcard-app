@@ -90,6 +90,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 				isOpen={isOpen}
 				handleClose={handleClose}
 				handleAddNewWord={handleAddNewWord}
+				OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
 			></AddWordModal>
 		</>
 	);
