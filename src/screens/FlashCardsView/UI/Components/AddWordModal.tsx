@@ -19,10 +19,10 @@ export const AddWordModal: FC<AddWordModalProps> = ({
     handleAddNewWord,
     OpenCreateExampleErrorMessage,
 }) => {
-    const [newWord, setNewWord] = useState('');
-    const [newMean, setNewMean] = useState('');
-    const [newLang, setNewLang] = useState('');
-    const [newExample, setNewExample] = useState('');
+    const [newWord, setNewWord] = useState<string>('');
+    const [newMean, setNewMean] = useState<string>('');
+    const [newLang, setNewLang] = useState<string>('');
+    const [newExample, setNewExample] = useState<string>('');
     const [wordsData, setWordsData] = useState<WordDef[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     addButton: {
         width: 110,
         height: 50,
-        backgroundColor: '#FF9D9D',
+        backgroundColor: '#5FA1DE',
         borderRadius: 5,
         textAlign: 'center',
         justifyContent: 'center',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     closeButton: {
         width: 110,
         height: 50,
-        backgroundColor: '#5FA1DE',
+        backgroundColor: '#FF9D9D',
         borderRadius: 5,
         textAlign: 'center',
         justifyContent: 'center',

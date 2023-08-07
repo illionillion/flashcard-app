@@ -118,7 +118,17 @@ export const WordCard: FC<WordCardProps> = ({
   return (
     <View style={styles.WordCard}>
       <View style={styles.row}>
-        <TextInput
+        <Text
+          style={styles.text}
+        >
+          {wordName}
+        </Text>
+        <Text
+          style={styles.text}
+        >
+          {wordMean}
+        </Text>
+        {/* <TextInput
           style={styles.text}
           value={wordName}
           placeholder="単語名"
@@ -129,9 +139,9 @@ export const WordCard: FC<WordCardProps> = ({
           value={wordMean}
           placeholder="単語の意味"
           onChangeText={handleMeanChanged}
-        />
+        /> */}
       </View>
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <TextInput
           style={styles.text}
           value={wordLang}
@@ -145,18 +155,18 @@ export const WordCard: FC<WordCardProps> = ({
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
-      </View>
-      <TextInput
+      </View> */}
+      {/* <TextInput
         style={styles.textMulti}
         multiline
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         onChangeText={handleExampleChanged}
         editable={!loading}
-      />
-      <TouchableOpacity style={styles.remove} onPress={handleRemove}>
+      /> */}
+      {/* <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -165,29 +175,30 @@ const styles = StyleSheet.create({
   WordCard: {
     flex: 1,
     width: '80%',
-    height: 225,
+    borderRadius: 5,
+    // height: 225,
     backgroundColor: '#D9D9D9',
-    marginVertical: 22,
+    marginVertical: 5,
     marginHorizontal: '10%',
     paddingHorizontal: 20,
     paddingTop: 11,
-    paddingBottom: 16,
+    // paddingBottom: 16,
     position: 'relative',
   },
   row: {
     paddingBottom: 12,
     gap: 8,
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   text: {
     flex: 0.5,
-    paddingVertical: 5,
+    // paddingVertical: 5,
     paddingHorizontal: 8,
-    backgroundColor: '#fff',
-    borderWidth: 1,
+    // backgroundColor: '#fff',
+    // borderWidth: 1,
     borderRadius: 5,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 15,
   },
   textMulti: {
     flex: 1,
