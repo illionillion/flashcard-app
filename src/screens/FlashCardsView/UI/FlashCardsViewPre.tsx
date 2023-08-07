@@ -40,6 +40,11 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 		onPressToSlide,
 		OpenCreateExampleErrorMessage,
 	} = props;
+
+	const handleAddNewWord = (newWord: WordDef) => {
+		setWordsData((prev) => [...prev, newWord]);
+	};
+
 	return (
 		<>
 			<View style={styles.FlashCardsContainer}>
@@ -84,6 +89,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 			<AddWordModal
 				isOpen={isOpen}
 				handleClose={handleClose}
+				handleAddNewWord={handleAddNewWord}
 			></AddWordModal>
 		</>
 	);
