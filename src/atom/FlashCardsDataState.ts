@@ -12,7 +12,9 @@ export interface WordDef {
   name: string;
   mean: string;
   lang: string;
+  langCode: string;
   example: string;
+  exTrans: string;
   proficiency: Proficiency;
 }
 export const FlashCardsDataState = atom<FlashCardsDef[]>({
@@ -25,9 +27,11 @@ export const FlashCardsDataState = atom<FlashCardsDef[]>({
         {
           id: 0,
           name: 'hello',
-          lang: '英語',
           mean: 'こんにちは',
+          lang: '英語',
+          langCode: 'en',
           example: '',
+          exTrans: '',
           proficiency: 'learning',
         },
       ],
@@ -66,9 +70,11 @@ export const getWordObj = (prev: WordDef[]): WordDef => {
       return maxId + 1;
     })(),
     name: '',
-    lang: '',
     mean: '',
+    lang: '',
+    langCode: '',
     example: '',
+    exTrans: '',
     proficiency: 'learning',
   };
 };

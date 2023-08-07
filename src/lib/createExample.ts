@@ -13,10 +13,10 @@ interface apiProps {
 }
 
 export interface generateExampleReturn {
-	success: boolean;
-    content: string;
-    errorMessage: string;
-	status: number;
+  success: boolean;
+  content: string;
+  errorMessage: string;
+  status: number;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface generateExampleReturn {
  * @returns
  */
 export const isAxiosError = (error: unknown): error is AxiosError => {
-	return (error as AxiosError)?.isAxiosError === true;
+  return (error as AxiosError)?.isAxiosError === true;
 };
 /**
  * README作成関数
@@ -34,25 +34,22 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @param role
  * @returns
  */
-export const generateExample = async (props: apiProps):Promise<generateExampleReturn> => {
-	const { apiKey, wordName, wordMean, wordLang } = props;
-	try {
-		const res = await axios.post<apiReturn>(
-			'https://ray-boon-api.vercel.app/api',
-			{
-				apiKey: apiKey,
-				wordName: wordName,
-				wordLang: wordLang,
-				wordMean: wordMean,
-			}
-		);
+export const generateExample = async (props: apiProps): Promise<generateExampleReturn> => {
+  const { apiKey, wordName, wordMean, wordLang } = props;
+  try {
+    const res = await axios.post<apiReturn>('https://ray-boon-api.vercel.app/api', {
+      apiKey: apiKey,
+      wordName: wordName,
+      wordLang: wordLang,
+      wordMean: wordMean,
+    });
 
-		return { success: true, content: res.data.content, errorMessage: '', status: res.status };
-	} catch (error) {
-		if (isAxiosError(error)) {
-			const res = error.response as AxiosResponse<apiReturn, any>
-			return {success: false, content: '', errorMessage: res.data.message, status: res.status}
-		}
-		return {success: false, content: '', errorMessage: 'エラー', status: 500 }
-	}
+    return { success: true, content: res.data.content, errorMessage: '', status: res.status };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const res = error.response as AxiosResponse<apiReturn, any>;
+      return { success: false, content: '', errorMessage: res.data.message, status: res.status };
+    }
+    return { success: false, content: '', errorMessage: 'エラー', status: 500 };
+  }
 };

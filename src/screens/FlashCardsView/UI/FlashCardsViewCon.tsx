@@ -42,9 +42,11 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
           return maxId + 1;
         })(),
         name: '',
-        lang: '',
         mean: '',
+        lang: '',
+        langCode: '',
         example: '',
+        exTrans: '',
         proficiency: 'learning',
       },
     ]);

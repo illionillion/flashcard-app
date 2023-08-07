@@ -17,11 +17,12 @@ export const WordCard: FC<WordCardProps> = ({
   setWordsData,
   OpenCreateExampleErrorMessage,
 }) => {
-  const { id, name, mean, lang, example, proficiency } = item;
+  const { id, name, mean, lang, example, exTrans } = item;
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
   const [wordExample, setWordExample] = useState<string>(example);
+  const [wordExTrans, setWordExTrans] = useState<string>(exTrans);
   const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
@@ -37,18 +38,22 @@ export const WordCard: FC<WordCardProps> = ({
   const handleExampleChanged = (text: string) => {
     setWordExample(text);
   };
+  const handleExTransChanged = (text: string) => {
+    setWordExTrans(text);
+  };
 
   const upDateWord = () => {
     setWordsData((prev) =>
       prev.map((item) =>
         item.id === id
           ? {
+              ...item,
               id: id,
               name: wordName,
               mean: wordMean,
               lang: wordLang,
               example: wordExample,
-              proficiency: proficiency,
+              exTrans: wordExTrans,
             }
           : item,
       ),
@@ -104,6 +109,10 @@ export const WordCard: FC<WordCardProps> = ({
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
+      setWordExTrans(() => result.content);
+      for (let j = 0; j < result.content.length; j++) {
+        await updateChar(j);
+      }
     } else {
       OpenCreateExampleErrorMessage(result);
     }
@@ -113,7 +122,7 @@ export const WordCard: FC<WordCardProps> = ({
 
   useEffect(() => {
     upDateWord();
-  }, [wordName, wordMean, wordLang, wordExample]);
+  }, [wordName, wordMean, wordLang, wordExample, wordExTrans]);
 
   return (
     <View style={styles.WordCard}>
@@ -152,6 +161,13 @@ export const WordCard: FC<WordCardProps> = ({
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         onChangeText={handleExampleChanged}
+        editable={!loading}
+      />
+      <TextInput
+        style={styles.textMulti}
+        multiline
+        value={loading ? wordExamplePreview : wordExTrans} // ここの値をChatGPTでリアルタイムに更新
+        onChangeText={handleExTransChanged}
         editable={!loading}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>

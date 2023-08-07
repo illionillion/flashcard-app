@@ -36,9 +36,11 @@ export const FlashCardsCreateCon: FC = () => {
               return maxId + 1;
             })(),
             name: '',
-            lang: '',
             mean: '',
+            lang: '',
+            langCode: '',
             example: '',
+            exTrans: '',
             proficiency: 'learning',
           },
         ],

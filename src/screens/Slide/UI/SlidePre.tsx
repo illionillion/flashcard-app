@@ -18,7 +18,7 @@ interface SlidePreProps {
   handlePressSadIcon: (word: WordDef) => void;
   handlePressHappyIcon: (word: WordDef) => void;
   openIconDescription: (desc: string) => void;
-  handlePressSpeaker: (text: string) => void;
+  handlePressSpeaker: (text: string, langCode: string) => void;
 }
 
 const headerColor = '#79BC6E';
@@ -37,6 +37,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     openIconDescription,
     handlePressSpeaker,
   } = props;
+  const { name, mean, example, exTrans, langCode, proficiency } = word_list[page];
 
   return (
     <View style={styles.container}>
@@ -56,13 +57,13 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             {isFront ? (
               <View style={styles.frontContent}>
                 <Text style={[styles.headline, styles.lightGray]}>単語</Text>
-                <Text style={styles.word_text}>{word_list[page].name}</Text>
+                <Text style={styles.word_text}>{name}</Text>
               </View>
             ) : (
               <View style={styles.backContent}>
                 <View style={styles.mArea}>
                   <Text style={[styles.headline, styles.lightGray]}>意味</Text>
-                  <Text style={styles.mean_text}>{word_list[page].mean}</Text>
+                  <Text style={styles.mean_text}>{mean}</Text>
                 </View>
                 <View style={styles.eArea}>
                   <Text style={[styles.headline, styles.lightGray]}>例文</Text>
@@ -73,7 +74,8 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     simultaneousHandlers={swipePagination}
                   >
                     <View onStartShouldSetResponder={() => true}>
-                      <Text style={styles.example_text}>{word_list[page].example}</Text>
+                      <Text style={styles.example_text}>{example}</Text>
+                      <Text style={styles.example_text}>{exTrans}</Text>
                     </View>
                   </GhScrollView>
                 </View>
@@ -82,9 +84,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
 
             {/* 音声読み上げアイコン */}
             <TouchableOpacity
-              onPress={() =>
-                handlePressSpeaker(isFront ? word_list[page].name : word_list[page].example)
-              }
+              onPress={() => handlePressSpeaker(isFront ? name : example, langCode)}
               style={styles.speakerContainer}
             >
               <Ionicons
@@ -103,9 +103,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 <Ionicons
                   name="sad-outline"
                   size={28}
-                  style={
-                    word_list[page].proficiency === 'unfamiliar' ? styles.blue : styles.lightGray
-                  }
+                  style={proficiency === 'unfamiliar' ? styles.blue : styles.lightGray}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -116,9 +114,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 <Ionicons
                   name="happy-outline"
                   size={28}
-                  style={
-                    word_list[page].proficiency === 'mastered' ? styles.orange : styles.lightGray
-                  }
+                  style={proficiency === 'mastered' ? styles.orange : styles.lightGray}
                 />
               </TouchableOpacity>
             </View>
