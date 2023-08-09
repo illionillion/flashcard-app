@@ -8,9 +8,9 @@ import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 interface RenderItemProps {
-  id: number;
-  name: string;
-  onPressCard?: (id: number) => void;
+	id: number;
+	name: string;
+	onPressCard?: (id: number) => void;
 }
 export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 	const [showPopover, setShowPopover] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 		}
 	};
 	useEffect(checkPopoverShow, [showPopover]);
-	const deleteFlashCards =  () => {
+	const deleteFlashCards = () => {
 		Alert.alert('確認', `本当に単語帳「${name}」を削除しますか？`, [
 			{
 				text: 'Cancel',
@@ -39,7 +39,7 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 						type: 'error',
 						visibilityTime: 2000,
 					});
-      
+
 				},
 			},
 		]);
@@ -49,19 +49,19 @@ export const RenderItem: FC<RenderItemProps> = ({ id, name, onPressCard }) => {
 			style={styles.itemContainer}
 			onPress={() => onPressCard(id)}
 		>
-				<Text style={styles.textContainer} numberOfLines={2} ellipsizeMode='tail'>{name}</Text>
-				<TouchableOpacity
-					style={styles.itemSettingButton}
-					onPress={handleTogglePopover}
-				>
-					<SimpleLineIcons name="options" size={16} color="black" style={{transform: [{rotate: '90deg'}]}}/>
-				</TouchableOpacity>
-				<Popover
-					id={id}
-					showPopover={showPopover}
-					setShowPopover={setShowPopover}
-					deleteFlashCards={deleteFlashCards}
-				/>
+			<Text style={styles.textContainer} numberOfLines={2} ellipsizeMode='tail'>{name}</Text>
+			<TouchableOpacity
+				style={styles.itemSettingButton}
+				onPress={handleTogglePopover}
+			>
+				<SimpleLineIcons name="options" size={16} color="black" style={{ transform: [{ rotate: '90deg' }] }} />
+			</TouchableOpacity>
+			<Popover
+				id={id}
+				showPopover={showPopover}
+				setShowPopover={setShowPopover}
+				deleteFlashCards={deleteFlashCards}
+			/>
 		</TouchableOpacity>
 	) : (
 		<View style={{ ...styles.itemContainer, opacity: 0 }}></View>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginVertical: 8,
-		flex: 0.5,
 		height: 55,
 		backgroundColor: '#D9D9D9',
 		position: 'relative',
@@ -97,6 +96,6 @@ const styles = StyleSheet.create({
 	},
 	textContainer: {
 		marginRight: 30,
-		marginLeft: 10,
+		marginLeft: 30,
 	},
 });
