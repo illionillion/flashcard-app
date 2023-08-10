@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { Proficiency } from "../../../../atom/FlashCardsDataState";
@@ -24,8 +24,8 @@ export const EditWordModal: FC<EditWordModalProps> = ({
     setWordsData
 }) => {    
     const [wordName, setWordName] = useState<string>(item?.name || "");
-    const [wordMean, setWordMean] = useState<string>(item?.mean ||"");
-    const [wordLang, setWordLang] = useState<string>(item?.lang ||"");
+    const [wordMean, setWordMean] = useState<string>(item?.mean || "");
+    const [wordLang, setWordLang] = useState<string>(item?.lang || "");
     const [wordExample, setWordExample] = useState<string>(item?.example || "");
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,6 +45,29 @@ export const EditWordModal: FC<EditWordModalProps> = ({
     const handleRemove = () => {
         setWordsData((prev) => prev.filter((currentItem) => currentItem.id !== item?.id));
     };
+
+    const handleEdit = () => {
+        setWordsData((prev) => 
+            prev.map((currentItem) => 
+                currentItem.id === item?.id
+                    ? {
+                        ...currentItem,
+                        name: wordName,
+                        mean: wordMean,
+                        lang: wordLang,
+                        example: wordExample
+                    }
+                    : currentItem
+            )
+        );
+        handleEditClose();
+    };
+    useEffect(() => {
+        setWordName(item?.name || "");
+        setWordMean(item?.mean || "");
+        setWordLang(item?.lang || "");
+        setWordExample(item?.example || "");
+    }, [item]);
 
     return (
         <>
@@ -104,7 +127,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                             <Button 
                                 title="編集完了"
                                 color={'#fff'}
-                                onPress={handleEditClose}
+                                onPress={handleEdit}
                             />
                         </View>
                     </View>

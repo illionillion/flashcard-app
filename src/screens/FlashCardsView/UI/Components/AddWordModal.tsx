@@ -7,14 +7,14 @@ import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
 
 interface AddWordModalProps {
-    isOpen: boolean;
+    isAddOpen: boolean;
     handleClose: () => void;
     handleAddNewWord: (newWord: WordDef) => void;
     OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
 }
 
 export const AddWordModal: FC<AddWordModalProps> = ({ 
-    isOpen, 
+    isAddOpen, 
     handleClose, 
     handleAddNewWord,
     OpenCreateExampleErrorMessage,
@@ -112,7 +112,7 @@ export const AddWordModal: FC<AddWordModalProps> = ({
 
     return (
         <>
-            {isOpen && (
+            {isAddOpen && (
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContent}>
                         <View style={styles.row}>

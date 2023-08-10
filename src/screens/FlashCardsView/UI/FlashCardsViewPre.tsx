@@ -20,16 +20,16 @@ export interface FlashCardsListPreProps {
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
 	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 	const [activeId, setActiveId] = useState<number | null>(null);
 
 	const handleOpen = () => {
-		setIsOpen(true);
+		setIsAddOpen(true);
 	};
 
 	const handleClose = () => {
-		setIsOpen(false);
+		setIsAddOpen(false);
 	};
 
 	const handleEditOpen = () => {
@@ -104,19 +104,19 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 				</View>
 			</View>
 			<AddWordModal
-				isOpen={isOpen}
+				isAddOpen={isAddOpen}
 				handleClose={handleClose}
 				handleAddNewWord={handleAddNewWord}
 				OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
 			/>
-			{/* {activeId !== null && ( */}
+			{activeId !== null && (
 				<EditWordModal
 					isEditOpen={isEditOpen}
 					handleEditClose={handleEditClose}
-					item={wordsData.find((item) => item.id === activeId || {})}
+					item={wordsData.find((item) => item.id === activeId || null)}
 					setWordsData={setWordsData}
 				/>
-			{/* )} */}
+			)}
 		</>
 	);
 };
