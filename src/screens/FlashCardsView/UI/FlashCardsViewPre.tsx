@@ -5,6 +5,7 @@ import { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
 import { generateExampleReturn } from '../../../lib/createExample';
 import { AddWordModal } from './Components/AddWordModal';
+import { EditWordModal } from './Components/EditWordModal';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
@@ -20,6 +21,8 @@ export interface FlashCardsListPreProps {
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+	const [activeId, setActiveId] = useState<number | null>(null);
 
 	const handleOpen = () => {
 		setIsOpen(true);
@@ -27,6 +30,14 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 
 	const handleClose = () => {
 		setIsOpen(false);
+	};
+
+	const handleEditOpen = () => {
+		setIsEditOpen(true);
+	};
+
+	const handleEditClose = () => {
+		setIsEditOpen(false);
 	};
 	
 	const {
@@ -56,14 +67,20 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 						style={styles.FlashCardsTitleInput}
 					/>
 				</View>
-				<ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false}>
+				<ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false} scrollEnabled={false}>
 					{wordsData.map((item) => (
-						<WordCard
+						<TouchableOpacity 
 							key={item.id}
-							item={item}
-							setWordsData={setWordsData}
-							OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
-						/>
+							onPress={() => {
+								setActiveId(item.id);
+								handleEditOpen();
+							}}>
+							<WordCard
+								item={item}
+								setWordsData={setWordsData}
+								OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+							/>
+						</TouchableOpacity>
 					))}
 				</ScrollView>
 				<View style={styles.FlashCardsBottom}>
@@ -91,7 +108,15 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 				handleClose={handleClose}
 				handleAddNewWord={handleAddNewWord}
 				OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
-			></AddWordModal>
+			/>
+			{/* {activeId !== null && ( */}
+				<EditWordModal
+					isEditOpen={isEditOpen}
+					handleEditClose={handleEditClose}
+					item={wordsData.find((item) => item.id === activeId || {})}
+					setWordsData={setWordsData}
+				/>
+			{/* )} */}
 		</>
 	);
 };

@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
 import { WordDef } from '../../../../atom/FlashCardsDataState';
 import { generateExample, generateExampleReturn } from '../../../../lib/createExample';
+import { EditWordModal } from './EditWordModal';
 
 interface WordCardProps {
   item: WordDef;
@@ -22,6 +23,7 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
   const [wordExample, setWordExample] = useState<string>(example);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
@@ -37,6 +39,12 @@ export const WordCard: FC<WordCardProps> = ({
   const handleExampleChanged = (text: string) => {
     setWordExample(text);
   };
+	const handleOpen = () => {
+		setIsOpen(true);
+	};
+	const handleClose = () => {
+		setIsOpen(false);
+	};
 
   const upDateWord = () => {
     setWordsData((prev) =>
@@ -116,67 +124,37 @@ export const WordCard: FC<WordCardProps> = ({
   }, [wordName, wordMean, wordLang, wordExample]);
 
   return (
-    <View style={styles.WordCard}>
-      <View style={styles.row}>
-        <Text
-          style={styles.text}
-        >
-          {wordName}
-        </Text>
-        <Text
-          style={styles.text}
-        >
-          {wordMean}
-        </Text>
-        {/* <TextInput
-          style={styles.text}
-          value={wordName}
-          placeholder="単語名"
-          onChangeText={handleNameChanged}
-        />
-        <TextInput
-          style={styles.text}
-          value={wordMean}
-          placeholder="単語の意味"
-          onChangeText={handleMeanChanged}
-        /> */}
+    <>
+      <View style={styles.container}>
+          <View style={styles.WordCard}>
+            <View style={styles.row}>
+              <Text
+                style={styles.text}
+              >
+                {wordName}
+              </Text>
+              <Text
+                style={styles.text}
+              >
+                {wordMean}
+              </Text>
+            </View>
+          </View>
       </View>
-      {/* <View style={styles.row}>
-        <TextInput
-          style={styles.text}
-          value={wordLang}
-          placeholder="単語の言語"
-          onChangeText={handleLangChanged}
-        />
-        <TouchableOpacity
-          style={{ ...styles.text, ...styles.createExample }}
-          onPress={handleCreateExample}
-          disabled={loading}
-        >
-          <Text style={styles.createExampleText}>例文作成</Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* <TextInput
-        style={styles.textMulti}
-        multiline
-        value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
-        placeholder="例文"
-        onChangeText={handleExampleChanged}
-        editable={!loading}
-      /> */}
-      {/* <TouchableOpacity style={styles.remove} onPress={handleRemove}>
-        <Ionicons name="close" size={20} />
-      </TouchableOpacity> */}
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    flex: 1,
+  },
   WordCard: {
     flex: 1,
     width: '80%',
     borderRadius: 5,
-    // height: 225,
+    // height: 60,
     backgroundColor: '#D9D9D9',
     marginVertical: 5,
     marginHorizontal: '10%',
@@ -199,33 +177,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: 'center',
     fontSize: 15,
-  },
-  textMulti: {
-    flex: 1,
-    paddingVertical: 3,
-    backgroundColor: '#fff',
-    fontSize: 20,
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  createExample: {
-    backgroundColor: '#5C98B9',
-  },
-  createExampleText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  remove: {
-    width: 44,
-    height: 44,
-    backgroundColor: '#FF9D9D',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: -22,
-    right: -22,
-    position: 'absolute',
-  },
+  }
 });

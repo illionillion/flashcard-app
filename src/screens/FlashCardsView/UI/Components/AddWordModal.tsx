@@ -152,14 +152,14 @@ export const AddWordModal: FC<AddWordModalProps> = ({
                         />
                     </View>
                     <View style={styles.buttons}>
-                        <View style={styles.addButton}>
+                        <View style={{...styles.button, ...styles.addButton}}>
                             <Button 
                                 title="追加する"
                                 color={'#fff'}
                                 onPress={handleAdd}
                             />
                         </View>
-                        <View style={styles.closeButton}>
+                        <View style={{...styles.button, ...styles.closeButton}}>
                             <Button 
                                 title="閉じる"
                                 color={'#fff'}
@@ -171,7 +171,6 @@ export const AddWordModal: FC<AddWordModalProps> = ({
             )}      
         </>
     );
-    
 }
 const styles = StyleSheet.create({
     modalOverlay: {
@@ -218,21 +217,18 @@ const styles = StyleSheet.create({
         gap: 20,
         flexDirection: 'row',
     },
+    button: {
+      width: 110,
+      height: 50,
+      borderRadius: 5,
+      textAlign: 'center',
+      justifyContent: 'center',
+    },
     addButton: {
-        width: 110,
-        height: 50,
         backgroundColor: '#5FA1DE',
-        borderRadius: 5,
-        textAlign: 'center',
-        justifyContent: 'center',
     },
     closeButton: {
-        width: 110,
-        height: 50,
         backgroundColor: '#FF9D9D',
-        borderRadius: 5,
-        textAlign: 'center',
-        justifyContent: 'center',
     },
     textMulti: {
         flex: 1,
