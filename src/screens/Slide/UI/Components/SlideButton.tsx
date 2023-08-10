@@ -1,33 +1,41 @@
 import { FC } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface SlideButtonProps {
   text: string;
+  onPress: () => void;
 }
 
 export const SlideButton: FC<SlideButtonProps> = (props) => {
-	return (
-		<View style={styles.button}>
-			<Text style={styles.buttonText}>
-				{props.text}
-			</Text>
-		</View>
-	);
+  const { text, onPress } = props;
+
+  return (
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.buttonText}>{text}</Text>
+    </TouchableOpacity>
+  );
 };
 
-
 const styles = StyleSheet.create({
-	button: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#79BC6E',
-		width: 300,
-		height: 50,
-		margin: 10,
-	},
-	buttonText: {
-		color: '#fff',
-		fontSize: 20,
-	},
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#79BC6E',
+    width: 300,
+    height: 48,
+    margin: 10,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+  },
 });

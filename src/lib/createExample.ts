@@ -20,6 +20,13 @@ export interface generateExampleReturn {
 	status: number;
 }
 
+export interface generateExampleReturn {
+	success: boolean;
+    content: string;
+    errorMessage: string;
+	status: number;
+}
+
 /**
  * Axiosエラーか判定
  * @param error
@@ -36,6 +43,7 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @returns
  */
 export const generateExample = async (props: apiProps):Promise<generateExampleReturn> => {
+
 	const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
 
 	try {

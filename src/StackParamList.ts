@@ -6,8 +6,9 @@ export interface StackParamList extends ParamListBase {
     data: FlashCardsDef;
   };
   Slide: {
+    id: number;
     title: string;
-    data: WordDef[]
+    data: WordDef[];
   };
 }
 
