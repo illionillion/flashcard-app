@@ -99,7 +99,6 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   }, [navigation]);
 
   useEffect(()=>{
-    console.log("data", data.find(item => item.id === id)?.words);
     setWordsData(() => data.find(item => item.id === id)?.words || [])
   },[data])
 
