@@ -2,7 +2,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { FC, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import StackParamList from '../../../StackParamList';
 import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
 import { generateExampleReturn } from '../../../lib/createExample';
@@ -21,7 +21,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [flashcardName, setFlashcardName] = useState<string>(name);
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
-  const setData = useSetRecoilState(FlashCardsDataState);
+  const [data, setData] = useRecoilState(FlashCardsDataState);
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
     setButtonDisable(text.trim() === '');
@@ -97,6 +97,11 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     });
     return unsubscribe;
   }, [navigation]);
+
+  useEffect(()=>{
+    console.log("data", data.find(item => item.id === id)?.words);
+    setWordsData(() => data.find(item => item.id === id)?.words || [])
+  },[data])
 
   return (
     <FlashCardsViewPre
