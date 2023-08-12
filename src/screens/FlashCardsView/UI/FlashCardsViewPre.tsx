@@ -77,8 +77,6 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 							}}>
 							<WordCard
 								item={item}
-								setWordsData={setWordsData}
-								OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
 							/>
 						</TouchableOpacity>
 					))}
