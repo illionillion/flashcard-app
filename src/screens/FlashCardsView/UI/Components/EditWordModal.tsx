@@ -2,6 +2,10 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { Proficiency } from "../../../../atom/FlashCardsDataState";
+import { generateExample, generateExampleReturn } from "../../../../lib/createExample";
+import { useRecoilValue } from "recoil";
+import { APIKeyState } from "../../../../atom/APIKeyState";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 interface EditWordModalProps {
     isEditOpen: boolean;
@@ -15,19 +19,24 @@ interface EditWordModalProps {
     };
     handleEditClose: () => void;
     setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+    OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
 }
 
 export const EditWordModal: FC<EditWordModalProps> = ({
     isEditOpen, 
     item,
     handleEditClose,
-    setWordsData
+    setWordsData,
+    OpenCreateExampleErrorMessage,
 }) => {    
     const [wordName, setWordName] = useState<string>(item?.name || "");
     const [wordMean, setWordMean] = useState<string>(item?.mean || "");
     const [wordLang, setWordLang] = useState<string>(item?.lang || "");
     const [wordExample, setWordExample] = useState<string>(item?.example || "");
     const [loading, setLoading] = useState<boolean>(false);
+    const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
+    const [newExample, setNewExample] = useState<string>('');
+    const apiKey = useRecoilValue(APIKeyState);
 
     const handleNameChanged = (text: string) => {
         setWordName(text);
@@ -69,6 +78,58 @@ export const EditWordModal: FC<EditWordModalProps> = ({
         setWordExample(item?.example || "");
     }, [item]);
 
+    const handleCreateExample = async () => {
+        if ([wordName, wordMean, wordLang].includes('')) {
+          const errorMessage =
+            wordName === ''
+              ? '単語名を入力してください'
+              : wordMean === ''
+              ? '単語の意味を入力してください'
+              : '単語の言語を入力してください';
+          Toast.show({
+            text1: errorMessage,
+            type: 'error',
+            visibilityTime: 2000,
+          });
+          return;
+        }
+    
+        setLoading(true);
+    
+        // ここでChatGPTに送信したい
+        const result = await generateExample({
+          apiKey: apiKey,
+          wordLang: wordLang,
+          wordName: wordName,
+          wordMean: wordMean,
+        });
+    
+        const updateChar = async (i: number) => {
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              const char = result.content[i];
+              if (i === 0) {
+                setWordExamplePreview(() => char);
+              } else {
+                setWordExamplePreview((prev) => prev + char);
+              }
+              resolve();
+            }, 100);
+          });
+        };
+    
+        if (result.success) {
+          setNewExample(() => result.content);
+          for (let i = 0; i < result.content.length; i++) {
+            await updateChar(i);
+          }
+        } else {
+          OpenCreateExampleErrorMessage(result);
+        }
+    
+        setLoading(false);
+      };
+
     return (
         <>
             {isEditOpen && (
@@ -97,7 +158,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                             />
                             <TouchableOpacity
                                 style={{ ...styles.text, ...styles.createExample }}
-                                // onPress={handleCreateExample}
+                                onPress={handleCreateExample}
                                 disabled={loading}
                             >
                                 <Text style={styles.createExampleText}>例文作成</Text>
@@ -106,13 +167,20 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                             <TextInput
                                 style={styles.textMulti}
                                 multiline
-                                // value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
+                                value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
                                 placeholder="例文"
                                 onChangeText={handleExampleChanged}
                                 editable={!loading}
                             />
                     </View>
                     <View style={styles.buttons}>
+                        <View style={{...styles.button, ...styles.closeButton}}>
+                            <Button 
+                                title="編集完了"
+                                color={'#fff'}
+                                onPress={handleEdit}
+                            />
+                        </View>
                         <View style={{...styles.button, ...styles.deleteButton}}>
                             <Button 
                                 title="削除"
@@ -121,13 +189,6 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                                     handleRemove();
                                     handleEditClose();
                                 }}
-                            />
-                        </View>
-                        <View style={{...styles.button, ...styles.closeButton}}>
-                            <Button 
-                                title="編集完了"
-                                color={'#fff'}
-                                onPress={handleEdit}
                             />
                         </View>
                     </View>

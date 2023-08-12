@@ -115,6 +115,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 					handleEditClose={handleEditClose}
 					item={wordsData.find((item) => item.id === activeId || null)}
 					setWordsData={setWordsData}
+					OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
 				/>
 			)}
 		</>
