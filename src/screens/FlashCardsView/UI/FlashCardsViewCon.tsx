@@ -1,11 +1,13 @@
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import type { WordDef } from '../../../atom/FlashCardsDataState';
+import type StackParamList from '../../../StackParamList';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import type { generateExampleReturn } from '../../../lib/createExample';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useRecoilState } from 'recoil';
-import StackParamList from '../../../StackParamList';
-import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
-import { generateExampleReturn } from '../../../lib/createExample';
+import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { FlashCardsViewPre } from './FlashCardsViewPre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
