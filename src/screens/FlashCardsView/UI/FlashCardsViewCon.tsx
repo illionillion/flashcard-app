@@ -56,10 +56,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       prev.map((item) =>
         item.id === id
           ? {
-              id: id,
-              name: flashcardName,
-              words: wordsData,
-            }
+            id: id,
+            name: flashcardName,
+            words: wordsData,
+          }
           : item,
       ),
     );
@@ -101,8 +101,8 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   }, [navigation]);
 
   useEffect(()=>{
-    setWordsData(() => data.find(item => item.id === id)?.words || [])
-  },[data])
+    setWordsData(() => data.find(item => item.id === id)?.words || []);
+  },[data]);
 
   return (
     <FlashCardsViewPre
@@ -113,8 +113,8 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleAdd={handleAdd}
       handleSave={handleSave}
       setWordsData={setWordsData}
-      onPressToSlide={onPressToSlide}
       OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+      onPressToSlide={onPressToSlide}
     />
   );
 };

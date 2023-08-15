@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { StyleSheet, Text } from "react-native";
+import type { FC } from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 interface TextHighlightProps {
   cardName: string;
@@ -16,7 +16,7 @@ export const TextHighlight: FC<TextHighlightProps> = ({ cardName, searchValue })
     );
   }
 
-  const pattern = new RegExp(`(${searchValue})`, "gi");
+  const pattern = new RegExp(`(${searchValue})`, 'gi');
   const resultArr = cardName.split(pattern).filter(Boolean);
   const resultEle = resultArr.map((item, index) => {
     if (item.toLocaleLowerCase() === searchValue.toLocaleLowerCase()) {
@@ -37,10 +37,10 @@ export const TextHighlight: FC<TextHighlightProps> = ({ cardName, searchValue })
 const styles = StyleSheet.create({
   itemText: {
     paddingLeft: 8,
-    width: "40%",
+    width: '40%',
     fontSize: 16,
   },
   highlight: {
-    color: "red",
+    color: 'red',
   },
 });

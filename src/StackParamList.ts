@@ -1,5 +1,5 @@
-import { ParamListBase } from '@react-navigation/native';
-import { FlashCardsDef, WordDef } from './atom/FlashCardsDataState';
+import type { ParamListBase } from '@react-navigation/native';
+import type { FlashCardsDef, WordDef } from './atom/FlashCardsDataState';
 
 export interface StackParamList extends ParamListBase {
   FlashCardsView: {
