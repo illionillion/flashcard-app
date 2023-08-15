@@ -9,6 +9,8 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 interface EditWordModalProps {
     isEditOpen: boolean;
+    loading: boolean;
+    wordExamplePreview: string;
     item?: {
         id: number;
         name?: string;
@@ -19,23 +21,22 @@ interface EditWordModalProps {
     };
     handleEditClose: () => void;
     setWordsData: Dispatch<SetStateAction<WordDef[]>>;
-    OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
+    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
 }
 
 export const EditWordModal: FC<EditWordModalProps> = ({
     isEditOpen, 
+    loading,
+    wordExamplePreview,
     item,
     handleEditClose,
     setWordsData,
-    OpenCreateExampleErrorMessage,
+    handleCreateExample
 }) => {    
     const [wordName, setWordName] = useState<string>(item?.name || "");
     const [wordMean, setWordMean] = useState<string>(item?.mean || "");
     const [wordLang, setWordLang] = useState<string>(item?.lang || "");
     const [wordExample, setWordExample] = useState<string>(item?.example || "");
-    const [loading, setLoading] = useState<boolean>(false);
-    const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
-    const [newExample, setNewExample] = useState<string>('');
     const apiKey = useRecoilValue(APIKeyState);
 
     const handleNameChanged = (text: string) => {
@@ -78,58 +79,6 @@ export const EditWordModal: FC<EditWordModalProps> = ({
         setWordExample(item?.example || "");
     }, [item]);
 
-    const handleCreateExample = async () => {
-        if ([wordName, wordMean, wordLang].includes('')) {
-          const errorMessage =
-            wordName === ''
-              ? '単語名を入力してください'
-              : wordMean === ''
-              ? '単語の意味を入力してください'
-              : '単語の言語を入力してください';
-          Toast.show({
-            text1: errorMessage,
-            type: 'error',
-            visibilityTime: 2000,
-          });
-          return;
-        }
-    
-        setLoading(true);
-    
-        // ここでChatGPTに送信したい
-        const result = await generateExample({
-          apiKey: apiKey,
-          wordLang: wordLang,
-          wordName: wordName,
-          wordMean: wordMean,
-        });
-    
-        const updateChar = async (i: number) => {
-          return new Promise<void>((resolve) => {
-            setTimeout(() => {
-              const char = result.content[i];
-              if (i === 0) {
-                setWordExamplePreview(() => char);
-              } else {
-                setWordExamplePreview((prev) => prev + char);
-              }
-              resolve();
-            }, 100);
-          });
-        };
-    
-        if (result.success) {
-          setNewExample(() => result.content);
-          for (let i = 0; i < result.content.length; i++) {
-            await updateChar(i);
-          }
-        } else {
-          OpenCreateExampleErrorMessage(result);
-        }
-    
-        setLoading(false);
-      };
-
     return (
         <>
             {isEditOpen && (
@@ -158,7 +107,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                             />
                             <TouchableOpacity
                                 style={{ ...styles.text, ...styles.createExample }}
-                                onPress={handleCreateExample}
+                                onPress={() => handleCreateExample(wordName, wordMean, wordLang, apiKey)}
                                 disabled={loading}
                             >
                                 <Text style={styles.createExampleText}>例文作成</Text>
