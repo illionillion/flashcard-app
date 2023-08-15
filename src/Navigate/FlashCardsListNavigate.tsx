@@ -55,7 +55,7 @@ export const FlashCardsListNavigate: FC = () => {
       />
       <Stack.Screen
         name="FlashCardsView"
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         component={FlashCardsViewCon}
         options={({ route }) => ({
@@ -64,7 +64,7 @@ export const FlashCardsListNavigate: FC = () => {
       />
       <Stack.Screen
         name="Slide"
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         component={SlideCon}
         options={({ route }) => ({

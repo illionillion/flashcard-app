@@ -21,10 +21,10 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
-	// no-mixed-spaces-and-tabsルールを削除するか、offに設定する
+    // no-mixed-spaces-and-tabsルールを削除するか、offに設定する
     'no-mixed-spaces-and-tabs': 'off',
     // // インデントはスペースで統一
-    // indent: ['error', 2, { SwitchCase: 1 }],
+    indent: ['error', 2, { SwitchCase: 1 }],
 
     // // タブ文字は使用しない
     // 'no-tabs': 'error',
