@@ -22,10 +22,28 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
   const setData = useSetRecoilState(FlashCardsDataState);
+  const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
+	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<number | null>(null);
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
     setButtonDisable(text.trim() === '');
   };
+  const handleOpen = () => {
+		setIsAddOpen(true);
+	};
+
+	const handleClose = () => {
+		setIsAddOpen(false);
+	};
+
+	const handleEditOpen = () => {
+		setIsEditOpen(true);
+	};
+
+	const handleEditClose = () => {
+		setIsEditOpen(false);
+	};
   const handleAdd = () => {
     setWordsData((prev) => [
       ...prev,
@@ -88,6 +106,9 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       },
     ]);
   };
+  const handleAddNewWord = (newWord: WordDef) => {
+		setWordsData((prev) => [...prev, newWord]);
+	};
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('blur', () => {
@@ -103,12 +124,21 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       flashcardName={flashcardName}
       buttonDisable={buttonDisable}
       wordsData={wordsData}
+      isAddOpen={isAddOpen}
+      isEditOpen={isEditOpen}
+      activeId={activeId}
       handleNameChanged={handleNameChanged}
       handleAdd={handleAdd}
       handleSave={handleSave}
       setWordsData={setWordsData}
       onPressToSlide={onPressToSlide}
       OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+      handleOpen={handleOpen}
+      handleClose={handleClose}
+      handleEditOpen={handleEditOpen}
+      handleEditClose={handleEditClose}
+      handleAddNewWord={handleAddNewWord}
+      setActiveId={setActiveId}
     />
   );
 };

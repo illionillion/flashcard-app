@@ -11,50 +11,43 @@ export interface FlashCardsListPreProps {
   flashcardName: string;
   buttonDisable: boolean;
   wordsData: WordDef[];
+  isAddOpen: boolean;
+  isEditOpen: boolean;
+  activeId: number | null;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
   handleNameChanged: (text: string) => void;
   handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
   OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
+  handleOpen: () => void;
+  handleClose: () => void;
+  handleEditOpen: () => void;
+  handleEditClose: () => void;
+  handleAddNewWord:(newWord: WordDef) => void;
+  setActiveId: Dispatch<SetStateAction<number | null>>;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-	const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
-	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-	const [activeId, setActiveId] = useState<number | null>(null);
-
-	const handleOpen = () => {
-		setIsAddOpen(true);
-	};
-
-	const handleClose = () => {
-		setIsAddOpen(false);
-	};
-
-	const handleEditOpen = () => {
-		setIsEditOpen(true);
-	};
-
-	const handleEditClose = () => {
-		setIsEditOpen(false);
-	};
-	
 	const {
 		flashcardName,
 		buttonDisable,
 		wordsData,
+		isAddOpen,
+		isEditOpen,
+		activeId,
 		handleNameChanged,
-		handleAdd,
 		handleSave,
 		setWordsData,
 		onPressToSlide,
 		OpenCreateExampleErrorMessage,
+		handleOpen,
+		handleClose,
+		handleEditOpen,
+		handleEditClose,
+		handleAddNewWord,
+		setActiveId
 	} = props;
-
-	const handleAddNewWord = (newWord: WordDef) => {
-		setWordsData((prev) => [...prev, newWord]);
-	};
 
 	return (
 		<>
