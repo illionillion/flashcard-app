@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface SlideButtonProps {

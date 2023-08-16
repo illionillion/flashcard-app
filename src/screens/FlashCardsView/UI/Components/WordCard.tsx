@@ -1,11 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import type { Dispatch, FC, SetStateAction} from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
-import { WordDef } from '../../../../atom/FlashCardsDataState';
-import { generateExample, generateExampleReturn } from '../../../../lib/createExample';
+import type { WordDef } from '../../../../atom/FlashCardsDataState';
+import type { generateExampleReturn } from '../../../../lib/createExample';
+import { generateExample } from '../../../../lib/createExample';
 
 interface WordCardProps {
   item: WordDef;
@@ -43,13 +45,13 @@ export const WordCard: FC<WordCardProps> = ({
       prev.map((item) =>
         item.id === id
           ? {
-              id: id,
-              name: wordName,
-              mean: wordMean,
-              lang: wordLang,
-              example: wordExample,
-              proficiency: proficiency,
-            }
+            id: id,
+            name: wordName,
+            mean: wordMean,
+            lang: wordLang,
+            example: wordExample,
+            proficiency: proficiency,
+          }
           : item,
       ),
     );
@@ -65,8 +67,8 @@ export const WordCard: FC<WordCardProps> = ({
         wordName === ''
           ? '単語名を入力してください'
           : wordMean === ''
-          ? '単語の意味を入力してください'
-          : '単語の言語を入力してください';
+            ? '単語の意味を入力してください'
+            : '単語の言語を入力してください';
       Toast.show({
         text1: errorMessage,
         type: 'error',
@@ -140,19 +142,19 @@ export const WordCard: FC<WordCardProps> = ({
         />
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
-          onPress={handleCreateExample}
           disabled={loading}
+          onPress={handleCreateExample}
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
       <TextInput
-        style={styles.textMulti}
         multiline
+        style={styles.textMulti}
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
-        onChangeText={handleExampleChanged}
         editable={!loading}
+        onChangeText={handleExampleChanged}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
