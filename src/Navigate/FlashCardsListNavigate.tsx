@@ -56,7 +56,7 @@ export const FlashCardsListNavigate: FC = () => {
       <Stack.Screen
         name="FlashCardsView"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error 後で型を合わせる
         component={FlashCardsViewCon}
         options={({ route }) => ({
           title: (route.params as StackParamList['FlashCardsView']).data.name || '',
@@ -65,7 +65,7 @@ export const FlashCardsListNavigate: FC = () => {
       <Stack.Screen
         name="Slide"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error 後で型を合わせる
         component={SlideCon}
         options={({ route }) => ({
           title: (route.params as StackParamList['Slide']).title
