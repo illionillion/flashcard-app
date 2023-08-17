@@ -6,13 +6,9 @@ import type { generateExampleReturn } from '../../../lib/createExample';
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useSetRecoilState } from 'recoil';
-import StackParamList from '../../../StackParamList';
-import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
-import { generateExampleReturn } from '../../../lib/createExample';
-import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { useRecoilState } from 'recoil';
-import { generateExample, generateExampleReturn } from '../../../lib/createExample';
+import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
+import { generateExample} from '../../../lib/createExample';
 
 import { FlashCardsViewPre } from './FlashCardsViewPre';
 
@@ -29,13 +25,13 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [flashcardName, setFlashcardName] = useState<string>(name);
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
-  const setData = useSetRecoilState(FlashCardsDataState);
   const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
 	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
   const [newExample, setNewExample] = useState<string>('');
+  const [data, setData] = useRecoilState(FlashCardsDataState);
 
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
