@@ -11,50 +11,50 @@ export interface FlashCardsListPreProps {
   flashcardName: string;
   buttonDisable: boolean;
   wordsData: WordDef[];
+  isAddOpen: boolean;
+  isEditOpen: boolean;
+  activeId: number | null;
+  loading: boolean;
+  wordExamplePreview: string;
+  newExample: string;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
   handleNameChanged: (text: string) => void;
-  handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
-  OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
+  handleOpen: () => void;
+  handleClose: () => void;
+  handleEditOpen: () => void;
+  handleEditClose: () => void;
+  handleAddNewWord:(newWord: WordDef) => void;
+  setActiveId: Dispatch<SetStateAction<number | null>>;
+  handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+  setNewExample: Dispatch<SetStateAction<string>>;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-	const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
-	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-	const [activeId, setActiveId] = useState<number | null>(null);
-
-	const handleOpen = () => {
-		setIsAddOpen(true);
-	};
-
-	const handleClose = () => {
-		setIsAddOpen(false);
-	};
-
-	const handleEditOpen = () => {
-		setIsEditOpen(true);
-	};
-
-	const handleEditClose = () => {
-		setIsEditOpen(false);
-	};
-	
 	const {
 		flashcardName,
 		buttonDisable,
 		wordsData,
+		isAddOpen,
+		isEditOpen,
+		activeId,
+		loading,
+		wordExamplePreview,
+		newExample,
 		handleNameChanged,
-		handleAdd,
 		handleSave,
 		setWordsData,
 		onPressToSlide,
-		OpenCreateExampleErrorMessage,
+		handleOpen,
+		handleClose,
+		handleEditOpen,
+		handleEditClose,
+		handleAddNewWord,
+		setActiveId,
+		handleCreateExample,
+		setNewExample
 	} = props;
-
-	const handleAddNewWord = (newWord: WordDef) => {
-		setWordsData((prev) => [...prev, newWord]);
-	};
 
 	return (
 		<>
@@ -103,17 +103,23 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 			</View>
 			<AddWordModal
 				isAddOpen={isAddOpen}
+				loading={loading}
+				wordExamplePreview={wordExamplePreview}
+				newExample={newExample}
+				setNewExample={setNewExample}
 				handleClose={handleClose}
 				handleAddNewWord={handleAddNewWord}
-				OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+				handleCreateExample={handleCreateExample}
 			/>
 			{activeId !== null && (
 				<EditWordModal
 					isEditOpen={isEditOpen}
+					loading={loading}
+					wordExamplePreview={wordExamplePreview}
 					handleEditClose={handleEditClose}
 					item={wordsData.find((item) => item.id === activeId || null)}
 					setWordsData={setWordsData}
-					OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+					handleCreateExample={handleCreateExample}
 				/>
 			)}
 		</>

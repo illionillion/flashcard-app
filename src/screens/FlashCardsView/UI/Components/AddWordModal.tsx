@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Proficiency, WordDef } from "../../../../atom/FlashCardsDataState";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
@@ -8,24 +8,29 @@ import { APIKeyState } from "../../../../atom/APIKeyState";
 
 interface AddWordModalProps {
     isAddOpen: boolean;
+    loading: boolean;
+    wordExamplePreview: string;
+    newExample: string;
     handleClose: () => void;
     handleAddNewWord: (newWord: WordDef) => void;
-    OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
+    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+    setNewExample: Dispatch<SetStateAction<string>>;
 }
 
 export const AddWordModal: FC<AddWordModalProps> = ({ 
     isAddOpen, 
+    loading,
+		wordExamplePreview,
+		newExample,
+    setNewExample,
     handleClose, 
     handleAddNewWord,
-    OpenCreateExampleErrorMessage,
+    handleCreateExample
 }) => {
     const [newWord, setNewWord] = useState<string>('');
     const [newMean, setNewMean] = useState<string>('');
     const [newLang, setNewLang] = useState<string>('');
-    const [newExample, setNewExample] = useState<string>('');
     const [wordsData, setWordsData] = useState<WordDef[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
     const apiKey = useRecoilValue(APIKeyState);
 
     const handleAdd = () => {
@@ -57,58 +62,6 @@ export const AddWordModal: FC<AddWordModalProps> = ({
         setNewExample('');
         handleClose();
     };
-    
-    const handleCreateExample = async () => {
-        if ([newWord, newMean, newLang].includes('')) {
-          const errorMessage =
-            newWord === ''
-              ? '単語名を入力してください'
-              : newMean === ''
-              ? '単語の意味を入力してください'
-              : '単語の言語を入力してください';
-          Toast.show({
-            text1: errorMessage,
-            type: 'error',
-            visibilityTime: 2000,
-          });
-          return;
-        }
-    
-        setLoading(true);
-    
-        // ここでChatGPTに送信したい
-        const result = await generateExample({
-          apiKey: apiKey,
-          wordLang: newLang,
-          wordName: newWord,
-          wordMean: newMean,
-        });
-    
-        const updateChar = async (i: number) => {
-          return new Promise<void>((resolve) => {
-            setTimeout(() => {
-              const char = result.content[i];
-              if (i === 0) {
-                setWordExamplePreview(() => char);
-              } else {
-                setWordExamplePreview((prev) => prev + char);
-              }
-              resolve();
-            }, 100);
-          });
-        };
-    
-        if (result.success) {
-          setNewExample(() => result.content);
-          for (let i = 0; i < result.content.length; i++) {
-            await updateChar(i);
-          }
-        } else {
-          OpenCreateExampleErrorMessage(result);
-        }
-    
-        setLoading(false);
-      };
 
     return (
         <>
@@ -138,7 +91,7 @@ export const AddWordModal: FC<AddWordModalProps> = ({
                             />
                             <TouchableOpacity
                                 style={{ ...styles.text, ...styles.createExample }}
-                                onPress={handleCreateExample}
+                                onPress={() => handleCreateExample(newWord, newMean, newLang, apiKey)}
                                 disabled={loading}
                                 >
                                 <Text style={styles.createExampleText}>例文作成</Text>
