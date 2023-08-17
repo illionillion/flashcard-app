@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -38,19 +38,19 @@ export const SettingPre: FC<SettingPreProps> = ({
               style={styles.input}
               placeholder="APIキーを設定する"
               value={inputValue}
-              onChangeText={handleChangeText}
               keyboardType="visible-password"
               autoFocus={true}
+              onChangeText={handleChangeText}
             />
           </View>
           <View style={styles.row}>
             <TouchableOpacity
-              onPress={handleClickToggleEditModeButton}
               style={[styles.button, styles.cancelButton]}
+              onPress={handleClickToggleEditModeButton}
             >
               <Text style={styles.cancelButtonText}>キャンセル</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleSave} style={[styles.button, styles.saveButton]}>
+            <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={handleSave}>
               <Text style={styles.buttonText}>保存する</Text>
             </TouchableOpacity>
           </View>
@@ -65,7 +65,7 @@ export const SettingPre: FC<SettingPreProps> = ({
                 : apiKey || '未設定'}
             </Text>
           </View>
-          <TouchableOpacity onPress={handleClickToggleEditModeButton} style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleClickToggleEditModeButton}>
             <Text style={styles.buttonText}>APIキーを編集する</Text>
           </TouchableOpacity>
         </>
