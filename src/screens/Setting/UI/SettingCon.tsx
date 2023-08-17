@@ -4,6 +4,7 @@ import { Linking } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilState } from 'recoil';
 import { APIKeyState } from '../../../atom/APIKeyState';
+import { SentenceDiffState } from '../../../atom/SentenceDiffState';
 import { SettingPre } from './SettingPre';
 
 /**
@@ -14,7 +15,7 @@ export const SettingCon: FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [apiKey, setApiKey] = useRecoilState(APIKeyState);
   const [inputValue, setInputValue] = useState(apiKey);
-  const [difficulty, setDifficulty] = useState<'easy' | 'normal' | 'hard'>('normal');
+  const [difficulty, setDifficulty] = useRecoilState(SentenceDiffState);
 
   const handleChangeText = (text: string) => {
     setInputValue(text);

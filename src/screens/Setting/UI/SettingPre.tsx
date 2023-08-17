@@ -92,6 +92,7 @@ export const SettingPre: FC<SettingPreProps> = ({
             <RadioButton.Android
               value="easy"
               status={difficulty === "easy" ? "checked" : "unchecked"}
+              onPress={() => setDifficulty("easy")}
               color="#4CAF50"
               id="easy"
             />
@@ -103,6 +104,7 @@ export const SettingPre: FC<SettingPreProps> = ({
             <RadioButton.Android
               value="normal"
               status={difficulty === "normal" ? "checked" : "unchecked"}
+              onPress={() => setDifficulty("normal")}
               color="#FF9800"
               id="normal"
             />

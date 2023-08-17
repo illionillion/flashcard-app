@@ -7,7 +7,6 @@ import StackParamList from '../../../StackParamList';
 import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
 import { generateExampleReturn } from '../../../lib/createExample';
 import { FlashCardsViewPre } from './FlashCardsViewPre';
-import { generateExampleReturn } from '../../../lib/createExample';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
 
