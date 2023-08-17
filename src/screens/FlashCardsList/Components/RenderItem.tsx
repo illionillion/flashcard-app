@@ -1,9 +1,11 @@
-import { FC, useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useSetRecoilState } from 'recoil';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 interface RenderItemProps {
 	id: number;
 	name: string;

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { FC, useEffect } from 'react';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import type { FC} from 'react';
+import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { FlashCardsDataState, FlashCardsDef } from '../../../atom/FlashCardsDataState';
+import type { FlashCardsDef } from '../../../atom/FlashCardsDataState';
+import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { PopoverState } from '../../../atom/PopoverState';
 import { FlashCardsListPre } from './FlashCardsListPre';
 export interface FlashCardListProps {
@@ -15,10 +17,6 @@ export interface FlashCardListProps {
 export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
   const data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
   const setPopover = useSetRecoilState(PopoverState);
-
-  const rows: FlashCardsDef[][] = Array.from({ length: Math.ceil(data.length / 2) }, (_, index) =>
-    data.slice(index * 2, index * 2 + 2),
-  );
 
   const onPressCard = (id: number) => {
     navigation.navigate('FlashCardsView', {
@@ -35,5 +33,5 @@ export const FlashCardsListCon: FC<FlashCardListProps> = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation]);
-  return <FlashCardsListPre rows={rows} onPressCard={onPressCard} onPressButton={onPressButton} />;
+  return <FlashCardsListPre rows={data} onPressCard={onPressCard} onPressButton={onPressButton} />;
 };
