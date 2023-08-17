@@ -3,7 +3,6 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
-import { generateExampleReturn } from '../../../lib/createExample';
 import { AddWordModal } from './Components/AddWordModal';
 import { EditWordModal } from './Components/EditWordModal';
 
