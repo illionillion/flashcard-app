@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { WordDef } from '../../../atom/FlashCardsDataState';
+import type { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
-import { generateExampleReturn } from '../../../lib/createExample';
 import { AddWordModal } from './Components/AddWordModal';
 import { EditWordModal } from './Components/EditWordModal';
+import type { generateExampleReturn } from '../../../lib/createExample';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
@@ -121,65 +121,65 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-	FlashCardsContainer: {
-		position: 'relative',
-		flex: 1,
-	},
-	FlashCardsTitleContainer: {
-		paddingTop: 37,
-		paddingBottom: 28,
-		paddingHorizontal: 28,
-	},
-	FlashCardsTitleInput: {
-		paddingHorizontal: 18,
-		height: 38,
-		borderWidth: 1,
-		borderStyle: 'solid',
-		borderColor: '#000',
-		borderRadius: 5,
-		fontSize: 20,
-	},
-	FlashScrollContainer: {
-		flexGrow: 1,
-	},
+  FlashCardsContainer: {
+    position: 'relative',
+    flex: 1,
+  },
+  FlashCardsTitleContainer: {
+    paddingTop: 37,
+    paddingBottom: 28,
+    paddingHorizontal: 28,
+  },
+  FlashCardsTitleInput: {
+    paddingHorizontal: 18,
+    height: 38,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    borderRadius: 5,
+    fontSize: 20,
+  },
+  FlashScrollContainer: {
+    flexGrow: 1,
+  },
 
-	FlashCardsBottom: {
-		flexDirection: 'row',
-		gap: 10,
-		paddingVertical: 15,
-		paddingHorizontal: 30,
-		textAlign: 'center',
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%',
-	},
-	ButtonCommon: {
-		width: 130,
-		height: 50,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 5,
-	},
-	SaveButton: {
-		backgroundColor: '#5FA1DE',
-	},
-	SaveButtonText: {
-		color: '#fff',
-		fontSize: 15,
-	},
-	SlideButton: {
-		backgroundColor: '#fff',
-		borderWidth: 1,
-	},
-	SlideButtonText: {
-		fontSize: 15,
-	},
-	PlusButton: {
-		backgroundColor: '#599D4D',
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 53,
-		height: 53,
-		borderRadius: 50,
-	},
+  FlashCardsBottom: {
+    flexDirection: 'row',
+    gap: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  ButtonCommon: {
+    width: 130,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  SaveButton: {
+    backgroundColor: '#5FA1DE',
+  },
+  SaveButtonText: {
+    color: '#fff',
+    fontSize: 15,
+  },
+  SlideButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+  },
+  SlideButtonText: {
+    fontSize: 15,
+  },
+  PlusButton: {
+    backgroundColor: '#599D4D',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 53,
+    height: 53,
+    borderRadius: 50,
+  },
 });

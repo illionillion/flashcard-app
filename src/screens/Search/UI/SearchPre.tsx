@@ -1,8 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
-import { FC } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { TextHighlight } from "./Components/TextHighlight";
-import { FilteredData } from "./SearchCon";
+import { Ionicons } from '@expo/vector-icons';
+import type { FC } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TextHighlight } from './Components/TextHighlight';
+import type { FilteredData } from './SearchCon';
 
 interface SearchPreProps {
   searchValue: string;
@@ -23,15 +23,15 @@ export const SearchPre: FC<SearchPreProps> = ({
 }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.searchContainer}>
           <Ionicons name="search-outline" size={24} color="#555" style={styles.searchIcon} />
           <TextInput
             placeholder="検索"
             value={searchValue}
-            onChangeText={(text) => handleSearch(text)}
             style={styles.searchInput}
             autoCapitalize="none"
+            onChangeText={(text) => handleSearch(text)}
           />
         </View>
         {filteredData.length > 0 ? (
@@ -46,11 +46,11 @@ export const SearchPre: FC<SearchPreProps> = ({
                   <Text style={styles.fileNameText}>{card.fileName}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleToggle(card.fileId, card.id)}
                   style={styles.toggleIconContainer}
+                  onPress={() => handleToggle(card.fileId, card.id)}
                 >
                   <Ionicons
-                    name={card.isOpen ? "chevron-up-outline" : "chevron-down-outline"}
+                    name={card.isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}
                     size={24}
                     color="#555"
                     style={styles.toggleIcon}
@@ -75,12 +75,12 @@ export const SearchPre: FC<SearchPreProps> = ({
 
 const styles = StyleSheet.create({
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 50,
-    width: "80%",
+    width: '80%',
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderRadius: 5,
     marginTop: 30,
     marginBottom: 40,
@@ -94,30 +94,30 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     padding: 12,
-    width: "80%",
+    width: '80%',
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderRadius: 5,
     fontSize: 16,
   },
   itemHeader: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   fileNameContainer: {
-    width: "40%",
+    width: '40%',
   },
   fileNameText: {
     fontSize: 16,
-    color: "#06c3ff",
-    textDecorationLine: "underline",
-    alignSelf: "flex-end",
+    color: '#06c3ff',
+    textDecorationLine: 'underline',
+    alignSelf: 'flex-end',
   },
   toggleIconContainer: {
-    width: "20%",
+    width: '20%',
   },
   toggleIcon: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   meaningText: {
     fontSize: 16,
@@ -129,12 +129,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginTop: 8,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     padding: 12,
   },
   noMatchText: {
     marginTop: 100,
-    color: "gray",
+    color: 'gray',
     fontSize: 16,
   },
 });
