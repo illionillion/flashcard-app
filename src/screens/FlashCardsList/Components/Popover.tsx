@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction} from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
