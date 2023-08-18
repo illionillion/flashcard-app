@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import type { Dispatch, FC, SetStateAction} from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';

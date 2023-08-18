@@ -3,7 +3,8 @@ import type { FC, ReactNode, RefObject } from 'react';
 import { StyleSheet } from 'react-native';
 import type {
   HandlerStateChangeEvent,
-  ScrollView} from 'react-native-gesture-handler';
+  ScrollView
+} from 'react-native-gesture-handler';
 import {
   GestureHandlerRootView,
   PanGestureHandler

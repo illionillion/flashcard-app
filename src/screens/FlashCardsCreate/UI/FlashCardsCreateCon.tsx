@@ -1,4 +1,4 @@
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useState } from 'react';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
