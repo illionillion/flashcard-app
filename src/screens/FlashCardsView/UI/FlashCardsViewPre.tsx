@@ -5,7 +5,6 @@ import type { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
 import { AddWordModal } from './Components/AddWordModal';
 import { EditWordModal } from './Components/EditWordModal';
-import type { generateExampleReturn } from '../../../lib/createExample';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;

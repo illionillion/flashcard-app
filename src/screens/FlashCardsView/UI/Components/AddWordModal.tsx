@@ -1,8 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Proficiency, WordDef } from "../../../../atom/FlashCardsDataState";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { generateExample, generateExampleReturn } from "../../../../lib/createExample";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
 

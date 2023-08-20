@@ -2,10 +2,8 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { Proficiency } from "../../../../atom/FlashCardsDataState";
-import { generateExample, generateExampleReturn } from "../../../../lib/createExample";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 interface EditWordModalProps {
     isEditOpen: boolean;
