@@ -122,10 +122,16 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity 
-                            style={{...styles.button, ...styles.closeButton}}
+                            style={{...styles.button, ...styles.completeButton}}
                             onPress={handleEdit}
                         >
                             <Text style={styles.buttonText}>編集完了</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{...styles.button, ...styles.closeButton}}
+                            onPress={handleEditClose}
+                        >
+                            <Text style={styles.buttonText}>閉じる</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={{...styles.button, ...styles.deleteButton}}
@@ -201,16 +207,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        width: 110,
+        width: 80,
         height: 50,
         borderRadius: 5,
         textAlign: 'center',
         justifyContent: 'center',
     },
-    deleteButton: {
+    closeButton: {
         backgroundColor: '#FF9D9D',
     },
-    closeButton: {
+    deleteButton: {
+        backgroundColor: '#EF4123',
+    },
+    completeButton: {
         backgroundColor: '#5FA1DE',
     },
     buttonText: {
