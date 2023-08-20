@@ -1,5 +1,5 @@
 
-import type { BaseToastProps} from 'react-native-toast-message';
+import type { BaseToastProps } from 'react-native-toast-message';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { RecoilRoot } from 'recoil';
 import { BottomTabNavigate } from './src/Navigate/BottomTabNavigate';

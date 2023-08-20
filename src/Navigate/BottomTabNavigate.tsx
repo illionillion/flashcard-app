@@ -5,14 +5,15 @@ import { FlashCardsCreateCon } from '../screens/FlashCardsCreate/UI/FlashCardsCr
 import { SearchCon } from '../screens/Search/UI/SearchCon';
 import { SettingCon } from '../screens/Setting/UI/SettingCon';
 import { FlashCardsListNavigate } from './FlashCardsListNavigate';
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { APIKeyState } from '../atom/APIKeyState';
 import { getData, setData } from '../lib/DataSave';
 import type {
-  FlashCardsDef} from '../atom/FlashCardsDataState';
+  FlashCardsDef
+} from '../atom/FlashCardsDataState';
 import {
   FlashCardsDataState
 } from '../atom/FlashCardsDataState';

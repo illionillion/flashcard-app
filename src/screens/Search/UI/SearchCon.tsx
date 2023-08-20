@@ -4,7 +4,8 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import type {
-  FlashCardsDef} from '../../../atom/FlashCardsDataState';
+  FlashCardsDef
+} from '../../../atom/FlashCardsDataState';
 import {
   FlashCardsDataState
 } from '../../../atom/FlashCardsDataState';

@@ -1,5 +1,10 @@
-import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { useRecoilValue } from 'recoil';
+import { APIKeyState } from '../../../../atom/APIKeyState';
 import type { WordDef } from '../../../../atom/FlashCardsDataState';
 
 interface WordCardProps {
