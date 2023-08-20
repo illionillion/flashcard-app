@@ -11,12 +11,12 @@ export const WordCard: FC<WordCardProps> = ({
   return (
     <>
       <View style={styles.container}>
-          <View style={styles.WordCard}>
-            <View style={styles.row}>
-              <Text style={styles.text}>{item.name}</Text>
-              <Text style={styles.text}>{item.mean}</Text>
-            </View>
+        <View style={styles.WordCard}>
+          <View style={styles.row}>
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item.mean}</Text>
           </View>
+        </View>
       </View>
     </>
   );

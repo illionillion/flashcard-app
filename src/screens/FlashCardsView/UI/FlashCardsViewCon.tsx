@@ -26,7 +26,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
   const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
-	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
@@ -38,42 +38,19 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     setButtonDisable(text.trim() === '');
   };
   const handleOpen = () => {
-		setIsAddOpen(true);
-	};
+    setIsAddOpen(true);
+  };
 
-	const handleClose = () => {
-		setIsAddOpen(false);
-	};
+  const handleClose = () => {
+    setIsAddOpen(false);
+  };
 
-	const handleEditOpen = () => {
-		setIsEditOpen(true);
-	};
+  const handleEditOpen = () => {
+    setIsEditOpen(true);
+  };
 
-	const handleEditClose = () => {
-		setIsEditOpen(false);
-	};
-  const handleAdd = () => {
-    setWordsData((prev) => [
-      ...prev,
-      {
-        id: (() => {
-          if (prev.length === 0) {
-            return 0;
-          }
-
-          const maxId = prev.reduce((max, card) => {
-            return Math.max(max, card.id);
-          }, -1);
-
-          return maxId + 1;
-        })(),
-        name: '',
-        lang: '',
-        mean: '',
-        example: '',
-        proficiency: 'learning',
-      },
-    ]);
+  const handleEditClose = () => {
+    setIsEditOpen(false);
   };
   const handleSave = () => {
     setData((prev) =>
@@ -115,21 +92,21 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     ]);
   };
   const handleAddNewWord = (newWord: WordDef) => {
-		setWordsData((prev) => [...prev, newWord]);
-	};
+    setWordsData((prev) => [...prev, newWord]);
+  };
   const handleCreateExample = async (
     newWord: string,
     newMean: string,
     newLang: string,
     apiKey: string
-    ) => {
+  ) => {
     if ([newWord, newMean, newLang].includes('')) {
       const errorMessage =
         newWord === ''
           ? '単語名を入力してください'
           : newMean === ''
-          ? '単語の意味を入力してください'
-          : '単語の言語を入力してください';
+            ? '単語の意味を入力してください'
+            : '単語の言語を入力してください';
       Toast.show({
         text1: errorMessage,
         type: 'error',
@@ -201,7 +178,6 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleNameChanged={handleNameChanged}
       handleSave={handleSave}
       setWordsData={setWordsData}
-      onPressToSlide={onPressToSlide}
       handleOpen={handleOpen}
       handleClose={handleClose}
       handleEditOpen={handleEditOpen}
@@ -211,6 +187,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleCreateExample={handleCreateExample}
       setNewExample={setNewExample}
       setLoading={setLoading}
+      onPressToSlide={onPressToSlide}
     />
   );
 };

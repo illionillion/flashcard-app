@@ -32,101 +32,101 @@ export interface FlashCardsListPreProps {
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-	const {
-		flashcardName,
-		buttonDisable,
-		wordsData,
-		isAddOpen,
-		isEditOpen,
-		activeId,
-		loading,
-		wordExamplePreview,
-		newExample,
-		handleNameChanged,
-		handleSave,
-		setWordsData,
-		onPressToSlide,
-		handleOpen,
-		handleClose,
-		handleEditOpen,
-		handleEditClose,
-		handleAddNewWord,
-		setActiveId,
-		handleCreateExample,
-		setNewExample,
-		setLoading
-	} = props;
+  const {
+    flashcardName,
+    buttonDisable,
+    wordsData,
+    isAddOpen,
+    isEditOpen,
+    activeId,
+    loading,
+    wordExamplePreview,
+    newExample,
+    handleNameChanged,
+    handleSave,
+    setWordsData,
+    onPressToSlide,
+    handleOpen,
+    handleClose,
+    handleEditOpen,
+    handleEditClose,
+    handleAddNewWord,
+    setActiveId,
+    handleCreateExample,
+    setNewExample,
+    setLoading
+  } = props;
 
-	return (
-		<>
-			<View style={styles.FlashCardsContainer}>
-				<View style={styles.FlashCardsTitleContainer}>
-					<TextInput
-						value={flashcardName}
-						onChangeText={handleNameChanged}
-						placeholder="単語帳名を入力"
-						style={styles.FlashCardsTitleInput}
-					/>
-				</View>
-				<ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false} scrollEnabled={false}>
-					{wordsData.map((item) => (
-						<TouchableOpacity 
-							key={item.id}
-							onPress={() => {
-								setActiveId(item.id);
-								handleEditOpen();
-							}}>
-							<WordCard
-								item={item}
-							/>
-						</TouchableOpacity>
-					))}
-				</ScrollView>
-				<View style={styles.FlashCardsBottom}>
-					<TouchableOpacity
-						style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
-						disabled={buttonDisable}
-						onPress={handleSave}
-					>
-						<Text style={styles.SaveButtonText}>保存する</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
-						onPress={onPressToSlide}
-						disabled={wordsData.length === 0 ? true : false}
-					>
-						<Text style={styles.SlideButtonText}>スライドショー</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
-						<Ionicons name="add" size={20} color="#fff" />
-					</TouchableOpacity>
-				</View>
-			</View>
-			<AddWordModal
-				isAddOpen={isAddOpen}
-				loading={loading}
-				wordExamplePreview={wordExamplePreview}
-				newExample={newExample}
-				setNewExample={setNewExample}
-				handleClose={handleClose}
-				handleAddNewWord={handleAddNewWord}
-				handleCreateExample={handleCreateExample}
-				setLoading={setLoading}
-			/>
-			{activeId !== null && (
-				<EditWordModal
-					isEditOpen={isEditOpen}
-					loading={loading}
-					wordExamplePreview={wordExamplePreview}
-					handleEditClose={handleEditClose}
-					item={wordsData.find((item) => item.id === activeId || null)}
-					setWordsData={setWordsData}
-					handleCreateExample={handleCreateExample}
-					setLoading={setLoading}
-				/>
-			)}
-		</>
-	);
+  return (
+    <>
+      <View style={styles.FlashCardsContainer}>
+        <View style={styles.FlashCardsTitleContainer}>
+          <TextInput
+            value={flashcardName}
+            placeholder="単語帳名を入力"
+            style={styles.FlashCardsTitleInput}
+            onChangeText={handleNameChanged}
+          />
+        </View>
+        <ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false} scrollEnabled={false}>
+          {wordsData.map((item) => (
+            <TouchableOpacity 
+              key={item.id}
+              onPress={() => {
+                setActiveId(item.id);
+                handleEditOpen();
+              }}>
+              <WordCard
+                item={item}
+              />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <View style={styles.FlashCardsBottom}>
+          <TouchableOpacity
+            style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
+            disabled={buttonDisable}
+            onPress={handleSave}
+          >
+            <Text style={styles.SaveButtonText}>保存する</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+            disabled={wordsData.length === 0 ? true : false}
+            onPress={onPressToSlide}
+          >
+            <Text style={styles.SlideButtonText}>スライドショー</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
+            <Ionicons name="add" size={20} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <AddWordModal
+        isAddOpen={isAddOpen}
+        loading={loading}
+        wordExamplePreview={wordExamplePreview}
+        newExample={newExample}
+        setNewExample={setNewExample}
+        handleClose={handleClose}
+        handleAddNewWord={handleAddNewWord}
+        handleCreateExample={handleCreateExample}
+        setLoading={setLoading}
+      />
+      {activeId !== null && (
+        <EditWordModal
+          isEditOpen={isEditOpen}
+          loading={loading}
+          wordExamplePreview={wordExamplePreview}
+          handleEditClose={handleEditClose}
+          item={wordsData.find((item) => item.id === activeId || null)}
+          setWordsData={setWordsData}
+          handleCreateExample={handleCreateExample}
+          setLoading={setLoading}
+        />
+      )}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
