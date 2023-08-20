@@ -4,6 +4,7 @@ import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { Proficiency } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 interface EditWordModalProps {
     isEditOpen: boolean;
@@ -20,6 +21,7 @@ interface EditWordModalProps {
     handleEditClose: () => void;
     setWordsData: Dispatch<SetStateAction<WordDef[]>>;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EditWordModal: FC<EditWordModalProps> = ({
@@ -29,7 +31,8 @@ export const EditWordModal: FC<EditWordModalProps> = ({
     item,
     handleEditClose,
     setWordsData,
-    handleCreateExample
+    handleCreateExample,
+    setLoading
 }) => {    
     const [wordName, setWordName] = useState<string>(item?.name || "");
     const [wordMean, setWordMean] = useState<string>(item?.mean || "");
@@ -55,6 +58,17 @@ export const EditWordModal: FC<EditWordModalProps> = ({
     };
 
     const handleEdit = () => {
+        if(!wordName){
+            Toast.show({
+                text1: '単語名は必須項目です。',
+                type: 'error',
+                visibilityTime: 2000,
+            })
+            return;
+        }
+
+        setLoading(true);
+
         setWordsData((prev) => 
             prev.map((currentItem) => 
                 currentItem.id === item?.id

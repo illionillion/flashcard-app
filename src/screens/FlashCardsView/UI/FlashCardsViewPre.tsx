@@ -122,6 +122,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 					item={wordsData.find((item) => item.id === activeId || null)}
 					setWordsData={setWordsData}
 					handleCreateExample={handleCreateExample}
+					setLoading={setLoading}
 				/>
 			)}
 		</>
