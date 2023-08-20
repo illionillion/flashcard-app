@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 import { Proficiency, WordDef } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 interface AddWordModalProps {
     isAddOpen: boolean;
@@ -13,17 +14,19 @@ interface AddWordModalProps {
     handleAddNewWord: (newWord: WordDef) => void;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
     setNewExample: Dispatch<SetStateAction<string>>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddWordModal: FC<AddWordModalProps> = ({ 
     isAddOpen, 
     loading,
-		wordExamplePreview,
-		newExample,
+    wordExamplePreview,
+    newExample,
     setNewExample,
     handleClose, 
     handleAddNewWord,
-    handleCreateExample
+    handleCreateExample,
+    setLoading
 }) => {
     const [newWord, setNewWord] = useState<string>('');
     const [newMean, setNewMean] = useState<string>('');
@@ -32,6 +35,17 @@ export const AddWordModal: FC<AddWordModalProps> = ({
     const apiKey = useRecoilValue(APIKeyState);
 
     const handleAdd = () => {
+        if(!newWord){
+            Toast.show({
+                text1: '単語名は必須項目です。',
+                type: 'error',
+                visibilityTime: 2000,
+            })
+            return;
+        }
+
+        setLoading(true);
+
         const newWordDef = {
             id: (() => {
               if (wordsData.length === 0) {
@@ -106,6 +120,8 @@ export const AddWordModal: FC<AddWordModalProps> = ({
                         <TouchableOpacity 
                             style={{...styles.button, ...styles.addButton}}
                             onPress={handleAdd}
+                            disabled={loading}
+                            // disabled={!newWord.trim()}
                             >
                                 <Text style={styles.buttonText}>追加する</Text>
                         </TouchableOpacity>

@@ -28,6 +28,7 @@ export interface FlashCardsListPreProps {
   setActiveId: Dispatch<SetStateAction<number | null>>;
   handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
   setNewExample: Dispatch<SetStateAction<string>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -52,7 +53,8 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 		handleAddNewWord,
 		setActiveId,
 		handleCreateExample,
-		setNewExample
+		setNewExample,
+		setLoading
 	} = props;
 
 	return (
@@ -109,6 +111,7 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
 				handleClose={handleClose}
 				handleAddNewWord={handleAddNewWord}
 				handleCreateExample={handleCreateExample}
+				setLoading={setLoading}
 			/>
 			{activeId !== null && (
 				<EditWordModal

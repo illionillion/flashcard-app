@@ -210,6 +210,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       setActiveId={setActiveId}
       handleCreateExample={handleCreateExample}
       setNewExample={setNewExample}
+      setLoading={setLoading}
     />
   );
 };
