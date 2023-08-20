@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { WordDef } from "../../../../atom/FlashCardsDataState";
 import { Proficiency } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
@@ -121,23 +121,21 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                             />
                     </View>
                     <View style={styles.buttons}>
-                        <View style={{...styles.button, ...styles.closeButton}}>
-                            <Button 
-                                title="編集完了"
-                                color={'#fff'}
-                                onPress={handleEdit}
-                            />
-                        </View>
-                        <View style={{...styles.button, ...styles.deleteButton}}>
-                            <Button 
-                                title="削除"
-                                color={'#fff'}
-                                onPress={() => {
-                                    handleRemove();
-                                    handleEditClose();
-                                }}
-                            />
-                        </View>
+                        <TouchableOpacity 
+                            style={{...styles.button, ...styles.closeButton}}
+                            onPress={handleEdit}
+                        >
+                            <Text style={styles.buttonText}>編集完了</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={{...styles.button, ...styles.deleteButton}}
+                            onPress={() => {
+                                handleRemove();
+                                handleEditClose();
+                            }}
+                        >
+                            <Text style={styles.buttonText}>削除</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             )}
@@ -214,6 +212,11 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         backgroundColor: '#5FA1DE',
+    },
+    buttonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
     },
     createExampleText: {
         color: '#fff',

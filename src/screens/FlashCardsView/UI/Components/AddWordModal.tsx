@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Proficiency, WordDef } from "../../../../atom/FlashCardsDataState";
 import { useRecoilValue } from "recoil";
 import { APIKeyState } from "../../../../atom/APIKeyState";
@@ -103,20 +103,18 @@ export const AddWordModal: FC<AddWordModalProps> = ({
                         />
                     </View>
                     <View style={styles.buttons}>
-                        <View style={{...styles.button, ...styles.addButton}}>
-                            <Button 
-                                title="追加する"
-                                color={'#fff'}
-                                onPress={handleAdd}
-                            />
-                        </View>
-                        <View style={{...styles.button, ...styles.closeButton}}>
-                            <Button 
-                                title="閉じる"
-                                color={'#fff'}
-                                onPress={handleClose}
-                            />
-                        </View>
+                        <TouchableOpacity 
+                            style={{...styles.button, ...styles.addButton}}
+                            onPress={handleAdd}
+                            >
+                                <Text style={styles.buttonText}>追加する</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={{...styles.button, ...styles.closeButton}}
+                            onPress={handleClose}
+                            >
+                                <Text style={styles.buttonText}>閉じる</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             )}      
@@ -180,6 +178,11 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         backgroundColor: '#FF9D9D',
+    },
+    buttonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
     },
     textMulti: {
         flex: 1,
