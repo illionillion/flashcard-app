@@ -14,7 +14,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ['@typescript-eslint', 'react',  'unused-imports'],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
@@ -33,6 +33,11 @@ module.exports = {
      * @description importが型のみの場合は、import typeを強制
      */
     '@typescript-eslint/consistent-type-imports': 'error',
+
+    /**
+     * 未使用のimport削除
+     */
+    'unused-imports/no-unused-imports': 'warn',
 
     /**
      * @description propsを自動でソート
