@@ -11,6 +11,7 @@ import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { FlashCardsViewPre } from './FlashCardsViewPre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
+
 export interface FlashCardsListConProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: NavigationProp<any, any>;
