@@ -73,9 +73,9 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     ref={scrollText}
                     simultaneousHandlers={swipePagination}
                   >
-                    <View onStartShouldSetResponder={() => true}>
+                    <View onStartShouldSetResponder={() => true} style={{ flex: 1 }}>
                       <Text style={styles.example_text}>{example}</Text>
-                      <Text style={styles.example_text}>{exTrans}</Text>
+                      <Text style={[styles.example_text, styles.mt4]}>{exTrans}</Text>
                     </View>
                   </GhScrollView>
                 </View>
@@ -109,7 +109,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
               <TouchableOpacity
                 onPress={() => handlePressHappyIcon(word_list[page])}
                 onLongPress={() => openIconDescription('おぼえた！')}
-                style={styles.marginLeft}
+                style={styles.ml6}
               >
                 <Ionicons
                   name="happy-outline"
@@ -227,7 +227,10 @@ const styles = StyleSheet.create({
   orange: {
     color: '#ED9E31',
   },
-  marginLeft: {
+  mt4: {
+    marginTop: 4,
+  },
+  ml6: {
     marginLeft: 6,
   },
   shadow: {

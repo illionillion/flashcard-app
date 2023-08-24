@@ -1,8 +1,14 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-interface apiReturn {
-  content: string;
+interface ApiSuccessResponse {
+  example_sentence: string;
+  example_sentence_language_code: string;
+  example_sentence_translated: string;
+}
+
+interface ApiErrorResponse {
   message: string;
+  status: string;
 }
 
 interface apiProps {
@@ -14,7 +20,7 @@ interface apiProps {
 
 export interface generateExampleReturn {
   success: boolean;
-  content: string;
+  content: ApiSuccessResponse;
   errorMessage: string;
   status: number;
 }
@@ -37,19 +43,38 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
 export const generateExample = async (props: apiProps): Promise<generateExampleReturn> => {
   const { apiKey, wordName, wordMean, wordLang } = props;
   try {
-    const res = await axios.post<apiReturn>('https://ray-boon-api.vercel.app/api', {
+    const res = await axios.post<ApiSuccessResponse>('https://ray-boon-api.vercel.app/api/v2', {
       apiKey: apiKey,
       wordName: wordName,
       wordLang: wordLang,
       wordMean: wordMean,
+      sentenceDiff: 'hard',
     });
 
-    return { success: true, content: res.data.content, errorMessage: '', status: res.status };
+    return { success: true, content: res.data, errorMessage: '', status: res.status };
   } catch (error) {
     if (isAxiosError(error)) {
-      const res = error.response as AxiosResponse<apiReturn, any>;
-      return { success: false, content: '', errorMessage: res.data.message, status: res.status };
+      const res = error.response as AxiosResponse<ApiErrorResponse, any>;
+      return {
+        success: false,
+        content: {
+          example_sentence: '',
+          example_sentence_language_code: '',
+          example_sentence_translated: '',
+        },
+        errorMessage: res.data.message,
+        status: res.status,
+      };
     }
-    return { success: false, content: '', errorMessage: 'エラー', status: 500 };
+    return {
+      success: false,
+      content: {
+        example_sentence: '',
+        example_sentence_language_code: '',
+        example_sentence_translated: '',
+      },
+      errorMessage: 'エラー',
+      status: 500,
+    };
   }
 };

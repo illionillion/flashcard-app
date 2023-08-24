@@ -23,7 +23,7 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordLang, setWordLang] = useState<string>(lang);
   const [wordExample, setWordExample] = useState<string>(example);
   const [wordExTrans, setWordExTrans] = useState<string>(exTrans);
-  const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
+  const [wordLangCode, setWordLangCode] = useState<string>(example);
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
   const handleNameChanged = (text: string) => {
@@ -48,10 +48,10 @@ export const WordCard: FC<WordCardProps> = ({
         item.id === id
           ? {
               ...item,
-              id: id,
               name: wordName,
               mean: wordMean,
               lang: wordLang,
+              langCode: wordLangCode,
               example: wordExample,
               exTrans: wordExTrans,
             }
@@ -90,29 +90,10 @@ export const WordCard: FC<WordCardProps> = ({
       wordMean: wordMean,
     });
 
-    const updateChar = async (i: number) => {
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          const char = result.content[i];
-          if (i === 0) {
-            setWordExamplePreview(() => char);
-          } else {
-            setWordExamplePreview((prev) => prev + char);
-          }
-          resolve();
-        }, 100);
-      });
-    };
-
     if (result.success) {
-      setWordExample(() => result.content);
-      for (let i = 0; i < result.content.length; i++) {
-        await updateChar(i);
-      }
-      setWordExTrans(() => result.content);
-      for (let j = 0; j < result.content.length; j++) {
-        await updateChar(j);
-      }
+      setWordExample(result.content.example_sentence);
+      setWordExTrans(result.content.example_sentence_translated);
+      setWordLangCode(result.content.example_sentence_language_code);
     } else {
       OpenCreateExampleErrorMessage(result);
     }
@@ -155,21 +136,23 @@ export const WordCard: FC<WordCardProps> = ({
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
-      <TextInput
-        style={styles.textMulti}
-        multiline
-        value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
-        placeholder="例文"
-        onChangeText={handleExampleChanged}
-        editable={!loading}
-      />
-      <TextInput
-        style={styles.textMulti}
-        multiline
-        value={loading ? wordExamplePreview : wordExTrans} // ここの値をChatGPTでリアルタイムに更新
-        onChangeText={handleExTransChanged}
-        editable={!loading}
-      />
+      <View style={styles.textMultiArea}>
+        <TextInput
+          style={styles.textMulti}
+          multiline
+          value={loading ? 'loading ...' : wordExample} // ここの値をChatGPTでリアルタイムに更新
+          placeholder="例文"
+          onChangeText={handleExampleChanged}
+          editable={!loading}
+        />
+        <TextInput
+          style={styles.textMulti}
+          multiline
+          value={loading ? '' : wordExTrans} // ここの値をChatGPTでリアルタイムに更新
+          onChangeText={handleExTransChanged}
+          editable={!loading}
+        />
+      </View>
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
       </TouchableOpacity>
@@ -205,10 +188,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  textMulti: {
+  textMultiArea: {
     flex: 1,
     paddingVertical: 3,
     backgroundColor: '#fff',
+  },
+  textMulti: {
     fontSize: 20,
     textAlign: 'center',
     justifyContent: 'center',
