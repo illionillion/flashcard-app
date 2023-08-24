@@ -72,7 +72,6 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     ref={scrollText}
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
-                    ref={scrollText}
                     simultaneousHandlers={swipePagination}
                   >
                     <View onStartShouldSetResponder={() => true} style={{ flex: 1 }}>
@@ -109,7 +108,6 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.marginLeft}
                 onPress={() => handlePressHappyIcon(word_list[page])}
                 onLongPress={() => openIconDescription('おぼえた！')}
                 style={styles.ml6}

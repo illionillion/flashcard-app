@@ -55,10 +55,28 @@ export const generateExample = async (props: apiProps): Promise<generateExampleR
 
     return { success: true, content: res.data, errorMessage: '', status: res.status };
   } catch (error) {
-    if (isAxiosError(error)) {
-      const res = error.response as AxiosResponse<ApiErrorResponse, any>;
-      return { success: false, content: '', errorMessage: res.data.message, status: res.status };
-    }
-    return { success: false, content: '', errorMessage: 'エラー', status: 500 };
+     if (isAxiosError(error)) {
+       const res = error.response as AxiosResponse<ApiErrorResponse, any>;
+       return {
+         success: false,
+         content: {
+           example_sentence: '',
+           example_sentence_language_code: '',
+           example_sentence_translated: '',
+         },
+         errorMessage: res.data.message,
+         status: res.status,
+       };
+     }
+    return {
+      success: false,
+      content: {
+        example_sentence: '',
+        example_sentence_language_code: '',
+        example_sentence_translated: '',
+      },
+      errorMessage: 'エラー',
+      status: 500,
+    };
   }
 };
