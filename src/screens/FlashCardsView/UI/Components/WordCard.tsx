@@ -45,14 +45,14 @@ export const WordCard: FC<WordCardProps> = ({
       prev.map((item) =>
         item.id === id
           ? {
-              ...item,
-              name: wordName,
-              mean: wordMean,
-              lang: wordLang,
-              langCode: wordLangCode,
-              example: wordExample,
-              exTrans: wordExTrans,
-            }
+            ...item,
+            name: wordName,
+            mean: wordMean,
+            lang: wordLang,
+            langCode: wordLangCode,
+            example: wordExample,
+            exTrans: wordExTrans,
+          }
           : item,
       ),
     );
@@ -68,8 +68,8 @@ export const WordCard: FC<WordCardProps> = ({
         wordName === ''
           ? '単語名を入力してください'
           : wordMean === ''
-          ? '単語の意味を入力してください'
-          : '単語の言語を入力してください';
+            ? '単語の意味を入力してください'
+            : '単語の言語を入力してください';
       Toast.show({
         text1: errorMessage,
         type: 'error',
@@ -136,9 +136,10 @@ export const WordCard: FC<WordCardProps> = ({
         </TouchableOpacity>
       </View>
       <TextInput
-        style={styles.textMulti}
         multiline
+        style={styles.textMulti}
         value={loading ? 'loading ...' : `${wordExample}\n${wordExTrans}`} // ここの値をChatGPTでリアルタイムに更新
+        editable={!loading}
         placeholder="例文"
         // TODO: 意味と例文は別々のTextInputで管理したい：おそらくUIの変更が必要
         onChangeText={(text) => {
@@ -146,7 +147,6 @@ export const WordCard: FC<WordCardProps> = ({
           setWordExample(ex);
           setWordExTrans(exT);
         }}
-        editable={!loading}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />

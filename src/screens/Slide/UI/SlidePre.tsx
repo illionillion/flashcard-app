@@ -74,7 +74,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     showsVerticalScrollIndicator={false}
                     simultaneousHandlers={swipePagination}
                   >
-                    <View onStartShouldSetResponder={() => true} style={{ flex: 1 }}>
+                    <View style={{ flex: 1 }} onStartShouldSetResponder={() => true}>
                       <Text style={styles.example_text}>{example}</Text>
                       <Text style={[styles.example_text, styles.mt4]}>{exTrans}</Text>
                     </View>
@@ -85,8 +85,8 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
 
             {/* 音声読み上げアイコン */}
             <TouchableOpacity
-              onPress={() => handlePressSpeaker(isFront ? name : example, langCode)}
               style={styles.speakerContainer}
+              onPress={() => handlePressSpeaker(isFront ? name : example, langCode)}
             >
               <Ionicons
                 name="volume-medium-outline"
@@ -108,9 +108,9 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                style={styles.ml6}
                 onPress={() => handlePressHappyIcon(word_list[page])}
                 onLongPress={() => openIconDescription('おぼえた！')}
-                style={styles.ml6}
               >
                 <Ionicons
                   name="happy-outline"

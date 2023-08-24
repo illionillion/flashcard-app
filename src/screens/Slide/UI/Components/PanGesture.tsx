@@ -54,9 +54,9 @@ export const PanGesture: FC<PanGestureProps> = ({
   return (
     <GestureHandlerRootView style={styles.container}>
       <PanGestureHandler
-        onActivated={onPanGestureEvent}
         ref={swipePagination}
         simultaneousHandlers={scrollText}
+        onActivated={onPanGestureEvent}
       >
         {children}
       </PanGestureHandler>

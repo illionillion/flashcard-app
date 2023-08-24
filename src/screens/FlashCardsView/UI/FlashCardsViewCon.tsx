@@ -59,10 +59,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       prev.map((item) =>
         item.id === id
           ? {
-              id: id,
-              name: flashcardName,
-              words: wordsData,
-            }
+            id: id,
+            name: flashcardName,
+            words: wordsData,
+          }
           : item,
       ),
     );
