@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { APIKeyState } from '../atom/APIKeyState';
+import { SentenceDiffState } from '../atom/SentenceDiffState';
 import { getData, setData } from '../lib/DataSave';
 import type {
   FlashCardsDef} from '../atom/FlashCardsDataState';
@@ -21,6 +22,7 @@ export const BottomTabNavigate: FC = () => {
   const Tab = createBottomTabNavigator();
 
   const [apiKey, setApiKey] = useRecoilState(APIKeyState);
+  const [sentenceDiff, setSentenceDiff] = useRecoilState(SentenceDiffState);
   const [data, setCardsData] =
     useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [isDone, setIsDone] = useState(false);
@@ -30,19 +32,24 @@ export const BottomTabNavigate: FC = () => {
       if (!isDone) {
         setIsDone(true);
         const key = await getData('APIKey');
+        const diff = await getData('SentenceDiff');
         const saveData = await getData('FlashCardsData');
         if (saveData !== '') {
           setCardsData(() => JSON.parse(saveData));
+        }
+        if (diff !== '') {
+          setSentenceDiff(() => diff as "easy" | "normal" | "hard");
         }
         if (key !== '') {
           setApiKey(() => key);
         }
       } else {
         await setData('APIKey', apiKey);
+        await setData('SentenceDiff', sentenceDiff);
         await setData('FlashCardsData', JSON.stringify(data));
       }
     })();
-  }, [apiKey, data]);
+  }, [apiKey, sentenceDiff, data]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
