@@ -5,8 +5,8 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import Toast from 'react-native-toast-message';
 import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
-import { SentenceDiffState } from '../../../../atom/SentenceDiffState';
 import type { WordDef } from '../../../../atom/FlashCardsDataState';
+import { SentenceDiffState } from '../../../../atom/SentenceDiffState';
 import type { generateExampleReturn } from '../../../../lib/createExample';
 import { generateExample } from '../../../../lib/createExample';
 
@@ -39,12 +39,6 @@ export const WordCard: FC<WordCardProps> = ({
   const handleLangChanged = (text: string) => {
     setWordLang(text);
   };
-  const handleExampleChanged = (text: string) => {
-    setWordExample(text);
-  };
-  const handleExTransChanged = (text: string) => {
-    setWordExTrans(text);
-  };
 
   const upDateWord = () => {
     setWordsData((prev) =>
@@ -74,8 +68,8 @@ export const WordCard: FC<WordCardProps> = ({
         wordName === ''
           ? '単語名を入力してください'
           : wordMean === ''
-            ? '単語の意味を入力してください'
-            : '単語の言語を入力してください';
+          ? '単語の意味を入力してください'
+          : '単語の言語を入力してください';
       Toast.show({
         text1: errorMessage,
         type: 'error',
@@ -141,23 +135,19 @@ export const WordCard: FC<WordCardProps> = ({
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.textMultiArea}>
-        <TextInput
-          style={styles.textMulti}
-          multiline
-          value={loading ? 'loading ...' : wordExample} // ここの値をChatGPTでリアルタイムに更新
-          placeholder="例文"
-          onChangeText={handleExampleChanged}
-          editable={!loading}
-        />
-        <TextInput
-          style={styles.textMulti}
-          multiline
-          value={loading ? '' : wordExTrans} // ここの値をChatGPTでリアルタイムに更新
-          onChangeText={handleExTransChanged}
-          editable={!loading}
-        />
-      </View>
+      <TextInput
+        style={styles.textMulti}
+        multiline
+        value={loading ? 'loading ...' : `${wordExample}\n${wordExTrans}`} // ここの値をChatGPTでリアルタイムに更新
+        placeholder="例文"
+        // TODO: 意味と例文は別々のTextInputで管理したい：おそらくUIの変更が必要
+        onChangeText={(text) => {
+          const [ex, exT] = text.split('\n');
+          setWordExample(ex);
+          setWordExTrans(exT);
+        }}
+        editable={!loading}
+      />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
       </TouchableOpacity>
@@ -193,13 +183,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  textMultiArea: {
+  textMulti: {
+    fontSize: 20,
     flex: 1,
     paddingVertical: 3,
     backgroundColor: '#fff',
-  },
-  textMulti: {
-    fontSize: 20,
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',

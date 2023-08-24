@@ -18,7 +18,6 @@ interface SlideConProps {
 }
 
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
-
   const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [data, setData] = useState<WordDef[]>(
     cardsData.find((item) => item.id === route.params.id)?.words || [],
