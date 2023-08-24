@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { RadioButton } from 'react-native-paper';
 
 interface SettingPreProps {
@@ -87,7 +86,7 @@ export const SettingPre: FC<SettingPreProps> = ({
         <Text style={styles.label}>ChatGPT による例文生成の難易度 : </Text>
       </View>
       <View style={styles.difficultyRow}>
-        <TouchableWithoutFeedback onPress={() => setDifficulty("easy")}>
+        <TouchableOpacity onPress={() => setDifficulty("easy")}>
           <View style={styles.difficulty}>
             <RadioButton.Android
               value="easy"
@@ -98,8 +97,8 @@ export const SettingPre: FC<SettingPreProps> = ({
             />
             <Text>簡単</Text>
           </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => setDifficulty("normal")}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setDifficulty("normal")}>
           <View style={styles.difficulty}>
             <RadioButton.Android
               value="normal"
@@ -110,9 +109,9 @@ export const SettingPre: FC<SettingPreProps> = ({
             />
             <Text>普通</Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback onPress={() => setDifficulty("hard")}>
+        <TouchableOpacity onPress={() => setDifficulty("hard")}>
           <View style={styles.difficulty}>
             <RadioButton.Android
               value="hard"
@@ -123,7 +122,7 @@ export const SettingPre: FC<SettingPreProps> = ({
             />
             <Text>難しい</Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
     </View >
   );
