@@ -43,6 +43,8 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 
   const handleClose = () => {
     setIsAddOpen(false);
+    setNewExample('');
+    setLoading(false);
   };
 
   const handleEditOpen = () => {
