@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, ReactNode, RefObject } from 'react';
+import type { FC, ReactNode, RefObject } from 'react';
 import { StyleSheet } from 'react-native';
+import type {
+  HandlerStateChangeEvent,
+  ScrollView
+} from 'react-native-gesture-handler';
 import {
   GestureHandlerRootView,
-  HandlerStateChangeEvent,
-  PanGestureHandler,
-  ScrollView,
+  PanGestureHandler
 } from 'react-native-gesture-handler';
 
 interface PanGestureProps {

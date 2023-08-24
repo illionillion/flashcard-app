@@ -1,8 +1,9 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { FC, RefObject } from 'react';
+import type { FC, RefObject } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView as GhScrollView, ScrollView } from 'react-native-gesture-handler';
-import { WordDef } from '../../../atom/FlashCardsDataState';
+import type { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView as GhScrollView } from 'react-native-gesture-handler';
+import type { WordDef } from '../../../atom/FlashCardsDataState';
 import { PanGesture } from './Components/PanGesture';
 import { SlideButton } from './Components/SlideButton';
 
@@ -52,7 +53,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             <AntDesign name="caretleft" size={32} color={headerColor} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleFlip} style={[styles.slide, styles.shadow]}>
+          <TouchableOpacity style={[styles.slide, styles.shadow]} onPress={handleFlip}>
             {/* 表なら単語、裏なら意味・例文 */}
             {isFront ? (
               <View style={styles.frontContent}>
@@ -68,6 +69,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 <View style={styles.eArea}>
                   <Text style={[styles.headline, styles.lightGray]}>例文</Text>
                   <GhScrollView
+                    ref={scrollText}
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
                     ref={scrollText}
@@ -107,6 +109,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                style={styles.marginLeft}
                 onPress={() => handlePressHappyIcon(word_list[page])}
                 onLongPress={() => openIconDescription('おぼえた！')}
                 style={styles.ml6}

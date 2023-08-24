@@ -1,11 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
-import { WordDef } from '../../../../atom/FlashCardsDataState';
-import { generateExample, generateExampleReturn } from '../../../../lib/createExample';
+import { SentenceDiffState } from '../../../../atom/SentenceDiffState';
+import type { WordDef } from '../../../../atom/FlashCardsDataState';
+import type { generateExampleReturn } from '../../../../lib/createExample';
+import { generateExample } from '../../../../lib/createExample';
 
 interface WordCardProps {
   item: WordDef;
@@ -26,6 +29,7 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordLangCode, setWordLangCode] = useState<string>(example);
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
+  const sentenceDiff = useRecoilValue(SentenceDiffState);
   const handleNameChanged = (text: string) => {
     setWordName(text);
   };
@@ -70,8 +74,8 @@ export const WordCard: FC<WordCardProps> = ({
         wordName === ''
           ? '単語名を入力してください'
           : wordMean === ''
-          ? '単語の意味を入力してください'
-          : '単語の言語を入力してください';
+            ? '単語の意味を入力してください'
+            : '単語の言語を入力してください';
       Toast.show({
         text1: errorMessage,
         type: 'error',
@@ -88,6 +92,7 @@ export const WordCard: FC<WordCardProps> = ({
       wordLang: wordLang,
       wordName: wordName,
       wordMean: wordMean,
+      sentenceDiff: sentenceDiff,
     });
 
     if (result.success) {
@@ -130,8 +135,8 @@ export const WordCard: FC<WordCardProps> = ({
         />
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
-          onPress={handleCreateExample}
           disabled={loading}
+          onPress={handleCreateExample}
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>

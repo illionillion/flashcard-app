@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { TextHighlight } from './Components/TextHighlight';
-import { FilteredData } from './SearchCon';
+import type { FilteredData } from './SearchCon';
 
 interface SearchPreProps {
   searchValue: string;
@@ -29,9 +29,9 @@ export const SearchPre: FC<SearchPreProps> = ({
           <TextInput
             placeholder="検索"
             value={searchValue}
-            onChangeText={(text) => handleSearch(text)}
             style={styles.searchInput}
             autoCapitalize="none"
+            onChangeText={(text) => handleSearch(text)}
           />
         </View>
         {filteredData.length > 0 ? (
@@ -46,8 +46,8 @@ export const SearchPre: FC<SearchPreProps> = ({
                   <Text style={styles.fileNameText}>{card.fileName}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleToggle(card.fileId, card.id)}
                   style={styles.toggleIconContainer}
+                  onPress={() => handleToggle(card.fileId, card.id)}
                 >
                   <Ionicons
                     name={card.isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}

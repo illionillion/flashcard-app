@@ -1,14 +1,17 @@
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import type { WordDef } from '../../../atom/FlashCardsDataState';
+import type StackParamList from '../../../StackParamList';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import type { generateExampleReturn } from '../../../lib/createExample';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useSetRecoilState } from 'recoil';
-import StackParamList from '../../../StackParamList';
-import { FlashCardsDataState, WordDef } from '../../../atom/FlashCardsDataState';
-import { generateExampleReturn } from '../../../lib/createExample';
+import { useRecoilState } from 'recoil';
+import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { FlashCardsViewPre } from './FlashCardsViewPre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
+
 export interface FlashCardsListConProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navigation: NavigationProp<any, any>;
@@ -21,7 +24,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [flashcardName, setFlashcardName] = useState<string>(name);
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
   const [wordsData, setWordsData] = useState<WordDef[]>(words);
-  const setData = useSetRecoilState(FlashCardsDataState);
+  const [data, setData] = useRecoilState(FlashCardsDataState);
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
     setButtonDisable(text.trim() === '');
@@ -56,10 +59,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       prev.map((item) =>
         item.id === id
           ? {
-              id: id,
-              name: flashcardName,
-              words: wordsData,
-            }
+            id: id,
+            name: flashcardName,
+            words: wordsData,
+          }
           : item,
       ),
     );
@@ -99,6 +102,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     return unsubscribe;
   }, [navigation]);
 
+  useEffect(()=>{
+    setWordsData(() => data.find(item => item.id === id)?.words || []);
+  },[data]);
+
   return (
     <FlashCardsViewPre
       flashcardName={flashcardName}
@@ -108,8 +115,8 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       handleAdd={handleAdd}
       handleSave={handleSave}
       setWordsData={setWordsData}
-      onPressToSlide={onPressToSlide}
       OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+      onPressToSlide={onPressToSlide}
     />
   );
 };

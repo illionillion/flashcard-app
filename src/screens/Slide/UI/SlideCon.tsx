@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NavigationProp, RouteProp } from '@react-navigation/native';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
-import { FC, createRef, useEffect, useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
+import type { FC } from 'react';
+import { createRef, useEffect, useState } from 'react';
+import type { ScrollView } from 'react-native-gesture-handler';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilState } from 'recoil';
-import StackParamList from '../../../StackParamList';
-import { FlashCardsDataState, FlashCardsDef, WordDef } from '../../../atom/FlashCardsDataState';
+import type StackParamList from '../../../StackParamList';
+import type { FlashCardsDef, WordDef } from '../../../atom/FlashCardsDataState';
+import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { SlidePre } from './SlidePre';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'Slide'>;
@@ -16,6 +18,7 @@ interface SlideConProps {
 }
 
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
+
   const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [data, setData] = useState<WordDef[]>(
     cardsData.find((item) => item.id === route.params.id)?.words || [],
@@ -46,9 +49,9 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       prev.map((item) =>
         item.id === word_list.id
           ? {
-              ...item,
-              proficiency: item.proficiency === 'unfamiliar' ? 'learning' : 'unfamiliar',
-            }
+            ...item,
+            proficiency: item.proficiency === 'unfamiliar' ? 'learning' : 'unfamiliar',
+          }
           : item,
       ),
     );
@@ -59,9 +62,9 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       prev.map((item) =>
         item.id === word_list.id
           ? {
-              ...item,
-              proficiency: item.proficiency === 'mastered' ? 'learning' : 'mastered',
-            }
+            ...item,
+            proficiency: item.proficiency === 'mastered' ? 'learning' : 'mastered',
+          }
           : item,
       ),
     );

@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 
 interface ApiSuccessResponse {
   example_sentence: string;
@@ -16,6 +17,7 @@ interface apiProps {
   wordName: string;
   wordLang: string;
   wordMean: string;
+  sentenceDiff: string;
 }
 
 export interface generateExampleReturn {
@@ -41,40 +43,22 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @returns
  */
 export const generateExample = async (props: apiProps): Promise<generateExampleReturn> => {
-  const { apiKey, wordName, wordMean, wordLang } = props;
+  const { apiKey, wordName, wordMean, wordLang, sentenceDiff } = props;
   try {
     const res = await axios.post<ApiSuccessResponse>('https://ray-boon-api.vercel.app/api/v2', {
       apiKey: apiKey,
       wordName: wordName,
       wordLang: wordLang,
       wordMean: wordMean,
-      sentenceDiff: 'hard',
+      sentenceDiff: sentenceDiff,
     });
 
     return { success: true, content: res.data, errorMessage: '', status: res.status };
   } catch (error) {
     if (isAxiosError(error)) {
       const res = error.response as AxiosResponse<ApiErrorResponse, any>;
-      return {
-        success: false,
-        content: {
-          example_sentence: '',
-          example_sentence_language_code: '',
-          example_sentence_translated: '',
-        },
-        errorMessage: res.data.message,
-        status: res.status,
-      };
+      return { success: false, content: '', errorMessage: res.data.message, status: res.status };
     }
-    return {
-      success: false,
-      content: {
-        example_sentence: '',
-        example_sentence_language_code: '',
-        example_sentence_translated: '',
-      },
-      errorMessage: 'エラー',
-      status: 500,
-    };
+    return { success: false, content: '', errorMessage: 'エラー', status: 500 };
   }
 };

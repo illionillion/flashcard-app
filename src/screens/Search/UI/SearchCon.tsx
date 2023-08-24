@@ -1,8 +1,14 @@
-import { ParamListBase } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FC, useEffect, useMemo, useState } from 'react';
+import type { ParamListBase } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { FC } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { FlashCardsDataState, FlashCardsDef } from '../../../atom/FlashCardsDataState';
+import type {
+  FlashCardsDef
+} from '../../../atom/FlashCardsDataState';
+import {
+  FlashCardsDataState
+} from '../../../atom/FlashCardsDataState';
 import { SearchPre } from './SearchPre';
 
 export interface FilteredData {
