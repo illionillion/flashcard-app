@@ -39,7 +39,7 @@ export const BottomTabNavigate: FC = () => {
           setCardsData(() => JSON.parse(saveData));
         }
         if (diff !== '') {
-          setSentenceDiff(() => diff as "easy" | "normal" | "hard");
+          setSentenceDiff(() => diff as 'easy' | 'normal' | 'hard');
         }
         if (key !== '') {
           setApiKey(() => key);

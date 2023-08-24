@@ -44,19 +44,19 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @returns
  */
 export const generateExample = async (props: apiProps):Promise<generateExampleReturn> => {
-	const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
+  const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
 
-	try {
-		const res = await axios.post<apiReturn>(
-			'https://ray-boon-api.vercel.app/api/v1',
-			{
-				apiKey: apiKey,
-				wordName: wordName,
-				wordLang: wordLang,
-				wordMean: wordMean,
-				sentenceDiff: sentenceDiff,
-			}
-		);
+  try {
+    const res = await axios.post<apiReturn>(
+      'https://ray-boon-api.vercel.app/api/v1',
+      {
+        apiKey: apiKey,
+        wordName: wordName,
+        wordLang: wordLang,
+        wordMean: wordMean,
+        sentenceDiff: sentenceDiff,
+      }
+    );
     return { success: true, content: res.data.content, errorMessage: '', status: res.status };
   } catch (error) {
     if (isAxiosError(error)) {

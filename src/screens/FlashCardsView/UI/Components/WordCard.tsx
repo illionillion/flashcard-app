@@ -21,27 +21,27 @@ export const WordCard: FC<WordCardProps> = ({
   OpenCreateExampleErrorMessage,
 }) => {
 
-	const { id, name, mean, lang, example, proficiency } = item;
-	const [wordName, setWordName] = useState<string>(name);
-	const [wordMean, setWordMean] = useState<string>(mean);
-	const [wordLang, setWordLang] = useState<string>(lang);
-	const [wordExample, setWordExample] = useState<string>(example);
-	const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
-	const [loading, setLoading] = useState<boolean>(false);
-	const apiKey = useRecoilValue(APIKeyState);
-	const sentenceDiff = useRecoilValue(SentenceDiffState);
-	const handleNameChanged = (text: string) => {
-		setWordName(text);
-	};
-	const handleMeanChanged = (text: string) => {
-		setWordMean(text);
-	};
-	const handleLangChanged = (text: string) => {
-		setWordLang(text);
-	};
-	const handleExampleChanged = (text: string) => {
-		setWordExample(text);
-	};
+  const { id, name, mean, lang, example, proficiency } = item;
+  const [wordName, setWordName] = useState<string>(name);
+  const [wordMean, setWordMean] = useState<string>(mean);
+  const [wordLang, setWordLang] = useState<string>(lang);
+  const [wordExample, setWordExample] = useState<string>(example);
+  const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
+  const [loading, setLoading] = useState<boolean>(false);
+  const apiKey = useRecoilValue(APIKeyState);
+  const sentenceDiff = useRecoilValue(SentenceDiffState);
+  const handleNameChanged = (text: string) => {
+    setWordName(text);
+  };
+  const handleMeanChanged = (text: string) => {
+    setWordMean(text);
+  };
+  const handleLangChanged = (text: string) => {
+    setWordLang(text);
+  };
+  const handleExampleChanged = (text: string) => {
+    setWordExample(text);
+  };
 
   const upDateWord = () => {
     setWordsData((prev) =>
@@ -82,14 +82,14 @@ export const WordCard: FC<WordCardProps> = ({
 
     setLoading(true);
 
-		// ここでChatGPTに送信したい
-		const result = await generateExample({
-			apiKey: apiKey,
-			wordLang: wordLang,
-			wordName: wordName,
-			wordMean: wordMean,
-			sentenceDiff: sentenceDiff,
-		});
+    // ここでChatGPTに送信したい
+    const result = await generateExample({
+      apiKey: apiKey,
+      wordLang: wordLang,
+      wordName: wordName,
+      wordMean: wordMean,
+      sentenceDiff: sentenceDiff,
+    });
 
     const updateChar = async (i: number) => {
       return new Promise<void>((resolve) => {
