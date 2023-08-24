@@ -103,26 +103,30 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         </View>
       </View>
       <AddWordModal
-        isAddOpen={isAddOpen}
-        loading={loading}
-        wordExamplePreview={wordExamplePreview}
-        newExample={newExample}
-        setNewExample={setNewExample}
-        handleClose={handleClose}
-        handleAddNewWord={handleAddNewWord}
-        handleCreateExample={handleCreateExample}
-        setLoading={setLoading}
+        {...{
+          isAddOpen,
+          loading,
+          wordExamplePreview,
+          newExample,
+          setNewExample,
+          handleClose,
+          handleAddNewWord,
+          handleCreateExample,
+          setLoading,
+        }}
       />
       {activeId !== null && (
         <EditWordModal
-          isEditOpen={isEditOpen}
-          loading={loading}
-          wordExamplePreview={wordExamplePreview}
-          handleEditClose={handleEditClose}
-          item={wordsData.find((item) => item.id === activeId || null)}
-          setWordsData={setWordsData}
-          handleCreateExample={handleCreateExample}
-          setLoading={setLoading}
+        {...{
+            isEditOpen,
+            loading,
+            wordExamplePreview,
+            handleEditClose,
+            item: wordsData.find((item) => item.id === activeId || null),
+            setWordsData,
+            handleCreateExample,
+            setLoading,
+          }}
         />
       )}
     </>

@@ -168,28 +168,30 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 
   return (
     <FlashCardsViewPre
-      flashcardName={flashcardName}
-      buttonDisable={buttonDisable}
-      wordsData={wordsData}
-      isAddOpen={isAddOpen}
-      isEditOpen={isEditOpen}
-      activeId={activeId}
-      loading={loading}
-      wordExamplePreview={wordExamplePreview}
-      newExample={newExample}
-      handleNameChanged={handleNameChanged}
-      handleSave={handleSave}
-      setWordsData={setWordsData}
-      handleOpen={handleOpen}
-      handleClose={handleClose}
-      handleEditOpen={handleEditOpen}
-      handleEditClose={handleEditClose}
-      handleAddNewWord={handleAddNewWord}
-      setActiveId={setActiveId}
-      handleCreateExample={handleCreateExample}
-      setNewExample={setNewExample}
-      setLoading={setLoading}
-      onPressToSlide={onPressToSlide}
+      {...{
+        flashcardName,
+        buttonDisable,
+        wordsData,
+        isAddOpen,
+        isEditOpen,
+        activeId,
+        loading,
+        wordExamplePreview,
+        newExample,
+        handleNameChanged,
+        handleSave,
+        setWordsData,
+        handleOpen,
+        handleClose,
+        handleEditOpen,
+        handleEditClose,
+        handleAddNewWord,
+        setActiveId,
+        handleCreateExample,
+        setNewExample,
+        setLoading,
+        onPressToSlide,
+      }}
     />
   );
 };
