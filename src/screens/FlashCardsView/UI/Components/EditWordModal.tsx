@@ -2,7 +2,6 @@ import type { Dispatch, FC, SetStateAction} from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { WordDef } from '../../../../atom/FlashCardsDataState';
-import type { Proficiency } from '../../../../atom/FlashCardsDataState';
 import { useRecoilValue } from 'recoil';
 import { APIKeyState } from '../../../../atom/APIKeyState';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
@@ -11,14 +10,7 @@ interface EditWordModalProps {
     isEditOpen: boolean;
     loading: boolean;
     wordExamplePreview: string;
-    item?: {
-        id: number;
-        name?: string;
-        mean?: string;
-        lang?: string;
-        example?: string;
-        proficiency?: Proficiency;
-    };
+    item?: WordDef;
     handleEditClose: () => void;
     setWordsData: Dispatch<SetStateAction<WordDef[]>>;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
