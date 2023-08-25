@@ -9,7 +9,6 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 interface AddWordModalProps {
     isAddOpen: boolean;
     loading: boolean;
-    wordExamplePreview: string;
     newExample: string;
     handleClose: () => void;
     handleAddNewWord: (newWord: WordDef) => void;
@@ -21,7 +20,6 @@ interface AddWordModalProps {
 export const AddWordModal: FC<AddWordModalProps> = ({ 
   isAddOpen, 
   loading,
-  wordExamplePreview,
   newExample,
   setNewExample,
   handleClose, 
@@ -39,6 +37,14 @@ export const AddWordModal: FC<AddWordModalProps> = ({
     if(!newWord){
       Toast.show({
         text1: '単語名は必須項目です。',
+        type: 'error',
+        visibilityTime: 2000,
+      });
+      return;
+    }
+    if(!newMean){
+      Toast.show({
+        text1: '単語の意味は必須項目です。',
         type: 'error',
         visibilityTime: 2000,
       });
