@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import type { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FC, SetStateAction} from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
@@ -14,6 +14,12 @@ export interface FlashCardsListPreProps {
   isEditOpen: boolean;
   activeId: number | null;
   loading: boolean;
+  item?: WordDef;
+  wordName: string;
+  wordMean: string;
+  wordLang: string;
+  wordExample: string;
+  apiKey: string;
   wordExamplePreview: string;
   newExample: string;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
@@ -29,6 +35,12 @@ export interface FlashCardsListPreProps {
   handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
   setNewExample: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  handleNameEditChanged: (text: string) => void;
+  handleMeanChanged: (text: string) => void;
+  handleLangChanged: (text: string) => void;
+  handleExampleChanged: (text: string) => void;
+  handleRemove: () => void;
+  handleEdit: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -40,6 +52,12 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     isEditOpen,
     activeId,
     loading,
+    item,
+    wordName,
+    wordMean,
+    wordLang,
+    wordExample,
+    apiKey,
     wordExamplePreview,
     newExample,
     handleNameChanged,
@@ -54,9 +72,14 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     setActiveId,
     handleCreateExample,
     setNewExample,
-    setLoading
+    setLoading,
+    handleNameEditChanged,
+    handleMeanChanged,
+    handleLangChanged,
+    handleExampleChanged,
+    handleEdit,
+    handleRemove
   } = props;
-
   return (
     <>
       <View style={styles.FlashCardsContainer}>
@@ -106,7 +129,6 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
         {...{
           isAddOpen,
           loading,
-          wordExamplePreview,
           newExample,
           setNewExample,
           handleClose,
@@ -117,15 +139,23 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
       />
       {activeId !== null && (
         <EditWordModal
-        {...{
+          {...{
             isEditOpen,
             loading,
             wordExamplePreview,
+            wordName,
+            wordMean,
+            wordLang,
+            wordExample,
+            apiKey,
             handleEditClose,
-            item: wordsData.find((item) => item.id === activeId || null),
-            setWordsData,
             handleCreateExample,
-            setLoading,
+            handleNameEditChanged,
+            handleMeanChanged,
+            handleLangChanged,
+            handleExampleChanged,
+            handleRemove,
+            handleEdit,
           }}
         />
       )}

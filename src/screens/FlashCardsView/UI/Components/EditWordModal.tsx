@@ -1,90 +1,43 @@
-import type { Dispatch, FC, SetStateAction} from 'react';
-import { useEffect, useState } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import type { WordDef } from '../../../../atom/FlashCardsDataState';
-import { useRecoilValue } from 'recoil';
-import { APIKeyState } from '../../../../atom/APIKeyState';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 interface EditWordModalProps {
     isEditOpen: boolean;
     loading: boolean;
     wordExamplePreview: string;
-    item?: WordDef;
+    wordName: string;
+    wordMean: string;
+    wordLang: string;
+    wordExample: string;
+    apiKey: string;
     handleEditClose: () => void;
-    setWordsData: Dispatch<SetStateAction<WordDef[]>>;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
-    setLoading: Dispatch<SetStateAction<boolean>>;
+    handleNameEditChanged: (text: string) => void;
+    handleMeanChanged: (text: string) => void;
+    handleLangChanged: (text: string) => void;
+    handleExampleChanged: (text: string) => void;
+    handleRemove: () => void;
+    handleEdit: () => void;
 }
 
 export const EditWordModal: FC<EditWordModalProps> = ({
   isEditOpen, 
   loading,
   wordExamplePreview,
-  item,
+  wordName,
+  wordMean,
+  wordLang,
+  wordExample,
+  apiKey,
   handleEditClose,
-  setWordsData,
   handleCreateExample,
-  setLoading
+  handleNameEditChanged,
+  handleMeanChanged,
+  handleLangChanged,
+  handleExampleChanged,
+  handleEdit,
+  handleRemove
 }) => {    
-  const [wordName, setWordName] = useState<string>(item?.name || '');
-  const [wordMean, setWordMean] = useState<string>(item?.mean || '');
-  const [wordLang, setWordLang] = useState<string>(item?.lang || '');
-  const [wordExample, setWordExample] = useState<string>(item?.example || '');
-  const apiKey = useRecoilValue(APIKeyState);
-
-  const handleNameChanged = (text: string) => {
-    setWordName(text);
-  };
-  const handleMeanChanged = (text: string) => {
-    setWordMean(text);
-  };
-  const handleLangChanged = (text: string) => {
-    setWordLang(text);
-  };
-  const handleExampleChanged = (text: string) => {
-    setWordExample(text);
-  };
-
-  const handleRemove = () => {
-    setWordsData((prev) => prev.filter((currentItem) => currentItem.id !== item?.id));
-  };
-
-  const handleEdit = () => {
-    if(!wordName){
-      Toast.show({
-        text1: '単語名は必須項目です。',
-        type: 'error',
-        visibilityTime: 2000,
-      });
-      return;
-    }
-
-    setLoading(true);
-
-    setWordsData((prev) => 
-      prev.map((currentItem) => 
-        currentItem.id === item?.id
-          ? {
-            ...currentItem,
-            name: wordName,
-            mean: wordMean,
-            lang: wordLang,
-            example: wordExample
-          }
-          : currentItem
-      )
-    );
-    handleEditClose();
-    setLoading(false);
-  };
-  useEffect(() => {
-    setWordName(item?.name || '');
-    setWordMean(item?.mean || '');
-    setWordLang(item?.lang || '');
-    setWordExample(item?.example || '');
-  }, [item]);
-
   return (
     <>
       {isEditOpen && (
@@ -95,7 +48,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                 style={styles.text}
                 value={wordName}
                 placeholder="単語名"
-                onChangeText={handleNameChanged}
+                onChangeText={handleNameEditChanged}
               />
               <TextInput
                 style={styles.text}

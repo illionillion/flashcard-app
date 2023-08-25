@@ -6,11 +6,12 @@ import type { generateExampleReturn } from '../../../lib/createExample';
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { FlashCardsDataState } from '../../../atom/FlashCardsDataState';
 import { generateExample} from '../../../lib/createExample';
 
 import { FlashCardsViewPre } from './FlashCardsViewPre';
+import { APIKeyState } from '../../../atom/APIKeyState';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
 export interface FlashCardsListConProps {
@@ -32,6 +33,12 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [wordExamplePreview, setWordExamplePreview] = useState<string>('');
   const [newExample, setNewExample] = useState<string>('');
   const [data, setData] = useRecoilState(FlashCardsDataState);
+  const item = wordsData.find((item) => item.id === activeId || null);
+  const [wordName, setWordName] = useState<string>(item?.name || '');
+  const [wordMean, setWordMean] = useState<string>(item?.mean || '');
+  const [wordLang, setWordLang] = useState<string>(item?.lang || '');
+  const [wordExample, setWordExample] = useState<string>(item?.example || '');
+  const apiKey = useRecoilValue(APIKeyState);
 
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
@@ -54,6 +61,57 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const handleEditClose = () => {
     setIsEditOpen(false);
   };
+  const handleNameEditChanged = (text: string) => {
+    setWordName(text);
+  };
+  const handleMeanChanged = (text: string) => {
+    setWordMean(text);
+  };
+  const handleLangChanged = (text: string) => {
+    setWordLang(text);
+  };
+  const handleExampleChanged = (text: string) => {
+    setWordExample(text);
+  };
+
+  const handleRemove = () => {
+    setWordsData((prev) => prev.filter((currentItem) => currentItem.id !== item?.id));
+  };
+
+  const handleEdit = () => {
+    if(!wordName){
+      Toast.show({
+        text1: '単語名は必須項目です。',
+        type: 'error',
+        visibilityTime: 2000,
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    setWordsData((prev) => 
+      prev.map((currentItem) => 
+        currentItem.id === item?.id
+          ? {
+            ...currentItem,
+            name: wordName,
+            mean: wordMean,
+            lang: wordLang,
+            example: wordExample
+          }
+          : currentItem
+      )
+    );
+    handleEditClose();
+    setLoading(false);
+  };
+  useEffect(() => {
+    setWordName(item?.name || '');
+    setWordMean(item?.mean || '');
+    setWordLang(item?.lang || '');
+    setWordExample(item?.example || '');
+  }, [item]);
   const handleSave = () => {
     setData((prev) =>
       prev.map((item) =>
@@ -187,6 +245,12 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
         isEditOpen,
         activeId,
         loading,
+        item,
+        wordName,
+        wordMean,
+        wordLang,
+        wordExample,
+        apiKey,
         wordExamplePreview,
         newExample,
         handleNameChanged,
@@ -202,6 +266,12 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
         setNewExample,
         setLoading,
         onPressToSlide,
+        handleNameEditChanged,
+        handleMeanChanged,
+        handleLangChanged,
+        handleExampleChanged,
+        handleRemove,
+        handleEdit,
       }}
     />
   );
