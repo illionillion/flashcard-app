@@ -113,7 +113,7 @@ export const AddWordModal: FC<AddWordModalProps> = ({
             <TextInput
               multiline
               style={styles.textMulti}
-              value={loading ? wordExamplePreview : newExample}
+              value={newExample}
               placeholder="例文"
               onChangeText={setNewExample}
             />
