@@ -13,7 +13,7 @@ interface AddWordModalProps {
     newExample: string;
     handleClose: () => void;
     handleAddNewWord: (newWord: WordDef) => void;
-    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
     setNewExample: Dispatch<SetStateAction<string>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
 }
@@ -105,12 +105,13 @@ export const AddWordModal: FC<AddWordModalProps> = ({
               <TouchableOpacity
                 style={{ ...styles.text, ...styles.createExample }}
                 disabled={loading}
-                onPress={() => handleCreateExample(newWord, newMean, newLang, apiKey)}
+                onPress={() => handleCreateExample(newWord, newMean, newLang, apiKey, 'add')}
               >
                 <Text style={styles.createExampleText}>例文作成</Text>
               </TouchableOpacity>
             </View>
             <TextInput
+              multiline
               style={styles.textMulti}
               value={loading ? wordExamplePreview : newExample}
               placeholder="例文"
@@ -121,7 +122,10 @@ export const AddWordModal: FC<AddWordModalProps> = ({
             <TouchableOpacity 
               style={{...styles.button, ...styles.addButton}}
               disabled={loading}
-              onPress={handleAdd}
+              onPress={() => {
+                handleAdd();
+                setLoading(false);
+              }}
             >
               <Text style={styles.buttonText}>追加する</Text>
             </TouchableOpacity>

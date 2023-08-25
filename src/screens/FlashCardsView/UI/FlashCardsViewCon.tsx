@@ -100,7 +100,8 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     newWord: string,
     newMean: string,
     newLang: string,
-    apiKey: string
+    apiKey: string,
+    modalType: 'add' | 'edit'
   ) => {
     if ([newWord, newMean, newLang].includes('')) {
       const errorMessage =
@@ -132,9 +133,17 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            setWordExamplePreview(() => char);
+            if (modalType === 'add') {
+              setNewExample(() => char);
+            } else {
+              setWordExamplePreview(() => char);
+            }
           } else {
-            setWordExamplePreview((prev) => prev + char);
+            if (modalType === 'add') {
+              setNewExample((prev) => prev + char);
+            } else {
+              setWordExamplePreview((prev) => prev + char);
+            }
           }
           resolve();
         }, 100);
@@ -142,14 +151,16 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     };
 
     if (result.success) {
-      setNewExample(() => result.content);
+      if (modalType === 'add') {
+        setNewExample(() => result.content);
+      }
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
     } else {
       OpenCreateExampleErrorMessage(result);
     }
-
+  
     setLoading(false);
   };
 

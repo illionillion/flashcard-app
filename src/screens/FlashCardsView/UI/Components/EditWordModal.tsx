@@ -13,7 +13,7 @@ interface EditWordModalProps {
     item?: WordDef;
     handleEditClose: () => void;
     setWordsData: Dispatch<SetStateAction<WordDef[]>>;
-    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
     setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -76,6 +76,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
       )
     );
     handleEditClose();
+    setLoading(false);
   };
   useEffect(() => {
     setWordName(item?.name || '');
@@ -113,7 +114,7 @@ export const EditWordModal: FC<EditWordModalProps> = ({
               <TouchableOpacity
                 style={{ ...styles.text, ...styles.createExample }}
                 disabled={loading}
-                onPress={() => handleCreateExample(wordName, wordMean, wordLang, apiKey)}
+                onPress={() => handleCreateExample(wordName, wordMean, wordLang, apiKey, 'edit')}
               >
                 <Text style={styles.createExampleText}>例文作成</Text>
               </TouchableOpacity>

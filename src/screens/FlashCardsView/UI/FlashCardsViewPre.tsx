@@ -26,7 +26,7 @@ export interface FlashCardsListPreProps {
   handleEditClose: () => void;
   handleAddNewWord:(newWord: WordDef) => void;
   setActiveId: Dispatch<SetStateAction<number | null>>;
-  handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string) => Promise<void>;
+  handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
   setNewExample: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
