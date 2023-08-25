@@ -1,6 +1,5 @@
 import type { Dispatch, FC, SetStateAction} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import type { WordDef } from '../../../../atom/FlashCardsDataState';
 
 interface AddWordModalProps {
     isAddOpen: boolean;
@@ -16,7 +15,6 @@ interface AddWordModalProps {
     setNewMean: Dispatch<SetStateAction<string>>;
     setNewLang: Dispatch<SetStateAction<string>>;
     handleClose: () => void;
-    handleAddNewWord: (newWord: WordDef) => void;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
     handleAdd: () => void;
   }
@@ -35,7 +33,6 @@ export const AddWordModal: FC<AddWordModalProps> = ({
   setNewMean,
   setNewLang,
   handleClose, 
-  handleAddNewWord,
   handleCreateExample,
   handleAdd,
 }) => {
