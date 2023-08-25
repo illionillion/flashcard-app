@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { WordDef } from '../../../atom/FlashCardsDataState';
+import type { Proficiency, WordDef } from '../../../atom/FlashCardsDataState';
 import type StackParamList from '../../../StackParamList';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import type { generateExampleReturn } from '../../../lib/createExample';
@@ -39,6 +39,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [wordLang, setWordLang] = useState<string>(item?.lang || '');
   const [wordExample, setWordExample] = useState<string>(item?.example || '');
   const apiKey = useRecoilValue(APIKeyState);
+  const [newWord, setNewWord] = useState<string>('');
+  const [newMean, setNewMean] = useState<string>('');
+  const [newLang, setNewLang] = useState<string>('');
+  const [addWordsData, setAddWordsData] = useState<WordDef[]>([]);
 
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
@@ -77,7 +81,54 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const handleRemove = () => {
     setWordsData((prev) => prev.filter((currentItem) => currentItem.id !== item?.id));
   };
+  const handleAdd = () => {
+    if(!newWord){
+      Toast.show({
+        text1: '単語名は必須項目です。',
+        type: 'error',
+        visibilityTime: 2000,
+      });
+      return;
+    }
+    if(!newMean){
+      Toast.show({
+        text1: '単語の意味は必須項目です。',
+        type: 'error',
+        visibilityTime: 2000,
+      });
+      return;
+    }
 
+    setLoading(true);
+
+    const newWordDef = {
+      id: (() => {
+        if (addWordsData.length === 0) {
+          return 0;
+        }
+      
+        const maxId = addWordsData.reduce((max, card) => {
+          return Math.max(max, card.id);
+        }, -1);
+      
+        return maxId + 1;
+      })(),
+      name: newWord,
+      lang: newLang,
+      mean: newMean,
+      example: newExample,
+      proficiency: 'learning' as Proficiency,
+    };
+
+    setAddWordsData((prev) => [...prev, newWordDef]);
+    handleAddNewWord(newWordDef);
+
+    setNewWord('');
+    setNewMean('');
+    setNewLang('');
+    setNewExample('');
+    handleClose();
+  };
   const handleEdit = () => {
     if(!wordName){
       Toast.show({
@@ -253,6 +304,9 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
         apiKey,
         wordExamplePreview,
         newExample,
+        newWord,
+        newMean,
+        newLang,
         handleNameChanged,
         handleSave,
         setWordsData,
@@ -272,6 +326,10 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
         handleExampleChanged,
         handleRemove,
         handleEdit,
+        setNewWord,
+        setNewMean,
+        setNewLang,
+        handleAdd,
       }}
     />
   );

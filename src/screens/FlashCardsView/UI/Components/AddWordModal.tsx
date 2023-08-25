@@ -1,87 +1,44 @@
 import type { Dispatch, FC, SetStateAction} from 'react';
-import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import type { Proficiency, WordDef } from '../../../../atom/FlashCardsDataState';
-import { useRecoilValue } from 'recoil';
-import { APIKeyState } from '../../../../atom/APIKeyState';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import type { WordDef } from '../../../../atom/FlashCardsDataState';
 
 interface AddWordModalProps {
     isAddOpen: boolean;
     loading: boolean;
     newExample: string;
+    newWord: string;
+    newMean: string;
+    newLang: string;
+    apiKey: string;
+    setNewExample: Dispatch<SetStateAction<string>>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+    setNewWord: Dispatch<SetStateAction<string>>;
+    setNewMean: Dispatch<SetStateAction<string>>;
+    setNewLang: Dispatch<SetStateAction<string>>;
     handleClose: () => void;
     handleAddNewWord: (newWord: WordDef) => void;
     handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
-    setNewExample: Dispatch<SetStateAction<string>>;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-}
+    handleAdd: () => void;
+  }
 
 export const AddWordModal: FC<AddWordModalProps> = ({ 
   isAddOpen, 
   loading,
   newExample,
+  newWord,
+  newMean,
+  newLang,
+  apiKey,
   setNewExample,
+  setLoading,
+  setNewWord,
+  setNewMean,
+  setNewLang,
   handleClose, 
   handleAddNewWord,
   handleCreateExample,
-  setLoading
+  handleAdd,
 }) => {
-  const [newWord, setNewWord] = useState<string>('');
-  const [newMean, setNewMean] = useState<string>('');
-  const [newLang, setNewLang] = useState<string>('');
-  const [wordsData, setWordsData] = useState<WordDef[]>([]);
-  const apiKey = useRecoilValue(APIKeyState);
-
-  const handleAdd = () => {
-    if(!newWord){
-      Toast.show({
-        text1: '単語名は必須項目です。',
-        type: 'error',
-        visibilityTime: 2000,
-      });
-      return;
-    }
-    if(!newMean){
-      Toast.show({
-        text1: '単語の意味は必須項目です。',
-        type: 'error',
-        visibilityTime: 2000,
-      });
-      return;
-    }
-
-    setLoading(true);
-
-    const newWordDef = {
-      id: (() => {
-        if (wordsData.length === 0) {
-          return 0;
-        }
-      
-        const maxId = wordsData.reduce((max, card) => {
-          return Math.max(max, card.id);
-        }, -1);
-      
-        return maxId + 1;
-      })(),
-      name: newWord,
-      lang: newLang,
-      mean: newMean,
-      example: newExample,
-      proficiency: 'learning' as Proficiency,
-    };
-
-    setWordsData((prev) => [...prev, newWordDef]);
-    handleAddNewWord(newWordDef);
-
-    setNewWord('');
-    setNewMean('');
-    setNewLang('');
-    setNewExample('');
-    handleClose();
-  };
-
   return (
     <>
       {isAddOpen && (

@@ -22,6 +22,9 @@ export interface FlashCardsListPreProps {
   apiKey: string;
   wordExamplePreview: string;
   newExample: string;
+  newWord: string;
+  newMean: string;
+  newLang: string;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
   handleNameChanged: (text: string) => void;
   handleSave: () => void;
@@ -41,6 +44,10 @@ export interface FlashCardsListPreProps {
   handleExampleChanged: (text: string) => void;
   handleRemove: () => void;
   handleEdit: () => void;
+  setNewWord: Dispatch<SetStateAction<string>>;
+  setNewMean: Dispatch<SetStateAction<string>>;
+  setNewLang: Dispatch<SetStateAction<string>>;
+  handleAdd: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -60,6 +67,9 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     apiKey,
     wordExamplePreview,
     newExample,
+    newWord,
+    newMean,
+    newLang,
     handleNameChanged,
     handleSave,
     setWordsData,
@@ -77,8 +87,12 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     handleMeanChanged,
     handleLangChanged,
     handleExampleChanged,
+    handleRemove,
     handleEdit,
-    handleRemove
+    setNewWord,
+    setNewMean,
+    setNewLang,
+    handleAdd,
   } = props;
   return (
     <>
@@ -130,11 +144,19 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           isAddOpen,
           loading,
           newExample,
+          newWord,
+          newMean,
+          newLang,
+          apiKey,
           setNewExample,
+          setLoading,
+          setNewWord,
+          setNewMean,
+          setNewLang,
           handleClose,
           handleAddNewWord,
           handleCreateExample,
-          setLoading,
+          handleAdd,
         }}
       />
       {activeId !== null && (
