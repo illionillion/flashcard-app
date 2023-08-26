@@ -91,7 +91,7 @@ export const AddWordModal: FC<AddWordModalProps> = ({
             </TouchableOpacity>
             <TouchableOpacity 
               style={{...styles.button, ...styles.closeButton}}
-                onPress={() => {
+              onPress={() => {
                 setNewWord('');
                 setNewMean('');
                 setNewLang('');
