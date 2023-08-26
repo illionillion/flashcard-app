@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import type { WordDef } from '../../../atom/FlashCardsDataState';
 import type StackParamList from '../../../StackParamList';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
