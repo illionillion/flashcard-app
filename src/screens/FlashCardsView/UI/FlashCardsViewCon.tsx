@@ -160,12 +160,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
     handleEditClose();
     setLoading(false);
   };
-  useEffect(() => {
-    setWordName(item?.name || '');
-    setWordMean(item?.mean || '');
-    setWordLang(item?.lang || '');
-    setWordExample(item?.example || '');
-  }, [item]);
+
   const handleSave = () => {
     setData((prev) =>
       prev.map((item) =>
@@ -289,6 +284,21 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   useEffect(()=>{
     setWordsData(() => data.find(item => item.id === id)?.words || []);
   },[data]);
+  useEffect(() => {
+    setWordName(item?.name || '');
+    setWordMean(item?.mean || '');
+    setWordLang(item?.lang || '');
+    setWordExample(item?.example || '');
+  }, [item]);
+  useEffect(() => {
+    const currentItem = wordsData.find((item) => item.id === activeId);
+    if (currentItem) {
+      setWordExamplePreview(currentItem.example);
+    } else {
+      setWordExamplePreview(''); 
+    }
+  }, [activeId, wordsData]);
+
 
   return (
     <FlashCardsViewPre
