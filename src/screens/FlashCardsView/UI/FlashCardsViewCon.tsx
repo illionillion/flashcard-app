@@ -12,6 +12,7 @@ import { generateExample} from '../../../lib/createExample';
 
 import { FlashCardsViewPre } from './FlashCardsViewPre';
 import { APIKeyState } from '../../../atom/APIKeyState';
+import { SentenceDiffState } from '../../../atom/SentenceDiffState';
 
 type FlashCardsViewRouteProp = RouteProp<StackParamList, 'FlashCardsView'>;
 
@@ -44,6 +45,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [newMean, setNewMean] = useState<string>('');
   const [newLang, setNewLang] = useState<string>('');
   const [addWordsData, setAddWordsData] = useState<WordDef[]>([]);
+  const sentenceDiff = useRecoilValue(SentenceDiffState);
 
   const handleNameChanged = (text: string) => {
     setFlashcardName(text);
@@ -236,6 +238,7 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       wordLang: newLang,
       wordName: newWord,
       wordMean: newMean,
+      sentenceDiff: sentenceDiff,
     });
 
     const updateChar = async (i: number) => {
