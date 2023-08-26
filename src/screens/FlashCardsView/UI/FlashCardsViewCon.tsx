@@ -44,7 +44,6 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
   const [newWord, setNewWord] = useState<string>('');
   const [newMean, setNewMean] = useState<string>('');
   const [newLang, setNewLang] = useState<string>('');
-  const [addWordsData, setAddWordsData] = useState<WordDef[]>([]);
   const sentenceDiff = useRecoilValue(SentenceDiffState);
 
   const handleNameChanged = (text: string) => {
@@ -106,11 +105,11 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
 
     const newWordDef = {
       id: (() => {
-        if (addWordsData.length === 0) {
+        if (wordsData.length === 0) {
           return 0;
         }
       
-        const maxId = addWordsData.reduce((max, card) => {
+        const maxId = wordsData.reduce((max, card) => {
           return Math.max(max, card.id);
         }, -1);
       
@@ -123,7 +122,6 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       proficiency: 'learning' as Proficiency,
     };
 
-    setAddWordsData((prev) => [...prev, newWordDef]);
     handleAddNewWord(newWordDef);
 
     setNewWord('');
