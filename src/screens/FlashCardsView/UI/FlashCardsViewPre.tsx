@@ -1,20 +1,50 @@
 import { Ionicons } from '@expo/vector-icons';
-import type { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FC, SetStateAction} from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { WordDef } from '../../../atom/FlashCardsDataState';
 import { WordCard } from './Components/WordCard';
-import type { generateExampleReturn } from '../../../lib/createExample';
+import { AddWordModal } from './Components/AddWordModal';
+import { EditWordModal } from './Components/EditWordModal';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
   buttonDisable: boolean;
   wordsData: WordDef[];
-  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
+  isAddOpen: boolean;
+  isEditOpen: boolean;
+  activeId: number | null;
+  loading: boolean;
+  wordName: string;
+  wordMean: string;
+  wordLang: string;
+  wordExample: string;
+  apiKey: string;
+  wordExamplePreview: string;
+  newExample: string;
+  newWord: string;
+  newMean: string;
+  newLang: string;
   handleNameChanged: (text: string) => void;
-  handleAdd: () => void;
   handleSave: () => void;
   onPressToSlide: () => void;
-  OpenCreateExampleErrorMessage: (result: generateExampleReturn) => void;
+  handleOpen: () => void;
+  handleClose: () => void;
+  handleEditOpen: () => void;
+  handleEditClose: () => void;
+  setActiveId: Dispatch<SetStateAction<number | null>>;
+  handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
+  setNewExample: Dispatch<SetStateAction<string>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  handleNameEditChanged: (text: string) => void;
+  handleMeanChanged: (text: string) => void;
+  handleLangChanged: (text: string) => void;
+  handleExampleChanged: (text: string) => void;
+  handleRemove: () => void;
+  handleEdit: () => void;
+  setNewWord: Dispatch<SetStateAction<string>>;
+  setNewMean: Dispatch<SetStateAction<string>>;
+  setNewLang: Dispatch<SetStateAction<string>>;
+  handleAdd: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
@@ -22,53 +52,129 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
     flashcardName,
     buttonDisable,
     wordsData,
+    isAddOpen,
+    isEditOpen,
+    activeId,
+    loading,
+    wordName,
+    wordMean,
+    wordLang,
+    wordExample,
+    apiKey,
+    wordExamplePreview,
+    newExample,
+    newWord,
+    newMean,
+    newLang,
     handleNameChanged,
-    handleAdd,
     handleSave,
-    setWordsData,
     onPressToSlide,
-    OpenCreateExampleErrorMessage,
+    handleOpen,
+    handleClose,
+    handleEditOpen,
+    handleEditClose,
+    setActiveId,
+    handleCreateExample,
+    setNewExample,
+    setLoading,
+    handleNameEditChanged,
+    handleMeanChanged,
+    handleLangChanged,
+    handleExampleChanged,
+    handleRemove,
+    handleEdit,
+    setNewWord,
+    setNewMean,
+    setNewLang,
+    handleAdd,
   } = props;
   return (
-    <View style={styles.FlashCardsContainer}>
-      <View style={styles.FlashCardsTitleContainer}>
-        <TextInput
-          value={flashcardName}
-          placeholder="単語帳名を入力"
-          style={styles.FlashCardsTitleInput}
-          onChangeText={handleNameChanged}
-        />
-      </View>
-      <ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false}>
-        {wordsData.map((item) => (
-          <WordCard
-            key={item.id}
-            item={item}
-            setWordsData={setWordsData}
-            OpenCreateExampleErrorMessage={OpenCreateExampleErrorMessage}
+    <>
+      <View style={styles.FlashCardsContainer}>
+        <View style={styles.FlashCardsTitleContainer}>
+          <TextInput
+            value={flashcardName}
+            placeholder="単語帳名を入力"
+            style={styles.FlashCardsTitleInput}
+            onChangeText={handleNameChanged}
           />
-        ))}
-      </ScrollView>
-      <View style={styles.FlashCardsBottom}>
-        <TouchableOpacity
-          style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
-          disabled={buttonDisable}
-          onPress={handleSave}
-        >
-          <Text style={styles.SaveButtonText}>保存する</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
-          disabled={wordsData.length === 0 ? true : false}
-          onPress={onPressToSlide}
-        >
-          <Text style={styles.SlideButtonText}>スライドショー</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.PlusButton} onPress={handleAdd}>
-          <Ionicons name="add" size={20} color="#fff" />
-        </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false} scrollEnabled={false}>
+          {wordsData.map((item) => (
+            <TouchableOpacity 
+              key={item.id}
+              onPress={() => {
+                setActiveId(item.id);
+                handleEditOpen();
+              }}>
+              <WordCard
+                item={item}
+              />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <View style={styles.FlashCardsBottom}>
+          <TouchableOpacity
+            style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
+            disabled={buttonDisable}
+            onPress={handleSave}
+          >
+            <Text style={styles.SaveButtonText}>保存する</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...styles.SlideButton, ...styles.ButtonCommon }}
+            disabled={wordsData.length === 0 ? true : false}
+            onPress={onPressToSlide}
+          >
+            <Text style={styles.SlideButtonText}>スライドショー</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
+            <Ionicons name="add" size={20} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+      <AddWordModal
+        {...{
+          isAddOpen,
+          loading,
+          newExample,
+          newWord,
+          newMean,
+          newLang,
+          apiKey,
+          setNewExample,
+          setLoading,
+          setNewWord,
+          setNewMean,
+          setNewLang,
+          handleClose,
+          handleCreateExample,
+          handleAdd,
+        }}
+      />
+      {activeId !== null && (
+        <EditWordModal
+          {...{
+            isEditOpen,
+            loading,
+            wordExamplePreview,
+            wordName,
+            wordMean,
+            wordLang,
+            wordExample,
+            apiKey,
+            handleEditClose,
+            handleCreateExample,
+            handleNameEditChanged,
+            handleMeanChanged,
+            handleLangChanged,
+            handleExampleChanged,
+            handleRemove,
+            handleEdit,
+          }}
+        />
+      )}
+    </>
   );
 };
 
