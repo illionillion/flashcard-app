@@ -24,8 +24,10 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
-  const [wordExample, setWordExample] = useState<string>(example);
-  const [wordExamplePreview, setWordExamplePreview] = useState<string>(example);
+  const EXAMPLE_MAX = 3; // 例文の最大数
+  const [wordExamples, setWordExamples] = useState<string[]>([example]);
+  const [wordExamplePreviews, setWordExamplePreviews] = useState<string[]>([example]);
+  const [selectedindex, setSelectedIndex] = useState<number>(0); // 選択された例文のインデックス
   const [loading, setLoading] = useState<boolean>(false);
   const apiKey = useRecoilValue(APIKeyState);
   const handleNameChanged = (text: string) => {
@@ -37,11 +39,22 @@ export const WordCard: FC<WordCardProps> = ({
   const handleLangChanged = (text: string) => {
     setWordLang(text);
   };
-  const handleExampleChanged = (text: string) => {
-    setWordExample(text);
+
+  // 指定した index の例文テキストを変更します
+  const handleExampleChanged = (text: string, index: number) => {
+    wordExamples[index] = text;
+    setWordExamples(wordExamples);
   };
 
+  // 指定した index の例文プレビューを変更します
+  const handleExamplePreviewChanged = (text: string, index: number) => {
+    wordExamplePreviews[index] = text;
+    setWordExamplePreviews(wordExamplePreviews);
+  };
+
+
   const upDateWord = () => {
+    const selectedWordExample = wordExamples[selectedindex];
     setWordsData((prev) =>
       prev.map((item) =>
         item.id === id
@@ -50,7 +63,7 @@ export const WordCard: FC<WordCardProps> = ({
             name: wordName,
             mean: wordMean,
             lang: wordLang,
-            example: wordExample,
+            example: selectedWordExample,
             proficiency: proficiency,
           }
           : item,
@@ -81,7 +94,22 @@ export const WordCard: FC<WordCardProps> = ({
     setLoading(true);
 
     // ここでChatGPTに送信したい
+
     const result = await generateExample({
+      apiKey: apiKey,
+      wordLang: wordLang,
+      wordName: wordName,
+      wordMean: wordMean,
+    });
+
+    const result2 = await generateExample({
+      apiKey: apiKey,
+      wordLang: wordLang,
+      wordName: wordName,
+      wordMean: wordMean,
+    });
+
+    const result3 = await generateExample({
       apiKey: apiKey,
       wordLang: wordLang,
       wordName: wordName,
@@ -93,17 +121,17 @@ export const WordCard: FC<WordCardProps> = ({
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            setWordExamplePreview(() => char);
+            handleExamplePreviewChanged(char, 0);
           } else {
-            setWordExamplePreview((prev) => prev + char);
+            handleExamplePreviewChanged(wordExamplePreviews[0] + char, 0);
           }
           resolve();
         }, 100);
       });
     };
 
-    if (result.success) {
-      setWordExample(() => result.content);
+    if (result.success && result2.success && result3.success) {
+      setWordExamples(() => [result.content, result2.content, result3.content]);
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
@@ -116,7 +144,7 @@ export const WordCard: FC<WordCardProps> = ({
 
   useEffect(() => {
     upDateWord();
-  }, [wordName, wordMean, wordLang, wordExample]);
+  }, [wordName, wordMean, wordLang, wordExamples]);
 
   return (
     <View style={styles.WordCard}>
@@ -157,30 +185,19 @@ export const WordCard: FC<WordCardProps> = ({
         editable={!loading}
         onChangeText={handleExampleChanged}
       /> */}
-      <ExampleScentence
-        loading={loading}
-        wordExample={wordExample}
-        wordExamplePreview={wordExamplePreview}
-        setWordExample={setWordExample}
-        setWordExamplePreview={setWordExamplePreview}
-        handleExampleChanged={handleExampleChanged}
-      />
-      <ExampleScentence
-        loading={loading}
-        wordExample={wordExample}
-        wordExamplePreview={wordExamplePreview}
-        setWordExample={setWordExample}
-        setWordExamplePreview={setWordExamplePreview}
-        handleExampleChanged={handleExampleChanged}
-      />
-      <ExampleScentence
-        loading={loading}
-        wordExample={wordExample}
-        wordExamplePreview={wordExamplePreview}
-        setWordExample={setWordExample}
-        setWordExamplePreview={setWordExamplePreview}
-        handleExampleChanged={handleExampleChanged}
-      />
+
+      {/* 例文コンポーネントの表示 */}
+      {
+        wordExamples.map((_, index) => (
+          <ExampleScentence
+            index={index}
+            loading={loading}
+            wordExample={wordExamples[index]}
+            wordExamplePreview={wordExamplePreviews[index]}
+            handleExampleChanged={handleExampleChanged}
+          />))
+      }
+
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
       </TouchableOpacity>
