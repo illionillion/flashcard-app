@@ -14,7 +14,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react', /* 'unused-imports' */],
+  plugins: ['@typescript-eslint', 'react', 'unused-imports'],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
@@ -37,7 +37,7 @@ module.exports = {
     /**
      * 未使用のimport削除
      */
-    // 'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-imports': 'warn',
 
     /**
      * @description propsを自動でソート
