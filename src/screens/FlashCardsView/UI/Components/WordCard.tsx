@@ -8,6 +8,7 @@ import { APIKeyState } from '../../../../atom/APIKeyState';
 import type { WordDef } from '../../../../atom/FlashCardsDataState';
 import type { generateExampleReturn } from '../../../../lib/createExample';
 import { generateExample } from '../../../../lib/createExample';
+import { ExampleScentence } from './ExampleScentence';
 
 interface WordCardProps {
   item: WordDef;
@@ -148,13 +149,37 @@ export const WordCard: FC<WordCardProps> = ({
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
-      <TextInput
+      {/* <TextInput
         multiline
         style={styles.textMulti}
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         editable={!loading}
         onChangeText={handleExampleChanged}
+      /> */}
+      <ExampleScentence
+        loading={loading}
+        wordExample={wordExample}
+        wordExamplePreview={wordExamplePreview}
+        setWordExample={setWordExample}
+        setWordExamplePreview={setWordExamplePreview}
+        handleExampleChanged={handleExampleChanged}
+      />
+      <ExampleScentence
+        loading={loading}
+        wordExample={wordExample}
+        wordExamplePreview={wordExamplePreview}
+        setWordExample={setWordExample}
+        setWordExamplePreview={setWordExamplePreview}
+        handleExampleChanged={handleExampleChanged}
+      />
+      <ExampleScentence
+        loading={loading}
+        wordExample={wordExample}
+        wordExamplePreview={wordExamplePreview}
+        setWordExample={setWordExample}
+        setWordExamplePreview={setWordExamplePreview}
+        handleExampleChanged={handleExampleChanged}
       />
       <TouchableOpacity style={styles.remove} onPress={handleRemove}>
         <Ionicons name="close" size={20} />
@@ -167,7 +192,7 @@ const styles = StyleSheet.create({
   WordCard: {
     flex: 1,
     width: '80%',
-    height: 225,
+    // height: 225,
     backgroundColor: '#D9D9D9',
     marginVertical: 22,
     marginHorizontal: '10%',
