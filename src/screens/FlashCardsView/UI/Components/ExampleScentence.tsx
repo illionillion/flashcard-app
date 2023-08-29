@@ -24,7 +24,7 @@ export const ExampleScentence: FC<ExampleScentenceProps> = ({
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
         editable={!loading}
-      // onChangeText={handleExampleChanged(text, index)}
+        onChangeText={(text) => handleExampleChanged(text, index)}
       />
     </View >
   );
