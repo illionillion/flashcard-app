@@ -1,93 +1,21 @@
-import { Ionicons } from '@expo/vector-icons';
-import type { Dispatch, FC, SetStateAction} from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import type { WordDef } from '../../../atom/FlashCardsDataState';
-import { WordCard } from './Components/WordCard';
-import { AddWordModal } from './Components/AddWordModal';
-import { EditWordModal } from './Components/EditWordModal';
+import { AddWordButton } from './Components/AddWordButton';
+import { EditWordButton } from './Components/EditWordButton';
 
 export interface FlashCardsListPreProps {
   flashcardName: string;
-  buttonDisable: boolean;
   wordsData: WordDef[];
-  isAddOpen: boolean;
-  isEditOpen: boolean;
-  activeId: number | null;
-  loading: boolean;
-  wordName: string;
-  wordMean: string;
-  wordLang: string;
-  wordExample: string;
-  apiKey: string;
-  wordExamplePreview: string;
-  newExample: string;
-  newWord: string;
-  newMean: string;
-  newLang: string;
   handleNameChanged: (text: string) => void;
-  handleSave: () => void;
+  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
   onPressToSlide: () => void;
-  handleOpen: () => void;
-  handleClose: () => void;
-  handleEditOpen: () => void;
-  handleEditClose: () => void;
-  setActiveId: Dispatch<SetStateAction<number | null>>;
-  handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
-  setNewExample: Dispatch<SetStateAction<string>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  handleNameEditChanged: (text: string) => void;
-  handleMeanChanged: (text: string) => void;
-  handleLangChanged: (text: string) => void;
-  handleExampleChanged: (text: string) => void;
-  handleRemove: () => void;
-  handleEdit: () => void;
-  setNewWord: Dispatch<SetStateAction<string>>;
-  setNewMean: Dispatch<SetStateAction<string>>;
-  setNewLang: Dispatch<SetStateAction<string>>;
-  handleAdd: () => void;
+  handleSave: () => void;
 }
 
 export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
-  const {
-    flashcardName,
-    buttonDisable,
-    wordsData,
-    isAddOpen,
-    isEditOpen,
-    activeId,
-    loading,
-    wordName,
-    wordMean,
-    wordLang,
-    wordExample,
-    apiKey,
-    wordExamplePreview,
-    newExample,
-    newWord,
-    newMean,
-    newLang,
-    handleNameChanged,
-    handleSave,
-    onPressToSlide,
-    handleOpen,
-    handleClose,
-    handleEditOpen,
-    handleEditClose,
-    setActiveId,
-    handleCreateExample,
-    setNewExample,
-    setLoading,
-    handleNameEditChanged,
-    handleMeanChanged,
-    handleLangChanged,
-    handleExampleChanged,
-    handleRemove,
-    handleEdit,
-    setNewWord,
-    setNewMean,
-    setNewLang,
-    handleAdd,
-  } = props;
+  const { flashcardName, wordsData, handleNameChanged, setWordsData, onPressToSlide, handleSave } =
+    props;
   return (
     <>
       <View style={styles.FlashCardsContainer}>
@@ -99,24 +27,18 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
             onChangeText={handleNameChanged}
           />
         </View>
-        <ScrollView style={styles.FlashScrollContainer} showsVerticalScrollIndicator={false} scrollEnabled={false}>
+        <ScrollView
+          contentContainerStyle={styles.FlashScrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
           {wordsData.map((item) => (
-            <TouchableOpacity 
-              key={item.id}
-              onPress={() => {
-                setActiveId(item.id);
-                handleEditOpen();
-              }}>
-              <WordCard
-                item={item}
-              />
-            </TouchableOpacity>
+            <EditWordButton key={item.id} item={item} setWordsData={setWordsData} />
           ))}
         </ScrollView>
         <View style={styles.FlashCardsBottom}>
           <TouchableOpacity
             style={{ ...styles.SaveButton, ...styles.ButtonCommon }}
-            disabled={buttonDisable}
+            disabled={flashcardName.trim() === ''}
             onPress={handleSave}
           >
             <Text style={styles.SaveButtonText}>保存する</Text>
@@ -128,52 +50,9 @@ export const FlashCardsViewPre: FC<FlashCardsListPreProps> = (props) => {
           >
             <Text style={styles.SlideButtonText}>スライドショー</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
-            <Ionicons name="add" size={20} color="#fff" />
-          </TouchableOpacity>
+          <AddWordButton wordsData={wordsData} setWordsData={setWordsData} />
         </View>
       </View>
-      <AddWordModal
-        {...{
-          isAddOpen,
-          loading,
-          newExample,
-          newWord,
-          newMean,
-          newLang,
-          apiKey,
-          setNewExample,
-          setLoading,
-          setNewWord,
-          setNewMean,
-          setNewLang,
-          handleClose,
-          handleCreateExample,
-          handleAdd,
-        }}
-      />
-      {activeId !== null && (
-        <EditWordModal
-          {...{
-            isEditOpen,
-            loading,
-            wordExamplePreview,
-            wordName,
-            wordMean,
-            wordLang,
-            wordExample,
-            apiKey,
-            handleEditClose,
-            handleCreateExample,
-            handleNameEditChanged,
-            handleMeanChanged,
-            handleLangChanged,
-            handleExampleChanged,
-            handleRemove,
-            handleEdit,
-          }}
-        />
-      )}
     </>
   );
 };
@@ -198,9 +77,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   FlashScrollContainer: {
-    flexGrow: 1,
+    alignItems: 'center',
   },
-
   FlashCardsBottom: {
     flexDirection: 'row',
     gap: 10,
@@ -231,13 +109,5 @@ const styles = StyleSheet.create({
   },
   SlideButtonText: {
     fontSize: 15,
-  },
-  PlusButton: {
-    backgroundColor: '#599D4D',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 53,
-    height: 53,
-    borderRadius: 50,
   },
 });

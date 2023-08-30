@@ -1,46 +1,36 @@
-import type { FC } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import type { WordDef } from '../../../../atom/FlashCardsDataState';
+import { useAddWordButton } from '../Hooks/useAddWordButton';
 
-interface EditWordModalProps {
-    isEditOpen: boolean;
-    loading: boolean;
-    wordExamplePreview: string;
-    wordName: string;
-    wordMean: string;
-    wordLang: string;
-    wordExample: string;
-    apiKey: string;
-    handleEditClose: () => void;
-    handleCreateExample: (newWord: string, newMean: string, newLang: string, apiKey: string, modalType: 'add' | 'edit') => Promise<void>;
-    handleNameEditChanged: (text: string) => void;
-    handleMeanChanged: (text: string) => void;
-    handleLangChanged: (text: string) => void;
-    handleExampleChanged: (text: string) => void;
-    handleRemove: () => void;
-    handleEdit: () => void;
+interface AddWordButtonProps {
+  wordsData: WordDef[];
+  setWordsData: Dispatch<SetStateAction<WordDef[]>>;
 }
 
-export const EditWordModal: FC<EditWordModalProps> = ({
-  isEditOpen, 
-  loading,
-  wordExamplePreview,
-  wordName,
-  wordMean,
-  wordLang,
-  wordExample,
-  apiKey,
-  handleEditClose,
-  handleCreateExample,
-  handleNameEditChanged,
-  handleMeanChanged,
-  handleLangChanged,
-  handleExampleChanged,
-  handleEdit,
-  handleRemove
-}) => {    
+export const AddWordButton: FC<AddWordButtonProps> = ({ wordsData, setWordsData }) => {
+  const {
+    isOpen,
+    loading,
+    wordName,
+    wordMean,
+    wordLang,
+    wordExample,
+    wordExTrans,
+    handleOpen,
+    handleClose,
+    handleChangeName,
+    handleChangeMean,
+    handleChangeLang,
+    handleChangeExample,
+    handleChangeExTrans,
+    handleAdd,
+    handleCreateExample,
+  } = useAddWordButton({ wordsData, setWordsData });
   return (
     <>
-      {isEditOpen && (
+      {isOpen && (
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.row}>
@@ -48,13 +38,13 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                 style={styles.text}
                 value={wordName}
                 placeholder="単語名"
-                onChangeText={handleNameEditChanged}
+                onChangeText={handleChangeName}
               />
               <TextInput
                 style={styles.text}
                 value={wordMean}
                 placeholder="単語の意味"
-                onChangeText={handleMeanChanged}
+                onChangeText={handleChangeMean}
               />
             </View>
             <View style={styles.row}>
@@ -62,12 +52,12 @@ export const EditWordModal: FC<EditWordModalProps> = ({
                 style={styles.text}
                 value={wordLang}
                 placeholder="単語の言語"
-                onChangeText={handleLangChanged}
+                onChangeText={handleChangeLang}
               />
               <TouchableOpacity
                 style={{ ...styles.text, ...styles.createExample }}
                 disabled={loading}
-                onPress={() => handleCreateExample(wordName, wordMean, wordLang, apiKey, 'edit')}
+                onPress={handleCreateExample}
               >
                 <Text style={styles.createExampleText}>例文作成</Text>
               </TouchableOpacity>
@@ -75,50 +65,51 @@ export const EditWordModal: FC<EditWordModalProps> = ({
             <TextInput
               multiline
               style={styles.textMulti}
-              value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
+              value={loading ? 'Loading... ' : wordExample}
               placeholder="例文"
-              editable={!loading}
-              onChangeText={handleExampleChanged}
+              onChangeText={handleChangeExample}
+            />
+            <TextInput
+              multiline
+              style={styles.textMulti}
+              value={loading ? '' : wordExTrans}
+              onChangeText={handleChangeExTrans}
             />
           </View>
           <View style={styles.buttons}>
-            <TouchableOpacity 
-              style={{...styles.button, ...styles.completeButton}}
-              onPress={handleEdit}
-            >
-              <Text style={styles.buttonText}>編集完了</Text>
-            </TouchableOpacity>
             <TouchableOpacity
-              style={{...styles.button, ...styles.closeButton}}
-              onPress={handleEditClose}
-            >
-              <Text style={styles.buttonText}>閉じる</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={{...styles.button, ...styles.deleteButton}}
+              style={{ ...styles.button, ...styles.addButton }}
+              disabled={loading}
               onPress={() => {
-                handleRemove();
-                handleEditClose();
+                handleAdd();
               }}
             >
-              <Text style={styles.buttonText}>削除</Text>
+              <Text style={styles.buttonText}>追加する</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ ...styles.button, ...styles.closeButton }}
+              onPress={handleClose}
+            >
+              <Text style={styles.buttonText}>閉じる</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
+      <TouchableOpacity style={styles.PlusButton} onPress={handleOpen}>
+        <Ionicons name="add" size={20} color="#fff" />
+      </TouchableOpacity>
     </>
   );
 };
-
 const styles = StyleSheet.create({
   modalOverlay: {
     position: 'absolute',
-    top: 0, 
-    bottom: 0, 
-    left: 0, 
-    right: 0, 
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
   },
@@ -150,6 +141,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
+  buttons: {
+    paddingBottom: 12,
+    gap: 20,
+    flexDirection: 'row',
+  },
+  button: {
+    width: 110,
+    height: 50,
+    borderRadius: 5,
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  addButton: {
+    backgroundColor: '#5FA1DE',
+  },
+  closeButton: {
+    backgroundColor: '#FF9D9D',
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
+  },
   textMulti: {
     flex: 1,
     paddingVertical: 3,
@@ -162,35 +176,17 @@ const styles = StyleSheet.create({
   createExample: {
     backgroundColor: '#5C98B9',
   },
-  buttons: {
-    paddingBottom: 12,
-    gap: 20,
-    flexDirection: 'row',
-  },
-  button: {
-    width: 80,
-    height: 50,
-    borderRadius: 5,
-    textAlign: 'center',
-    justifyContent: 'center',
-  },
-  closeButton: {
-    backgroundColor: '#FF9D9D',
-  },
-  deleteButton: {
-    backgroundColor: '#EF4123',
-  },
-  completeButton: {
-    backgroundColor: '#5FA1DE',
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16,
-  },
   createExampleText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
+  },
+  PlusButton: {
+    backgroundColor: '#599D4D',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 53,
+    height: 53,
+    borderRadius: 50,
   },
 });

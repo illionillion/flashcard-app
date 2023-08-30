@@ -79,7 +79,6 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
 
   // 音声読み上げ機能
   const handlePressSpeaker = (text: string, langCode: string) => {
-    console.log(text);
     if (isSpeaking) {
       handleSpeechStop();
     } else {

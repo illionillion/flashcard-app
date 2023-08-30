@@ -1,5 +1,8 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { APIKeyState } from '../atom/APIKeyState';
+import { SentenceDiffState } from '../atom/SentenceDiffState';
 
 interface ApiSuccessResponse {
   example_sentence: string;
@@ -13,11 +16,9 @@ interface ApiErrorResponse {
 }
 
 interface apiProps {
-  apiKey: string;
   wordName: string;
   wordLang: string;
   wordMean: string;
-  sentenceDiff: string;
 }
 
 export interface generateExampleReturn {
@@ -43,7 +44,9 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @returns
  */
 export const generateExample = async (props: apiProps): Promise<generateExampleReturn> => {
-  const { apiKey, wordName, wordMean, wordLang, sentenceDiff } = props;
+  const { wordName, wordMean, wordLang } = props;
+  const apiKey = useRecoilValue(APIKeyState);
+  const sentenceDiff = useRecoilValue(SentenceDiffState);
   try {
     const res = await axios.post<ApiSuccessResponse>('https://ray-boon-api.vercel.app/api/v2', {
       apiKey: apiKey,
