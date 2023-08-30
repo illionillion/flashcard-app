@@ -1,31 +1,30 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import axios from 'axios';
 
-interface apiReturn {
-  content: string;
+interface ApiSuccessResponse {
+  example_sentence: string;
+  example_sentence_language_code: string;
+  example_sentence_translated: string;
+}
+
+interface ApiErrorResponse {
   message: string;
+  status: string;
 }
 
 interface apiProps {
   apiKey: string;
   wordName: string;
   wordLang: string;
-	wordMean: string;
-	sentenceDiff: string;
+  wordMean: string;
+  sentenceDiff: string;
 }
 
 export interface generateExampleReturn {
-	success: boolean;
-    content: string;
-    errorMessage: string;
-	status: number;
-}
-
-export interface generateExampleReturn {
-	success: boolean;
-    content: string;
-    errorMessage: string;
-	status: number;
+  success: boolean;
+  content: ApiSuccessResponse;
+  errorMessage: string;
+  status: number;
 }
 
 /**
@@ -43,26 +42,41 @@ export const isAxiosError = (error: unknown): error is AxiosError => {
  * @param role
  * @returns
  */
-export const generateExample = async (props: apiProps):Promise<generateExampleReturn> => {
-  const { apiKey, wordName, wordMean, wordLang , sentenceDiff} = props;
-
+export const generateExample = async (props: apiProps): Promise<generateExampleReturn> => {
+  const { apiKey, wordName, wordMean, wordLang, sentenceDiff } = props;
   try {
-    const res = await axios.post<apiReturn>(
-      'https://ray-boon-api.vercel.app/api/v1',
-      {
-        apiKey: apiKey,
-        wordName: wordName,
-        wordLang: wordLang,
-        wordMean: wordMean,
-        sentenceDiff: sentenceDiff,
-      }
-    );
-    return { success: true, content: res.data.content, errorMessage: '', status: res.status };
+    const res = await axios.post<ApiSuccessResponse>('https://ray-boon-api.vercel.app/api/v2', {
+      apiKey: apiKey,
+      wordName: wordName,
+      wordLang: wordLang,
+      wordMean: wordMean,
+      sentenceDiff: sentenceDiff,
+    });
+
+    return { success: true, content: res.data, errorMessage: '', status: res.status };
   } catch (error) {
     if (isAxiosError(error)) {
-      const res = error.response as AxiosResponse<apiReturn, any>;
-      return {success: false, content: '', errorMessage: res.data.message, status: res.status};
+      const res = error.response as AxiosResponse<ApiErrorResponse, any>;
+      return {
+        success: false,
+        content: {
+          example_sentence: '',
+          example_sentence_language_code: '',
+          example_sentence_translated: '',
+        },
+        errorMessage: res.data.message,
+        status: res.status,
+      };
     }
-    return {success: false, content: '', errorMessage: 'エラー', status: 500 };
+    return {
+      success: false,
+      content: {
+        example_sentence: '',
+        example_sentence_language_code: '',
+        example_sentence_translated: '',
+      },
+      errorMessage: 'エラー',
+      status: 500,
+    };
   }
 };

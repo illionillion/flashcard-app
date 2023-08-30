@@ -200,7 +200,6 @@ export const FlashCardsViewCon: FC<FlashCardsListConProps> = (props) => {
       },
       {
         text: 'OK',
-        onPress: () => navigation.navigate('Setting'),
       },
     ]);
   };

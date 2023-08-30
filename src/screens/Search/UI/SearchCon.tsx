@@ -39,19 +39,16 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
         fileId: cards.id,
         fileName: cards.name,
         isOpen: false,
-      }))
+      })),
     );
   }, [data]);
-  const [filteredData, setFilteredData] =
-    useState<FilteredData[]>(convertedData);
+  const [filteredData, setFilteredData] = useState<FilteredData[]>(convertedData);
 
   const handleToggle = (id: number, fileId: number) => {
     setFilteredData((prevData) =>
       prevData.map((card) =>
-        card.fileId === id && card.id === fileId
-          ? { ...card, isOpen: !card.isOpen }
-          : card
-      )
+        card.fileId === id && card.id === fileId ? { ...card, isOpen: !card.isOpen } : card,
+      ),
     );
   };
 
@@ -60,10 +57,8 @@ export const SearchCon: FC<SearchConProps> = ({ navigation }) => {
     const lowerCaseText = text.toLowerCase();
     const updatedFilteredData =
       text === ''
-      	? convertedData
-      	: convertedData.filter((card) =>
-      		card.name.toLowerCase().includes(lowerCaseText)
-      	);
+        ? convertedData
+        : convertedData.filter((card) => card.name.toLowerCase().includes(lowerCaseText));
     setFilteredData(updatedFilteredData);
   };
 

@@ -12,14 +12,14 @@ interface SlidePreProps {
   word_list: WordDef[];
   isFront: boolean;
   isSpeaking: boolean;
-  swipePagenation: RefObject<unknown>;
+  swipePagination: RefObject<unknown>;
   scrollText: RefObject<ScrollView>;
   handleFlip: () => void;
   handlePageChange: (page: number) => void;
   handlePressSadIcon: (word: WordDef) => void;
   handlePressHappyIcon: (word: WordDef) => void;
   openIconDescription: (desc: string) => void;
-  handlePressSpeaker: (text: string) => void;
+  handlePressSpeaker: (text: string, langCode: string) => void;
 }
 
 const headerColor = '#79BC6E';
@@ -29,7 +29,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     word_list,
     isFront,
     isSpeaking,
-    swipePagenation,
+    swipePagination,
     scrollText,
     handleFlip,
     handlePageChange,
@@ -38,13 +38,14 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
     openIconDescription,
     handlePressSpeaker,
   } = props;
+  const { name, mean, example, exTrans, langCode, proficiency } = word_list[page];
 
   return (
     <View style={styles.container}>
       <PanGesture
         page={page}
         handlePageChange={handlePageChange}
-        swipePagenation={swipePagenation}
+        swipePagination={swipePagination}
         scrollText={scrollText}
       >
         <View style={styles.slideContainer}>
@@ -57,13 +58,13 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             {isFront ? (
               <View style={styles.frontContent}>
                 <Text style={[styles.headline, styles.lightGray]}>単語</Text>
-                <Text style={styles.word_text}>{word_list[page].name}</Text>
+                <Text style={styles.word_text}>{name}</Text>
               </View>
             ) : (
               <View style={styles.backContent}>
                 <View style={styles.mArea}>
                   <Text style={[styles.headline, styles.lightGray]}>意味</Text>
-                  <Text style={styles.mean_text}>{word_list[page].mean}</Text>
+                  <Text style={styles.mean_text}>{mean}</Text>
                 </View>
                 <View style={styles.eArea}>
                   <Text style={[styles.headline, styles.lightGray]}>例文</Text>
@@ -71,10 +72,11 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                     ref={scrollText}
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
-                    simultaneousHandlers={swipePagenation}
+                    simultaneousHandlers={swipePagination}
                   >
-                    <View onStartShouldSetResponder={() => true}>
-                      <Text style={styles.example_text}>{word_list[page].example}</Text>
+                    <View style={{ flex: 1 }} onStartShouldSetResponder={() => true}>
+                      <Text style={styles.example_text}>{example}</Text>
+                      <Text style={[styles.example_text, styles.mt4]}>{exTrans}</Text>
                     </View>
                   </GhScrollView>
                 </View>
@@ -84,9 +86,7 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
             {/* 音声読み上げアイコン */}
             <TouchableOpacity
               style={styles.speakerContainer}
-              onPress={() =>
-                handlePressSpeaker(isFront ? word_list[page].name : word_list[page].example)
-              }
+              onPress={() => handlePressSpeaker(isFront ? name : example, langCode)}
             >
               <Ionicons
                 name="volume-medium-outline"
@@ -104,22 +104,18 @@ export const SlidePre: FC<SlidePreProps> = (props) => {
                 <Ionicons
                   name="sad-outline"
                   size={28}
-                  style={
-                    word_list[page].proficiency === 'unfamiliar' ? styles.blue : styles.lightGray
-                  }
+                  style={proficiency === 'unfamiliar' ? styles.blue : styles.lightGray}
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.marginLeft}
+                style={styles.ml6}
                 onPress={() => handlePressHappyIcon(word_list[page])}
                 onLongPress={() => openIconDescription('おぼえた！')}
               >
                 <Ionicons
                   name="happy-outline"
                   size={28}
-                  style={
-                    word_list[page].proficiency === 'mastered' ? styles.orange : styles.lightGray
-                  }
+                  style={proficiency === 'mastered' ? styles.orange : styles.lightGray}
                 />
               </TouchableOpacity>
             </View>
@@ -232,7 +228,10 @@ const styles = StyleSheet.create({
   orange: {
     color: '#ED9E31',
   },
-  marginLeft: {
+  mt4: {
+    marginTop: 4,
+  },
+  ml6: {
     marginLeft: 6,
   },
   shadow: {

@@ -13,7 +13,7 @@ import {
 interface PanGestureProps {
   children: ReactNode;
   page: number;
-  swipePagenation: RefObject<unknown>;
+  swipePagination: RefObject<unknown>;
   scrollText: RefObject<ScrollView>;
   handlePageChange: (page: number) => void;
 }
@@ -21,7 +21,7 @@ interface PanGestureProps {
 export const PanGesture: FC<PanGestureProps> = ({
   children,
   page,
-  swipePagenation,
+  swipePagination,
   scrollText,
   handlePageChange,
 }) => {
@@ -54,7 +54,7 @@ export const PanGesture: FC<PanGestureProps> = ({
   return (
     <GestureHandlerRootView style={styles.container}>
       <PanGestureHandler
-        ref={swipePagenation}
+        ref={swipePagination}
         simultaneousHandlers={scrollText}
         onActivated={onPanGestureEvent}
       >

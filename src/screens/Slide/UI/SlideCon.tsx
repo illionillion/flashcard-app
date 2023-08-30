@@ -18,7 +18,6 @@ interface SlideConProps {
 }
 
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
-
   const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [data, setData] = useState<WordDef[]>(
     cardsData.find((item) => item.id === route.params.id)?.words || [],
@@ -27,7 +26,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   const [isFront, setIsFront] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const pageTotal = data.length;
-  const swipePagenation = createRef();
+  const swipePagination = createRef();
   const scrollText = createRef<ScrollView>();
 
   const handlePageChange = (page: number) => {
@@ -79,12 +78,13 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
   };
 
   // 音声読み上げ機能
-  const handlePressSpeaker = (text: string) => {
+  const handlePressSpeaker = (text: string, langCode: string) => {
+    console.log(text);
     if (isSpeaking) {
       handleSpeechStop();
     } else {
       Speech.speak(text, {
-        // language: 'en',
+        language: langCode ? langCode : 'en',
         rate: 1.0,
         pitch: 1.0,
         onStart: () => setIsSpeaking(true),
@@ -120,7 +120,7 @@ export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
       page={page}
       isFront={isFront}
       isSpeaking={isSpeaking}
-      swipePagenation={swipePagenation}
+      swipePagination={swipePagination}
       scrollText={scrollText}
       handleFlip={handleFlip}
       handlePageChange={handlePageChange}
