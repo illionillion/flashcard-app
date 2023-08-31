@@ -177,15 +177,6 @@ export const WordCard: FC<WordCardProps> = ({
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
       </View>
-      {/* <TextInput
-        multiline
-        style={styles.textMulti}
-        value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
-        placeholder="例文"
-        editable={!loading}
-        onChangeText={handleExampleChanged}
-      /> */}
-
       {/* 例文コンポーネントの表示 */}
       {
         wordExamples.map((_, index) => (

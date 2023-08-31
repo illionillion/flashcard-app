@@ -1,5 +1,5 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
-import { View } from "react-native";
+import React, { FC }  from "react";
+import { View, StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 interface ExampleScentenceProps {
@@ -20,6 +20,7 @@ export const ExampleScentence: FC<ExampleScentenceProps> = ({
   return (
     <View>
       <TextInput
+        style={styles.textMulti}
         multiline
         value={loading ? wordExamplePreview : wordExample} // ここの値をChatGPTでリアルタイムに更新
         placeholder="例文"
@@ -30,3 +31,16 @@ export const ExampleScentence: FC<ExampleScentenceProps> = ({
   );
 };
 
+
+const styles = StyleSheet.create({
+  textMulti: {
+    flex: 1,
+    paddingVertical: 3,
+    backgroundColor: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+});
