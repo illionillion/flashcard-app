@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import type { FlashCardsDef } from '../../../atom/FlashCardsDataState';

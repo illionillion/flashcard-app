@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { createRef, useEffect, useState } from 'react';
 import type { ScrollView } from 'react-native-gesture-handler';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
@@ -18,6 +18,7 @@ interface SlideConProps {
 }
 
 export const SlideCon: FC<SlideConProps> = ({ navigation, route }) => {
+
   const [cardsData, setCardsData] = useRecoilState<FlashCardsDef[]>(FlashCardsDataState);
   const [data, setData] = useState<WordDef[]>(
     cardsData.find((item) => item.id === route.params.id)?.words || [],

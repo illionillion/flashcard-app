@@ -1,15 +1,18 @@
 import type { FC } from 'react';
 
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 
 interface SettingPreProps {
   isEditMode: boolean;
   apiKey: string;
   inputValue: string;
+  difficulty: 'easy' | 'normal' | 'hard';
   handleClickToggleEditModeButton: () => void;
   handleChangeText: (text: string) => void;
   handleSave: () => void;
   handleLinkPress: (url: string) => void;
+  setDifficulty: (difficulty: 'easy' | 'normal' | 'hard') => void;
 }
 /**
  * 設定画面のUI
@@ -22,6 +25,8 @@ export const SettingPre: FC<SettingPreProps> = ({
   handleChangeText,
   handleSave,
   handleLinkPress,
+  difficulty,
+  setDifficulty,
 }) => {
   return (
     <View style={styles.allView}>
@@ -76,7 +81,50 @@ export const SettingPre: FC<SettingPreProps> = ({
           <Text style={styles.link}>プライバシーポリシー</Text>
         </TouchableOpacity>
       </View>
-    </View>
+      {/* 例文生成の難易度を設定する */}
+      <View style={[styles.row, styles.rowHeight]}>
+        <Text style={styles.label}>ChatGPT による例文生成の難易度 : </Text>
+      </View>
+      <View style={styles.difficultyRow}>
+        <TouchableOpacity onPress={() => setDifficulty('easy')}>
+          <View style={styles.difficulty}>
+            <RadioButton.Android
+              value="easy"
+              status={difficulty === 'easy' ? 'checked' : 'unchecked'}
+              color="#4CAF50"
+              id="easy"
+              onPress={() => setDifficulty('easy')}
+            />
+            <Text>簡単</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setDifficulty('normal')}>
+          <View style={styles.difficulty}>
+            <RadioButton.Android
+              value="normal"
+              status={difficulty === 'normal' ? 'checked' : 'unchecked'}
+              color="#FF9800"
+              id="normal"
+              onPress={() => setDifficulty('normal')}
+            />
+            <Text>普通</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setDifficulty('hard')}>
+          <View style={styles.difficulty}>
+            <RadioButton.Android
+              value="hard"
+              status={difficulty === 'hard' ? 'checked' : 'unchecked'}
+              color="#F44336"
+              id="hard"
+              onPress={() => setDifficulty('hard')}
+            />
+            <Text>難しい</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View >
   );
 };
 
@@ -146,5 +194,16 @@ const styles = StyleSheet.create({
     color: '#06C3FF',
     textDecorationLine: 'underline',
     textAlign: 'right',
+  },
+  difficultyRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '90%',
+  },
+  difficulty: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
   },
 });

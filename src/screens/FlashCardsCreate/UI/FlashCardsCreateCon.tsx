@@ -1,4 +1,4 @@
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useState } from 'react';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -23,26 +23,7 @@ export const FlashCardsCreateCon: FC = () => {
       {
         id: nextId,
         name: flashcardName,
-        words: [
-          {
-            id: (() => {
-              if (prev.length === 0) {
-                return 0;
-              }
-
-              const maxId = prev.reduce((max, card) => {
-                return Math.max(max, card.id);
-              }, -1);
-
-              return maxId + 1;
-            })(),
-            name: '',
-            lang: '',
-            mean: '',
-            example: '',
-            proficiency: 'learning',
-          },
-        ],
+        words: [],
       },
     ]);
     Toast.show({
