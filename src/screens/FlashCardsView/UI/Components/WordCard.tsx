@@ -24,7 +24,6 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
-  const EXAMPLE_MAX = 3; // 例文の最大数
   const [wordExamples, setWordExamples] = useState<string[]>([example]);
   const [wordExamplePreviews, setWordExamplePreviews] = useState<string[]>([example]);
   const [selectedindex, setSelectedIndex] = useState<number>(0); // 選択された例文のインデックス
@@ -75,7 +74,7 @@ export const WordCard: FC<WordCardProps> = ({
     setWordsData((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const handleCreateExample = async () => {
+  const handleCreateExample = async (index: number) => {
     if ([wordName, wordMean, wordLang].includes('')) {
       const errorMessage =
         wordName === ''
@@ -102,43 +101,28 @@ export const WordCard: FC<WordCardProps> = ({
       wordMean: wordMean,
     });
 
-    const result2 = await generateExample({
-      apiKey: apiKey,
-      wordLang: wordLang,
-      wordName: wordName,
-      wordMean: wordMean,
-    });
-
-    const result3 = await generateExample({
-      apiKey: apiKey,
-      wordLang: wordLang,
-      wordName: wordName,
-      wordMean: wordMean,
-    });
-
     const updateChar = async (i: number) => {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            handleExamplePreviewChanged(char, 0);
+            handleExamplePreviewChanged(char, index);
           } else {
-            handleExamplePreviewChanged(wordExamplePreviews[0] + char, 0);
+            handleExamplePreviewChanged(wordExamplePreviews[index] + char, index);
           }
           resolve();
         }, 100);
       });
     };
 
-    if (result.success && result2.success && result3.success) {
-      setWordExamples(() => [result.content, result2.content, result3.content]);
+    if (result.success) {
+      handleExampleChanged(result.content, index);
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
       }
     } else {
       OpenCreateExampleErrorMessage(result);
     }
-
     setLoading(false);
   };
 
@@ -172,7 +156,11 @@ export const WordCard: FC<WordCardProps> = ({
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
           disabled={loading}
-          onPress={handleCreateExample}
+          onPress={() => {
+            handleCreateExample(0);
+            handleCreateExample(1);
+            handleCreateExample(2);
+          }}
         >
           <Text style={styles.createExampleText}>例文作成</Text>
         </TouchableOpacity>
@@ -181,6 +169,7 @@ export const WordCard: FC<WordCardProps> = ({
       {
         wordExamples.map((_, index) => (
           <ExampleScentence
+            key={index}
             index={index}
             loading={loading}
             wordExample={wordExamples[index]}
