@@ -10,7 +10,10 @@ https://play.google.com/store/apps/details?id=com.rayboon
 
 # Canva
 
-https://www.canva.com/design/DAFkZTCS_hw/PTxL2zHqkzewD535AFJS2w/view?utm_content=DAFkZTCS_hw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+1. 技育CAMP
+  - https://www.canva.com/design/DAFkZTCS_hw/PTxL2zHqkzewD535AFJS2w/view?utm_content=DAFkZTCS_hw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+2. アドバンス
+  - https://www.canva.com/design/DAFrzeXqPnw/Zu2TMW6uwqmSVAs9gd_1DA/view?utm_content=DAFrzeXqPnw&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
 
 # システム構成
 
