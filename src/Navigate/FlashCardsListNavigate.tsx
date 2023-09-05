@@ -13,7 +13,8 @@ import { Platform } from 'react-native';
 export const FlashCardsListNavigate: FC = () => {
   let data = useRecoilValue<FlashCardsDef[]>(FlashCardsDataState);
   const setData = useSetRecoilState(FlashCardsDataState);
-
+  // useStateで昇順か降順かを管理して
+  // この関数を降順のソートをできるようにする
   const handleSort = () => {
     data = [...data].sort((a, b) => {
       if (a.name < b.name) {
