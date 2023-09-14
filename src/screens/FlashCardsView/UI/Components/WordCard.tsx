@@ -10,6 +10,7 @@ import type { generateExampleReturn } from '../../../../lib/createExample';
 import { generateExample } from '../../../../lib/createExample';
 import { ExampleScentence } from './ExampleScentence';
 
+// プレビューと例文のセットの型
 interface Examples {
   preview: string
   example: string
@@ -46,31 +47,23 @@ export const WordCard: FC<WordCardProps> = ({
   };
 
   // // 指定した index の例文テキストを変更します
-  // const handleExampleChanged = (text: string, index: number) => {
-  //   // setWordExamples((prev) => prev.map((item, i) => i === index ? text : item));
-  //   setWordExamples((prev) => {
-  //     const newWordExamples = [...prev];
-  //     newWordExamples[index] = text;
-  //     return newWordExamples;
-  //   }
-  //   );
-  // };
-
-  // // 指定した index の例文プレビューを変更します
-  // const handleExamplePreviewChanged = (text: string, index: number) => {
-  //   // setWordExamplePreviews((prev) => prev.map((item, i) => i === index ? text : item));
-  //   setWordExamplePreviews((prev) => {
-  //     const newWordExamplePreviews = [...prev];
-  //     newWordExamplePreviews[index] = text;
-  //     return newWordExamplePreviews;
-  //   }
-  //   );
-  // };
-  const handleExamplesListChanged = (examples: Examples, index: number) => {
+  const handleExampleChanged = (text: string, index: number) => {
+    // setWordExamples((prev) => prev.map((item, i) => i === index ? text : item));
     setWordExamples((prev) => {
       const newWordExamples = [...prev];
-      newWordExamples[index] = examples;
+      newWordExamples[index].example = text;
       return newWordExamples;
+    }
+    );
+  };
+
+  // // 指定した index の例文プレビューを変更します
+  const handleExamplePreviewChanged = (text: string, index: number) => {
+    // setWordExamplePreviews((prev) => prev.map((item, i) => i === index ? text : item));
+    setWordExamples((prev) => {
+      const newWordExamplePreviews = [...prev];
+      newWordExamplePreviews[index].preview = text;
+      return newWordExamplePreviews;
     }
     );
   };
@@ -82,7 +75,7 @@ export const WordCard: FC<WordCardProps> = ({
 
 
   const upDateWord = () => {
-    const selectedWordExample = wordExamples[selectedindex];
+    const selectedWordExample = wordExamples[selectedindex].example;
     setWordsData((prev) =>
       prev.map((item) =>
         item.id === id
@@ -136,9 +129,11 @@ export const WordCard: FC<WordCardProps> = ({
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            handleExamplesListChanged({ preview: char, example: char }, index);
+            // previewを更新
+            handleExamplePreviewChanged(char, index);
           } else {
-            handleExamplePreviewChanged(wordExamplePreviews[index] + char, index);
+            // previewを更新
+            handleExamplePreviewChanged(wordExamples[index].preview + char, index);
           }
           resolve();
         }, 100);
@@ -146,6 +141,7 @@ export const WordCard: FC<WordCardProps> = ({
     };
 
     if (result.success) {
+      // exampleを更新
       handleExampleChanged(result.content, index);
       for (let i = 0; i < result.content.length; i++) {
         await updateChar(i);
@@ -202,8 +198,8 @@ export const WordCard: FC<WordCardProps> = ({
             key={index}
             index={index}
             loading={loading[index]}
-            wordExample={wordExamples[index]}
-            wordExamplePreview={wordExamplePreviews[index]}
+            wordExample={wordExamples[index].example}
+            wordExamplePreview={wordExamples[index].preview}
             handleExampleChanged={handleExampleChanged}
           />))
       }
