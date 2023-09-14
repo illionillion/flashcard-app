@@ -32,7 +32,11 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordLang, setWordLang] = useState<string>(lang);
   // const [wordExamples, setWordExamples] = useState<string[]>([example]);
   // const [wordExamplePreviews, setWordExamplePreviews] = useState<string[]>([example]);
-  const [wordExamples, setWordExamples] = useState<Examples[]>([{ preview: example, example: example }]);
+  const [wordExamples, setWordExamples] = useState<Examples[]>([
+    { preview: example, example: example },
+    { preview: '', example: '' },
+    { preview: '', example: '' }
+  ]);
   const [selectedindex, setSelectedIndex] = useState<number>(0); // 選択された例文のインデックス
   const [loading, setLoading] = useState<boolean[]>([false, false, false]);
   const apiKey = useRecoilValue(APIKeyState);
