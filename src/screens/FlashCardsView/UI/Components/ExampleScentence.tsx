@@ -17,6 +17,8 @@ export const ExampleScentence: FC<ExampleScentenceProps> = ({
   wordExamplePreview,
   handleExampleChanged,
 }) => {
+  // console.log("loading: ", loading)
+  // console.log("wordExamplePreview: ", wordExamplePreview)
   return (
     <View>
       <TextInput

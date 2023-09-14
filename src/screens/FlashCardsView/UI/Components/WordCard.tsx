@@ -10,6 +10,11 @@ import type { generateExampleReturn } from '../../../../lib/createExample';
 import { generateExample } from '../../../../lib/createExample';
 import { ExampleScentence } from './ExampleScentence';
 
+interface Examples {
+  preview: string
+  example: string
+}
+
 interface WordCardProps {
   item: WordDef;
   setWordsData: Dispatch<SetStateAction<WordDef[]>>;
@@ -24,10 +29,11 @@ export const WordCard: FC<WordCardProps> = ({
   const [wordName, setWordName] = useState<string>(name);
   const [wordMean, setWordMean] = useState<string>(mean);
   const [wordLang, setWordLang] = useState<string>(lang);
-  const [wordExamples, setWordExamples] = useState<string[]>([example]);
-  const [wordExamplePreviews, setWordExamplePreviews] = useState<string[]>([example]);
+  // const [wordExamples, setWordExamples] = useState<string[]>([example]);
+  // const [wordExamplePreviews, setWordExamplePreviews] = useState<string[]>([example]);
+  const [wordExamples, setWordExamples] = useState<Examples[]>([{ preview: example, example: example }]);
   const [selectedindex, setSelectedIndex] = useState<number>(0); // 選択された例文のインデックス
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean[]>([false, false, false]);
   const apiKey = useRecoilValue(APIKeyState);
   const handleNameChanged = (text: string) => {
     setWordName(text);
@@ -39,16 +45,39 @@ export const WordCard: FC<WordCardProps> = ({
     setWordLang(text);
   };
 
-  // 指定した index の例文テキストを変更します
-  const handleExampleChanged = (text: string, index: number) => {
-    wordExamples[index] = text;
-    setWordExamples(wordExamples);
+  // // 指定した index の例文テキストを変更します
+  // const handleExampleChanged = (text: string, index: number) => {
+  //   // setWordExamples((prev) => prev.map((item, i) => i === index ? text : item));
+  //   setWordExamples((prev) => {
+  //     const newWordExamples = [...prev];
+  //     newWordExamples[index] = text;
+  //     return newWordExamples;
+  //   }
+  //   );
+  // };
+
+  // // 指定した index の例文プレビューを変更します
+  // const handleExamplePreviewChanged = (text: string, index: number) => {
+  //   // setWordExamplePreviews((prev) => prev.map((item, i) => i === index ? text : item));
+  //   setWordExamplePreviews((prev) => {
+  //     const newWordExamplePreviews = [...prev];
+  //     newWordExamplePreviews[index] = text;
+  //     return newWordExamplePreviews;
+  //   }
+  //   );
+  // };
+  const handleExamplesListChanged = (examples: Examples, index: number) => {
+    setWordExamples((prev) => {
+      const newWordExamples = [...prev];
+      newWordExamples[index] = examples;
+      return newWordExamples;
+    }
+    );
   };
 
-  // 指定した index の例文プレビューを変更します
-  const handleExamplePreviewChanged = (text: string, index: number) => {
-    wordExamplePreviews[index] = text;
-    setWordExamplePreviews(wordExamplePreviews);
+  // 指定した index の loading を変更します
+  const handleLoadingChanged = (value: boolean, index: number) => {
+    setLoading((prevloading) => prevloading.map((item, i) => i === index ? value : item));
   };
 
 
@@ -90,7 +119,7 @@ export const WordCard: FC<WordCardProps> = ({
       return;
     }
 
-    setLoading(true);
+    handleLoadingChanged(true, index);
 
     // ここでChatGPTに送信したい
 
@@ -102,11 +131,12 @@ export const WordCard: FC<WordCardProps> = ({
     });
 
     const updateChar = async (i: number) => {
+      // console.log('wordExamplePreviews[index] + char: ', wordExamplePreviews[index] + result.content[i]);
       return new Promise<void>((resolve) => {
         setTimeout(() => {
           const char = result.content[i];
           if (i === 0) {
-            handleExamplePreviewChanged(char, index);
+            handleExamplesListChanged({ preview: char, example: char }, index);
           } else {
             handleExamplePreviewChanged(wordExamplePreviews[index] + char, index);
           }
@@ -123,7 +153,7 @@ export const WordCard: FC<WordCardProps> = ({
     } else {
       OpenCreateExampleErrorMessage(result);
     }
-    setLoading(false);
+    handleLoadingChanged(false, index);
   };
 
   useEffect(() => {
@@ -155,7 +185,7 @@ export const WordCard: FC<WordCardProps> = ({
         />
         <TouchableOpacity
           style={{ ...styles.text, ...styles.createExample }}
-          disabled={loading}
+          disabled={loading[0] || loading[1] || loading[2]}
           onPress={() => {
             handleCreateExample(0);
             handleCreateExample(1);
@@ -171,7 +201,7 @@ export const WordCard: FC<WordCardProps> = ({
           <ExampleScentence
             key={index}
             index={index}
-            loading={loading}
+            loading={loading[index]}
             wordExample={wordExamples[index]}
             wordExamplePreview={wordExamplePreviews[index]}
             handleExampleChanged={handleExampleChanged}
